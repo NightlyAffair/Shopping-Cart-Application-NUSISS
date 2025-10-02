@@ -9,14 +9,11 @@ import lombok.Data;
 import lombok.Setter;
 
 /**
- * Customer Entity Class
- *
- * Description:
- * - Maps to the "customer" table in the database.
- * - The primary key (ID) is auto-generated and cannot be manually modified.
- *
+ * Product Entity Class
  * Author: Zhou Jayson
  * Date: 2025-10-02
+ * Modifier by :
+ * Last Modified by :
  * Last Modified: 2025-10-02 14:00
  */
 

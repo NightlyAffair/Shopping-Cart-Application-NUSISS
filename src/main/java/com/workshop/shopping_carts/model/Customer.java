@@ -11,16 +11,12 @@ import lombok.Setter;
 
 /**
  * Customer Entity Class
- *
- * Description:
- * - Maps to the "customer" table in the database.
- * - The primary key (ID) is auto-generated and cannot be manually modified.
- *
  * Author: Zhou Jayson
  * Date: 2025-10-02
+ * Modifier by :
+ * Last Modified by :
  * Last Modified: 2025-10-02 14:00
  */
-
 
 
 @Data
@@ -29,7 +25,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    private int id;
+    private int customerId;
     private String fullName;
     private String userName;
     private String email;
