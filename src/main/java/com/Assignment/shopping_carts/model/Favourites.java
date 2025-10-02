@@ -1,4 +1,4 @@
-package com.workshop.shopping_carts.model;
+package com.Assignment.shopping_carts.model;
 
 
 import jakarta.persistence.Entity;
@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.Setter;
 
 /**
- * OrderDetail Entity Class
+ * Favourites Entity Class
  * Author: Zhou Jayson
  * Date: 2025-10-02
  * Modifier by :
@@ -18,20 +18,16 @@ import lombok.Setter;
 
 @Entity
 @Data
-public class OrderDetail {
+public class Favourites {
     /*
-    - orderId: int (PK,FK)
-    - productId: int (FK,PK)
-    - quantity: int
-    - isRefunded: Boolean
+    - productId: int (PK/FK)
+    - customerId: int (PK/FK)
      */
     @Id
     @Setter(AccessLevel.NONE)
-    private int orderId;
+    private int productId;
     @Id
     @Setter(AccessLevel.NONE)
-    private int productId;
-    private int quantity;
-    private boolean isRefunded;
+    private int customerId;
 
 }

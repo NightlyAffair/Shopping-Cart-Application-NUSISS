@@ -1,4 +1,4 @@
-package com.workshop.shopping_carts.model;
+package com.Assignment.shopping_carts.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
