@@ -5,6 +5,15 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 
+/**
+ * Review Entity Class
+ * Author: Zhou Jayson
+ * Date: 2025-10-02
+ * Modifier by :
+ * Last Modified by :
+ * Last Modified: 2025-10-02 14:00
+ */
+
 
 @Data
 @Entity

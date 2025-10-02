@@ -1,0 +1,37 @@
+package com.workshop.shopping_carts.model;
+
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
+
+/**
+ * OrderDetail Entity Class
+ * Author: Zhou Jayson
+ * Date: 2025-10-02
+ * Modifier by :
+ * Last Modified by :
+ * Last Modified: 2025-10-02 14:00
+ */
+
+@Entity
+@Data
+public class OrderDetail {
+    /*
+    - orderId: int (PK,FK)
+    - productId: int (FK,PK)
+    - quantity: int
+    - isRefunded: Boolean
+     */
+    @Id
+    @Setter(AccessLevel.NONE)
+    private int orderId;
+    @Id
+    @Setter(AccessLevel.NONE)
+    private int productId;
+    private int quantity;
+    private boolean isRefunded;
+
+}
