@@ -1,5 +1,6 @@
 package com.Assignment.shopping_carts.model;
 
+import com.Assignment.shopping_carts.model.compositeKey.ReviewId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -17,6 +18,7 @@ import lombok.Setter;
 
 @Data
 @Entity
+@IdClass(ReviewId.class)
 public class Review {
     /*
     - productId: String (PK/FK)

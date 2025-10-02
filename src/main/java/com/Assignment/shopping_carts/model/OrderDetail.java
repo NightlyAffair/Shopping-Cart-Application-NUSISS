@@ -1,8 +1,10 @@
 package com.Assignment.shopping_carts.model;
 
 
+import com.Assignment.shopping_carts.model.compositeKey.OrderDetailId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -18,6 +20,7 @@ import lombok.Setter;
 
 @Entity
 @Data
+@IdClass(OrderDetailId.class)
 public class OrderDetail {
     /*
     - orderId: int (PK,FK)
