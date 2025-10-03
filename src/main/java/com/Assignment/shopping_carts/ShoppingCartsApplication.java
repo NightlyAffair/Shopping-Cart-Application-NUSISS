@@ -1,4 +1,4 @@
-package com.workshop.shopping_carts;
+package com.Assignment.shopping_carts;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
