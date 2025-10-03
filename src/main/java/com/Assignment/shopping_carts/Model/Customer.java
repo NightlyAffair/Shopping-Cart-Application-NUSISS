@@ -36,6 +36,7 @@ public class Customer {
     private List<ShoppingCartDetail> cart;
     @OneToMany(mappedBy = "customer")
     private List<Favourites> favourites;
-
+    @OneToMany(mappedBy = "customer")
+    private List<Order> orders;
 
 }
