@@ -39,5 +39,10 @@ public class ShoppingCartDetail {
     private int customerID;
     private int quantity;
 
+<<<<<<< Updated upstream
     //123
+    @ManyToOne
+    private Customer customers;
+    @ManyToOne
+    private Product products;
 }
