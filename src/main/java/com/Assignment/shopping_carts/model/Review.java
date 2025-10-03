@@ -1,6 +1,6 @@
-package com.Assignment.shopping_carts.model;
+package com.Assignment.shopping_carts.Model;
 
-import com.Assignment.shopping_carts.model.compositeKey.ReviewId;
+import com.Assignment.shopping_carts.Model.compositeKey.ReviewId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;

@@ -1,15 +1,11 @@
-package com.Assignment.shopping_carts.model;
+package com.Assignment.shopping_carts.Model;
 
-import java.util.List;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * Product Entity Class
@@ -27,7 +23,7 @@ public class Product {
 - id: int (PK)
 - productName: String
 - description: String
-- category: String
+- categoryId: int (FK)
 - discount: Double
 - unitPrice: Double
  */
@@ -37,10 +33,13 @@ public class Product {
     private int productId;
     private String productName;
     private String Description;
-    private String category;
+    private int categoryId;
     private double discount;
     private double unitPrice;
-    
-    @OneToMany(mappedBy="products")
-    private List<ShoppingCartDetail> carts;
+
+    @OneToMany(mappedBy = "product")
+    private List<Favourites> favourites;
+    @OneToMany(mappedBy = "product")
+    private List<ShoppingCartDetail> cart;
+
 }

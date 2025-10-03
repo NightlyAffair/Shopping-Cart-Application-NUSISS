@@ -1,7 +1,8 @@
-package com.Assignment.shopping_carts.model;
+package com.Assignment.shopping_carts.Model;
 
 
-import com.Assignment.shopping_carts.model.compositeKey.ShoppingCartDetailId;
+import com.Assignment.shopping_carts.Model.compositeKey.ShoppingCartDetailId;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -37,7 +38,9 @@ public class ShoppingCartDetail {
     @Setter(AccessLevel.NONE)
     private int customerID;
     private int quantity;
+
+    @ManyToOne
+    private Customer customers;
     @ManyToOne
     private Product products;
-    
 }
