@@ -1,15 +1,13 @@
 package com.Assignment.shopping_carts.Model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  * Order Entity Class
@@ -40,4 +38,10 @@ public class Order {
     private Date purchaseDate;
     private double unitAmount;
     private String status;
+    @OneToMany(mappedBy="order")
+    private List<OrderDetail> orderDetails;
+    @ManyToOne
+    private Customer customer;
+    @OneToMany(mappedBy = "order")
+    private List<Review> reviews;
 }
