@@ -1,4 +1,4 @@
-package com.Assignment.shopping_carts.model.compositeKey;
+package com.Assignment.shopping_carts.Model.compositeKey;
 
 import java.io.Serializable;
 import lombok.EqualsAndHashCode;

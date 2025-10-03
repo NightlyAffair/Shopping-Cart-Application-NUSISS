@@ -1,4 +1,4 @@
-package com.Assignment.shopping_carts.model;
+package com.Assignment.shopping_carts.Model;
 
 
 import jakarta.persistence.Entity;

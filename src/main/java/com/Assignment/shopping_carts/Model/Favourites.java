@@ -1,7 +1,7 @@
-package com.Assignment.shopping_carts.model;
+package com.Assignment.shopping_carts.Model;
 
 
-import com.Assignment.shopping_carts.model.compositeKey.FavouritesId;
+import com.Assignment.shopping_carts.Model.compositeKey.FavouritesId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
