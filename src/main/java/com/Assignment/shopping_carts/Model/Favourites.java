@@ -5,6 +5,7 @@ import com.Assignment.shopping_carts.Model.compositeKey.FavouritesId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Getter;
 import lombok.Setter;
 
 /**
@@ -25,9 +26,11 @@ public class Favourites {
     - customerId: int (PK/FK)
      */
     @Id
+    @Getter(AccessLevel.NONE)
     private int productId;
 
     @Id
+    @Getter(AccessLevel.NONE)
     private int customerId;
 
     @ManyToOne
