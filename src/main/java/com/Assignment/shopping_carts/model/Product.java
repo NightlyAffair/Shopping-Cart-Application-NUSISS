@@ -24,7 +24,7 @@ public class Product {
 - id: int (PK)
 - productName: String
 - description: String
-- category: String
+- categoryId: int (FK)
 - discount: Double
 - unitPrice: Double
  */
@@ -34,7 +34,7 @@ public class Product {
     private int productId;
     private String productName;
     private String Description;
-    private String category;
+    private int categoryId;
     private double discount;
     private double unitPrice;
 }
