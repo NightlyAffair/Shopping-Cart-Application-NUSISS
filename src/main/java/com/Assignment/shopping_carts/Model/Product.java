@@ -39,10 +39,8 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private List<Favourites> favourites;
-<<<<<<< HEAD:src/main/java/com/Assignment/shopping_carts/model/Product.java
+
     @OneToMany(mappedBy = "product")
     private List<ShoppingCartDetail> cart;
 
-=======
->>>>>>> Jason:src/main/java/com/Assignment/shopping_carts/Model/Product.java
 }
