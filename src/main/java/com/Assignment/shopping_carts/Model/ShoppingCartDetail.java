@@ -2,7 +2,10 @@ package com.Assignment.shopping_carts.Model;
 
 
 import com.Assignment.shopping_carts.Model.compositeKey.ShoppingCartDetailId;
+<<<<<<< HEAD:src/main/java/com/Assignment/shopping_carts/model/ShoppingCartDetail.java
 
+=======
+>>>>>>> Jason:src/main/java/com/Assignment/shopping_carts/Model/ShoppingCartDetail.java
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -41,6 +44,10 @@ public class ShoppingCartDetail {
 
     @ManyToOne
     private Customer customers;
+<<<<<<< HEAD:src/main/java/com/Assignment/shopping_carts/model/ShoppingCartDetail.java
     @ManyToOne
     private Product products;
+=======
+
+>>>>>>> Jason:src/main/java/com/Assignment/shopping_carts/Model/ShoppingCartDetail.java
 }
