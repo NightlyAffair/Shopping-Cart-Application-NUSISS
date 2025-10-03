@@ -4,9 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+import java.util.List;
 
 
 /**
@@ -19,8 +21,8 @@ import lombok.Setter;
  */
 
 
-@Data
 @Entity
+@Data
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +34,7 @@ public class Customer {
     private String password;
     private String address;
 
-
-
+    @OneToMany
+    private List<ShoppingCartDetail> cart;
 
 }
