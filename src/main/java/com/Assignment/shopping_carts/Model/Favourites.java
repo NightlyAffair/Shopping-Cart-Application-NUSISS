@@ -2,9 +2,7 @@ package com.Assignment.shopping_carts.Model;
 
 
 import com.Assignment.shopping_carts.Model.compositeKey.FavouritesId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -27,10 +25,17 @@ public class Favourites {
     - customerId: int (PK/FK)
      */
     @Id
-    @Setter(AccessLevel.NONE)
     private int productId;
+
     @Id
-    @Setter(AccessLevel.NONE)
     private int customerId;
+
+    @ManyToOne
+    @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)
+    private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
+    private Customer customer;
 
 }
