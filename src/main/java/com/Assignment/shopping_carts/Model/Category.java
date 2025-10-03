@@ -6,6 +6,9 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Category Entity Class
@@ -28,6 +31,9 @@ public class Category {
     @Setter(AccessLevel.NONE)
     private int categoryId;
     private String name;
+
+    @OneToMany(mappedBy = "Category")
+    List<Product> products = new ArrayList<>();
 
 
 
