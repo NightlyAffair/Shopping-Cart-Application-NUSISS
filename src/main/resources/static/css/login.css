@@ -1,0 +1,75 @@
+/* Center login form */
+.login-container {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.login-container h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+/* Form */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-form label {
+    text-align: left;
+    font-weight: bold;
+}
+
+.login-form input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #999;
+    border-radius: 6px;
+}
+
+.forgot {
+    color: red;
+    font-size: 13px;
+    text-align: left;
+    margin-top: -10px;
+}
+
+/* Buttons */
+.btn {
+    padding: 12px;
+    font-size: 14px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn.primary {
+    background: black;
+    color: white;
+    margin-top: 10px;
+}
+
+.btn.secondary {
+    background: #e0e0e0;
+    color: black;
+}
+
+/* Divider text */
+.divider {
+    margin: 20px 0 10px;
+    font-size: 14px;
+    color: #444;
+    position: relative;
+}
+
+.divider::after {
+    content: "";
+    display: block;
+    width: 40%;
+    height: 1px;
+    background: #000;
+    margin: 8px auto 0;
+}
