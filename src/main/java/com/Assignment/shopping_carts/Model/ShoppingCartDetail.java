@@ -5,6 +5,7 @@ import com.Assignment.shopping_carts.Model.compositeKey.ShoppingCartDetailId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -36,4 +37,8 @@ public class ShoppingCartDetail {
     @Setter(AccessLevel.NONE)
     private int customerID;
     private int quantity;
+
+    @ManyToOne
+    private Customer customers;
+
 }

@@ -1,12 +1,12 @@
 package com.Assignment.shopping_carts.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+import java.util.List;
+
+import java.util.List;
 
 
 /**
@@ -32,7 +32,10 @@ public class Customer {
     private String password;
     private String address;
 
-
+    @OneToMany
+    private List<ShoppingCartDetail> cart;
+    @OneToMany(mappedBy = "customer")
+    private List<Favourites> favourites;
 
 
 }
