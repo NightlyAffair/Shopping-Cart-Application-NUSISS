@@ -26,7 +26,7 @@ public class Favourites {
     - productId: int (PK/FK)
     - customerId: int (PK/FK)
      */
-    @Id //dont generate setter for id.
+    @Id
     @Setter(AccessLevel.NONE)
     private int productId;
     @Id
