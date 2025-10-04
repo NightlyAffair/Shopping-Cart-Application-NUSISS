@@ -21,8 +21,8 @@ import lombok.Setter;
 @IdClass(ReviewId.class)
 public class Review {
     /*
-    - productId: String (PK/FK)
-    - customerId: String (PK/FK)
+    - productId: int (PK/FK)
+    - customerId: int (PK/FK)
     - orderId: int (FK)
     - rating: int
     - description: String
@@ -37,5 +37,4 @@ public class Review {
     private int orderId;
     private int rating;
     private String description;
-
 }
