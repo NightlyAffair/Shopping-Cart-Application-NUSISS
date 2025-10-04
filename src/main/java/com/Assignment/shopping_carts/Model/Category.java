@@ -6,17 +6,15 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Category Entity Class
  * Author: Zhou Jayson
  * Date: 2025-10-02
- * Modifier by :
- * Last Modified by :
- * Last Modified: 2025-10-02 14:00
+ * Modifier by : yh
+ * Last Modified by : yh
+ * Last Modified: 2025-10-04 15:00
  */
 
 @Data
@@ -33,8 +31,6 @@ public class Category {
     private String name;
 
     @OneToMany(mappedBy = "Category")
-    List<Product> products = new ArrayList<>();
-
-
+    private List<Product> products;
 
 }
