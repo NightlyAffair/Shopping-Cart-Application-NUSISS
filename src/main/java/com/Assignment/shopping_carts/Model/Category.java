@@ -30,7 +30,7 @@ public class Category {
     private int categoryId;
     private String name;
 
-    @OneToMany(mappedBy = "Category")
+    @OneToMany(mappedBy = "category")
     private List<Product> products;
 
 }
