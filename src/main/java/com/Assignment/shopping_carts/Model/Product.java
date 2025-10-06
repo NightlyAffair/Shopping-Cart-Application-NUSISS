@@ -1,20 +1,19 @@
 package com.Assignment.shopping_carts.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * Product Entity Class
  * Author: Zhou Jayson
  * Date: 2025-10-02
- * Modifier by :
- * Last Modified by :
- * Last Modified: 2025-10-02 14:00
+ * Modifier by : Glenn
+ * Last Modified by : Glenn
+ * Last Modified: 2025-10-04 04:00
  */
 
 @Data
@@ -37,4 +36,20 @@ public class Product {
     private int categoryId;
     private double discount;
     private double unitPrice;
+
+    @ManyToOne
+    @JoinColumn(name = "categoryId")
+    private Category category;
+
+    @OneToMany(mappedBy = "product")
+    private List<OrderDetail> orderDetails;
+
+    @OneToMany(mappedBy = "product")
+    private List<Review> reviews;
+
+    @OneToMany(mappedBy = "product")
+    private List<ShoppingCartDetail> shoppingCartDetails;
+
+    @OneToMany(mappedBy = "product")
+    private List<Favourites> favourites;
 }
