@@ -34,7 +34,7 @@ public class Orders {
     @Setter(AccessLevel.NONE)
     private int orderId;
 
-    private String customerId;
+    private int customerId;
     private Date purchaseDate;
     private double unitAmount;
     private String status;

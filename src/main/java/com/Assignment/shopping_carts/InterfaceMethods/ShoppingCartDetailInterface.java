@@ -5,18 +5,28 @@ import java.util.List;
 import com.Assignment.shopping_carts.Model.ShoppingCartDetail;
 
 public interface ShoppingCartDetailInterface {
-	
-	//show all products in cart
-	//void showCart(int customerId);
 	//add product to cart
-	void addProductToCart(int productId, int customerId, int quantity);
-	
-	List<ShoppingCartDetail> viewCart(int customerId);
-	//update quantity for product in Cart
-	//void updateQuantity(int productId, int customerID, int newQuantity);
-	//remove product in cart 
-	//void removeProduct(int productId, int customerID);
+	void addProductToCart(int customerId, int productId, int quantity);
+
+    //show all cart products
+    List<ShoppingCartDetail> showCart(int customerId);
+
+    //input new quantity directly
+    void updateQuantity(int productId, int customerID, int newQuantity);
+
+    //Add one
+    void addOne(int customerId, int productId);
+
+    //delete one
+    void deleteOne(int customerId, int productId);
+
+    //remove the select products from cart
+    void removeProduct(int customerId, int productId);
+
+    //clear all product from cart
+    void clearCart(int customerId);
+
 	//Calculate the total price for select product
-	//double sumTotal(int customerID);
+	double sumTotal(int customerId);
 	
 }
