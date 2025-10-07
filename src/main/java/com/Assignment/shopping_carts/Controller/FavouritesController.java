@@ -37,6 +37,4 @@ public class FavouritesController {
         return favService.findByCustomerId(customerId);
     }
 
-
-
 }
