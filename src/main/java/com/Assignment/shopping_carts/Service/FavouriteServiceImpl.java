@@ -3,6 +3,7 @@ package com.Assignment.shopping_carts.Service;
 import com.Assignment.shopping_carts.InterfaceMethods.FavouriteService;
 import com.Assignment.shopping_carts.Model.Favourites;
 import com.Assignment.shopping_carts.Repository.FavouritesRepository;
+import com.Assignment.shopping_carts.Repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +22,11 @@ import java.util.List;
 public class FavouriteServiceImpl implements FavouriteService {
 
     FavouritesRepository favRepository;
+    ProductRepository productRepository;
 
-    public FavouriteServiceImpl(FavouritesRepository favRepository, FavouriteService favouriteService) {
+    public FavouriteServiceImpl(FavouritesRepository favRepository, ProductRepository productRepository) {
         this.favRepository = favRepository;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -49,14 +52,8 @@ public class FavouriteServiceImpl implements FavouriteService {
 
     @Override
     public List<String> getFavouriteProductNames(int customerId) {
-        List<Favourites> favList = favRepository.findByCustomerId(customerId);
-
-        List<Integer> productIds = favList.stream()
-                                    .forEach(System.out::println);
-
-        return List.of();
+        return favRepository.findFavouriteProductNamesByProductId(customerId);
     }
-
 
     @Override
     public long countFavouritesByProductId(int customerId, int productId) {

@@ -4,7 +4,6 @@ import com.Assignment.shopping_carts.InterfaceMethods.FavouriteService;
 import com.Assignment.shopping_carts.Model.Favourites;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
 /**
  * Favourites Controller Class
  * Author: yh
@@ -31,10 +30,10 @@ public class FavouritesController {
     }
 
     //Get all favourite items for a customer
-    @GetMapping("/customer/{customerId}")
-    public List<Favourites> getFavourites(@PathVariable("customerId")
+    @GetMapping("/customer/{customerId}/names")
+    public List<String> getFavourites(@PathVariable
                                               int customerId) {
-        return favService.findByCustomerId(customerId);
+        return favService.getFavouriteProductNames(customerId);
     }
 
 }
