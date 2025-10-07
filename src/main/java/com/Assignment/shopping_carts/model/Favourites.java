@@ -5,7 +5,6 @@ import com.Assignment.shopping_carts.Model.compositeKey.FavouritesId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
-import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -34,9 +33,4 @@ public class Favourites {
     @Setter(AccessLevel.NONE)
     private int customerId;
 
-    @ManyToOne
-    private Customer customer;
-
-    @ManyToOne
-    private Product product;
 }
