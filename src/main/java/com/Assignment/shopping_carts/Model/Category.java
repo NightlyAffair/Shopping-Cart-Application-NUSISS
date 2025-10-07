@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Category Entity Class
- * Author: Zhou Jayson
+ * Author: Zhou Jason
  * Date: 2025-10-02
  * Modifier by : yh
  * Last Modified by : yh

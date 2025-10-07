@@ -8,15 +8,16 @@ import lombok.EqualsAndHashCode;
 import java.io.Serializable;
 
 /**
- * ShoppingCartDetailId Composite Key
- * Author: Zhou Jayson
+ * CartDetailId Composite Key
+ * Author: Zhou Jason
  * Date: 2025-10-02
- * Modified by: Glenn
- * Last Modified: 2025-10-06 12:00
+ * Participants: Glenn, Jason
+ * Modified by: Jason
+ * Last Modified: 2025-10-07 11:00
  */
 
 @EqualsAndHashCode
 public class ShoppingCartDetailId implements Serializable {
-    private Product product;  // Changed from int productId
-    private Customer customer;
+    private int productId;  // Changed from int productId
+    private int customerId;
 }
