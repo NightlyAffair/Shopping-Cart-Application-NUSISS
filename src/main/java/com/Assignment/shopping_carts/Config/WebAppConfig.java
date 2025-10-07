@@ -21,6 +21,6 @@ public class WebAppConfig implements WebMvcConfigurer {
     LogInterceptor loggingInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loggingInterceptor).addPathPatterns("/account/**").addPathPatterns("/purchaseHistory/**").addPathPatterns("/favourites/**").addPathPatterns("/shoppingCartDetail/**").addPathPatterns("/account-info/**");
+        registry.addInterceptor(loggingInterceptor).addPathPatterns("/Log");
     }
 }
