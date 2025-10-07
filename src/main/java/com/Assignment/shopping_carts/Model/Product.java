@@ -31,7 +31,7 @@ public class Product {
     private double unitPrice;
 
     @ManyToOne
-    @JoinColumn(name = "categoryId")
+    @JoinColumn(name = "category_id")
     private Category category;
 
     @OneToMany(mappedBy = "product")
