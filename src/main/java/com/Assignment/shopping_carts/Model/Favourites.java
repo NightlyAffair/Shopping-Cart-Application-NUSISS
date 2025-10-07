@@ -27,10 +27,8 @@ public class Favourites {
     - customerId: int (PK/FK)
      */
     @Id
-    @Setter(AccessLevel.NONE)
     private int productId;
     @Id
-    @Setter(AccessLevel.NONE)
     private int customerId;
 
 }
