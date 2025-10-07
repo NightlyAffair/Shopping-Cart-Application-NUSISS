@@ -30,7 +30,7 @@ public class Customer {
     private String password;
     private String address;
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     private List<ShoppingCartDetail> cart;
     @OneToMany(mappedBy = "customer")
     private List<Favourites> favourites;

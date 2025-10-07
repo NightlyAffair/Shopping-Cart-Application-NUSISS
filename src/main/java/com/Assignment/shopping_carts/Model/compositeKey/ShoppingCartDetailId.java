@@ -8,5 +8,5 @@ import java.io.Serializable;
 @EqualsAndHashCode
 public class ShoppingCartDetailId implements Serializable {
     private int productId;
-    private int customerID;
+    private int customerId;
 }

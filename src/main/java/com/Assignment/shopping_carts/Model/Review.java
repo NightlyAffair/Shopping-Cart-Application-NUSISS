@@ -6,6 +6,8 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * Review Entity Class
  * Author: Zhou Jayson
@@ -20,21 +22,22 @@ import lombok.Setter;
 @Entity
 @IdClass(ReviewId.class)
 public class Review {
-    /*
-    - productId: int (PK/FK)
-    - customerId: int (PK/FK)
-    - orderId: int (FK)
-    - rating: int
-    - description: String
-     */
+    @Id
+    private int productId;
 
     @Id
-    @Setter(AccessLevel.NONE)
-    private int productId;
-    @Id
-    @Setter(AccessLevel.NONE)
-    private int customerId ;
-    private int orderId;
+    private int customerId;
+
     private int rating;
     private String description;
+
+    @ManyToOne
+    private Customer customer;
+
+    @ManyToOne
+    private Product product;
+
+    @ManyToOne
+    private Order order;
 }
+
