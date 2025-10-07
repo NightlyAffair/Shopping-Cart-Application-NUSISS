@@ -11,6 +11,17 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import java.io.IOException;
 import java.util.Enumeration;
 
+
+/**
+ * Log in status check interceptor
+ * Author: Zhou Jayson
+ * Date: 2025-10-02
+ * Participants:
+ * Modified by: Jayson
+ * Last Modified: 2025-10-07 11:00
+ */
+
+
 @Component
 public class LogInterceptor implements HandlerInterceptor {
     private static final Logger LOGGER =
@@ -28,12 +39,8 @@ public class LogInterceptor implements HandlerInterceptor {
             LOGGER.info("Request param: {} = {}",
                     paramName, request.getParameter(paramName));
         }
-        if(session==null){             /// have not logged in situation 1;
-            response.sendRedirect("/login");
-            return false;
-        }
-        boolean login_status = (boolean) session.getAttribute("login_status");
-        if (login_status == false){
+        Boolean loginStatus = (Boolean) session.getAttribute("login_status");
+        if (loginStatus == null || !loginStatus) {
             response.sendRedirect("/login");
             return false;
         }

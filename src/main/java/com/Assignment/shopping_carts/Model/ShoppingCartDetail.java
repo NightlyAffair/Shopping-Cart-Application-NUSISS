@@ -2,10 +2,7 @@ package com.Assignment.shopping_carts.Model;
 
 
 import com.Assignment.shopping_carts.Model.compositeKey.ShoppingCartDetailId;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -13,7 +10,7 @@ import lombok.Setter;
 
 /**
  * ShoppingCartDetail Entity Class
- * Author: Zhou Jayson
+ * Author: Zhou Jason
  * Date: 2025-10-02
  * Modifier by :
  * Last Modified by :
@@ -35,8 +32,15 @@ public class ShoppingCartDetail {
     private int productId;
     @Id
     @Setter(AccessLevel.NONE)
-    private int customerID;
+    private int customerId;
     private int quantity;
+
+
+    @ManyToOne
+    @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)
+    private Product product;
+
+
 
     @ManyToOne
     private Customer customers;

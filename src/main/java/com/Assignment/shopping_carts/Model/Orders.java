@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * Order Entity Class
- * Author: Zhou Jayson
+ * Author: Zhou Jason
  * Date: 2025-10-02
  * Modifier by :
  * Last Modified by :
@@ -20,7 +20,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Order {
+public class Orders {
     /*
     - id: int (PK)
     - customerId: int (FK)

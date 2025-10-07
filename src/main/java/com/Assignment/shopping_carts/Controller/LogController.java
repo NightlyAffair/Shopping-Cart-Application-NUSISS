@@ -2,15 +2,25 @@ package com.Assignment.shopping_carts.Controller;
 
 
 import com.Assignment.shopping_carts.InterfaceMethods.LogInterface;
+import com.Assignment.shopping_carts.Model.Customer;
 import com.Assignment.shopping_carts.Repository.CustomerRepository;
 import com.Assignment.shopping_carts.Service.LogImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Log Controller
+ * Author: Zhou Jason
+ * Date: 2025-10-02
+ * Participants: Jason
+ * Modified by: Jason
+ * Last Modified: 2025-10-07 11:00
+ */
 
 
 @RequestMapping("/Log")
@@ -31,13 +41,26 @@ public class LogController {
 
 
     @PostMapping("/try")
-    public String tryLogin(@RequestParam(name = "useName") String userName,@RequestParam(name = "password") String password,HttpSession session){
+    public String tryLogin(@RequestParam(name = "userName") String userName,@RequestParam(name = "password") String password,HttpSession session){
         if(logService.LoginTry(userName,password)){
+            System.out.println("good job");
             session.setAttribute("login_status",true);
         }else {
             session.setAttribute("login_status",false);
         }
-        return "redirect:/homepage";
+        return "redirect:/Log/homepage";
     }
+
+
+    @GetMapping("/homepage")
+    public String homepage(){
+        return "homepage";
+    }
+
+
+
+
+
+
 
 }

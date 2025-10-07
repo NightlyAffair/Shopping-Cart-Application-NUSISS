@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * Product Entity Class
- * Author: Zhou Jayson
+ * Author: Zhou Jason
  * Date: 2025-10-02
  * Modified by: Glenn
  * Last Modified: 2025-10-04 04:00

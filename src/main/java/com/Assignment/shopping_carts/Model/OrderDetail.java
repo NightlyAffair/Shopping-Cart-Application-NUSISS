@@ -12,7 +12,7 @@ import lombok.Setter;
 
 /**
  * OrderDetail Entity Class
- * Author: Zhou Jayson
+ * Author: Zhou Jason
  * Date: 2025-10-02
  * Modifier by :
  * Last Modified by :
@@ -39,7 +39,7 @@ public class OrderDetail {
     private boolean isRefunded;
 
     @ManyToOne
-    private Order order;
+    private Orders order;
 
     @ManyToOne
     private Product product;
