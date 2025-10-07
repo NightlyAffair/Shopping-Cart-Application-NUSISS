@@ -19,10 +19,12 @@
 </head>
 
 <body>
-<div class ="container mt-4">
+<!-- Header -->
+<div th:replace="fragments/header :: site-header"></div>
 
-    <!-- Header -->
-    <div th:replace="fragments/header :: site-header"></div>
+<div class ="container">
+
+
 
     <!-- Product Filter Bar -->
     <form class="d-flex flex-wrap" th:action="@{/products/list}" method="get">
