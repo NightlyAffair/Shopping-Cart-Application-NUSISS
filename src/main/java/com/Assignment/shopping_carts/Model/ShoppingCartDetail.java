@@ -32,17 +32,22 @@ public class ShoppingCartDetail {
     - quantity: int
      */
     @Id
-    @Setter(AccessLevel.NONE)
+    //@Setter(AccessLevel.NONE)
     private int productId;
     @Id
-    @Setter(AccessLevel.NONE)
-    private int customerID;
+    //@Setter(AccessLevel.NONE)
+    private int customerId;
     private int quantity;
 
-<<<<<<< Updated upstream
-    //123
     @ManyToOne
     private Customer customers;
     @ManyToOne
     private Product products;
+    
+    public int getQuantity() {
+    	return quantity;
+    }
+    public void setQuantity(int quantity) {
+    	this.quantity = quantity;
+    }
 }
