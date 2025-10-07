@@ -7,6 +7,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * AccountInfoController
+ * Author: Nithvin Leelakrishnan
+ * Date: 2025-10-06
+ * Modifier by :
+ * Last Modified by :
+ * Last Modified: 2025-10-06 14:00
+ */
+
 @RestController
 @RequestMapping("/account-info")
 public class AccountInfoController {
