@@ -20,12 +20,10 @@ import java.util.List;
 @Transactional
 public class FavouriteServiceImpl implements FavouriteService {
 
-    private final FavouriteService favouriteService;
     FavouritesRepository favRepository;
 
     public FavouriteServiceImpl(FavouritesRepository favRepository, FavouriteService favouriteService) {
         this.favRepository = favRepository;
-        this.favouriteService = favouriteService;
     }
 
     @Override
