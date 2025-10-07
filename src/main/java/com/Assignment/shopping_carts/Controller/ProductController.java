@@ -1,11 +1,10 @@
 package com.Assignment.shopping_carts.Controller;
 
 import com.Assignment.shopping_carts.InterfaceMethods.CategoryService;
+import com.Assignment.shopping_carts.InterfaceMethods.ProductService;
 import com.Assignment.shopping_carts.Model.Category;
 import com.Assignment.shopping_carts.Model.Product;
-import com.Assignment.shopping_carts.Service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
