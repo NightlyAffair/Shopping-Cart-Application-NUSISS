@@ -32,15 +32,8 @@ public class ShoppingCartDetail {
     private int productId;
     @Id
     @Setter(AccessLevel.NONE)
-    private int customerId;
+    private int customerID;
     private int quantity;
-
-
-    @ManyToOne
-    @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)
-    private Product product;
-
-
 
     @ManyToOne
     private Customer customers;
