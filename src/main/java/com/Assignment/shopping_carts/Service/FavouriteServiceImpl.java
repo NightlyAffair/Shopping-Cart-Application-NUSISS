@@ -48,7 +48,11 @@ public class FavouriteServiceImpl implements FavouriteService {
     }
 
     @Override
-    public List<String> getFavouriteProductNames(int productId) {
+    public List<String> getFavouriteProductNames(int customerId) {
+        List<Favourites> favList = favRepository.findByCustomerId(customerId);
+
+        List<Integer> productIds = favList.stream()
+                                    .forEach(System.out::println);
 
         return List.of();
     }
