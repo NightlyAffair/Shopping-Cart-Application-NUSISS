@@ -2,6 +2,7 @@ package com.Assignment.shopping_carts.Model;
 
 
 import com.Assignment.shopping_carts.Model.compositeKey.ShoppingCartDetailId;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -31,14 +32,22 @@ public class ShoppingCartDetail {
     - quantity: int
      */
     @Id
-    @Setter(AccessLevel.NONE)
+    //@Setter(AccessLevel.NONE)
     private int productId;
     @Id
-    @Setter(AccessLevel.NONE)
-    private int customerID;
+    //@Setter(AccessLevel.NONE)
+    private int customerId;
     private int quantity;
 
     @ManyToOne
     private Customer customers;
-
+    @ManyToOne
+    private Product products;
+    
+    public int getQuantity() {
+    	return quantity;
+    }
+    public void setQuantity(int quantity) {
+    	this.quantity = quantity;
+    }
 }
