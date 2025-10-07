@@ -1,4 +1,4 @@
-package com.Assignment.shopping_carts.Service;
+package com.Assignment.shopping_carts.InterfaceMethods;
 
 import com.Assignment.shopping_carts.Model.Category;
 import com.Assignment.shopping_carts.Model.Product;
