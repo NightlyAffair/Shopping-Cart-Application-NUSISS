@@ -29,8 +29,6 @@ public class Product {
     private String description;
     private double discount;
     private double unitPrice;
-    //added this here to test a mock image . to remove if needed. yh
-    private String imageUrl = "images/iPhone.png,images/iPad.png,images/HeadPhones.png";
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -52,13 +50,12 @@ public class Product {
     }
 
     public Product(String productName, String description, Category category,
-                   double discount, double unitPrice, String imageURl) {
+                   double discount, double unitPrice) {
         this.productName = productName;
         this.description = description;
         this.category = category;
         this.discount = discount;
         this.unitPrice = unitPrice;
-        this.imageUrl = imageUrl; //again remove if needed. yh
     }
 
 }

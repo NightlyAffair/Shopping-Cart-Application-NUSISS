@@ -12,8 +12,8 @@ import lombok.Setter;
  * Favourites Entity Class
  * Author: Zhou Jason
  * Date: 2025-10-02
- * Modifier by :
- * Last Modified by :
+ * Modifier by : yh
+ * Last Modified by : yh
  * Last Modified: 2025-10-02 14:00
  */
 
