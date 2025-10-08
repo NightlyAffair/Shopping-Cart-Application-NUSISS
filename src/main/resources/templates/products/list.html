@@ -2,8 +2,8 @@
     * ProductRepository Interface
     * Author: Glenn Min
     * Date: 2025-10-06 12:00
-    * Modifier by : Sheng Qi
-    * Last Modified: 2025-10-08 11:50
+    * Modifier by :
+    * Last Modified:
 -->
 
 <!doctype html>
@@ -22,6 +22,7 @@
             border: 1px solid #d9dadb;
             border-right: none;
             border-radius: 15px;
+            padding-right: 2.5rem;
         }
         .input-group .btn {
             border: 1px solid #d9dadb;
@@ -35,8 +36,31 @@
             box-shadow: 0 0 0 0.25rem rgba(3, 5, 6, 0.15);
 
         }
+        .form-select {
+            border-radius: 15px;
+        }
 
+        .search-container {
+            position: relative;
+        }
 
+        .search-clear {
+            position: absolute;
+            right: 3rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            color: #6c757d;
+            cursor: pointer;
+            display: none;
+            z-index: 5;
+        }
+
+        .search-clear i {
+            pointer-events: none;
+        }
 
     </style>
 </head>
@@ -50,22 +74,29 @@
 
 
     <!-- Product Filter Bar -->
-    <form class="d-flex flex-wrap mt-3" th:action="@{/products/list}" method="get">
+    <form class="d-flex flex-wrap mt-3" th:action="@{/products/list}" method="get" id="headerForm">
         <div class="col-2">
-            <select class="form-select" name="categoryId">
-                <option value="0">All Categories</option>
+            <select class="form-select" name="categoryId" onchange="document.getElementById('headerForm').submit()">
+                <option value="0" th:selected="${categoryId == 0}">All Categories</option>
                 <option th:each="cat : ${categories}"
                         th:value="${cat.categoryId}"
-                        th:text="${cat.name}">
+                        th:text="${cat.name}"
+                        th:selected="${cat.categoryId == categoryId}">
                 </option>
             </select>
         </div>
         <div class="col-3 ms-5">
-            <div class ="input-group">
-                <input type="text" class="form-control" placeholder="Search..." aria-label="Search" th:value="${keyword}">
+            <div class ="input-group search-container">
+                <input name="keyword" type="text" class="form-control" id="searchKeyword" placeholder="Search..." th:value="${keyword}">
+
+                <button type="button" class="search-clear" id="clearBtn">
+                    <i class="bi bi-x-circle-fill"></i>
+                </button>
+
                 <button class="btn btn-outline-secondary" type="submit">
                     <i class="bi bi-search"></i>
                 </button>
+
             </div>
         </div>
         <div class="d-flex align-items-end ms-auto">
@@ -102,5 +133,26 @@
         </div>
     </div>
 </div>
+<script>
+    const searchKeyword= document.getElementById('searchKeyword');
+    const clearBtn = document.getElementById('clearBtn');
+
+    function toggleClearBtn() {
+        clearBtn.style.display = searchKeyword.value ? 'block' : 'none';
+    }
+
+    toggleClearBtn();
+
+    searchKeyword.addEventListener('input', toggleClearBtn);
+
+    clearBtn.addEventListener('click', () => {
+        searchKeyword.value = '';
+        toggleClearBtn();
+        searchKeyword.focus();
+
+        searchKeyword.closest('form').submit();
+    });
+
+</script>
 </body>
 </html>

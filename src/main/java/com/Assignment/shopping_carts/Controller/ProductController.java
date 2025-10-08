@@ -1,7 +1,6 @@
 package com.Assignment.shopping_carts.Controller;
 
 import com.Assignment.shopping_carts.InterfaceMethods.CategoryService;
-import com.Assignment.shopping_carts.InterfaceMethods.*;
 import com.Assignment.shopping_carts.Model.Category;
 import com.Assignment.shopping_carts.Model.Product;
 import com.Assignment.shopping_carts.Service.ProductServiceImpl;
@@ -46,6 +45,8 @@ public class ProductController {
 
         List<Category> categories = categoryService.getCategories();
         model.addAttribute("categories", categories);
+        model.addAttribute("categoryId", categoryId);
+        model.addAttribute("keyword", keyword);
 
         List<Product> products = new ArrayList<>();
         if (categoryId == null) {
