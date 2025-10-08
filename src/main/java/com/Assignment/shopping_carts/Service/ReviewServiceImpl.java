@@ -6,7 +6,6 @@ package com.Assignment.shopping_carts.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.Assignment.shopping_carts.Repository.ReviewRepository;
-import com.Assignment.shopping_carts.InterfaceMethods.ReviewService;
 import com.Assignment.shopping_carts.Model.Review;
 import java.util.List;
 

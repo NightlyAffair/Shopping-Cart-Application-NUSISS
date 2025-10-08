@@ -55,7 +55,7 @@ public class Review {
 
     @ManyToOne
     @JoinColumn(name = "orderId", referencedColumnName = "orderId", insertable = false, updatable = false)
-    private Orders order;
+    private Order order;
 
     
 
