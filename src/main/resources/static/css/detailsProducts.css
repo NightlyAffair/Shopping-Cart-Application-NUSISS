@@ -138,7 +138,16 @@
 .reviews-section h5 {
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 1.5rem;
+}
+
+.rating-summary {
+  border: 1px solid #dee2e6;
+}
+
+.rating-summary h2 {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #212529;
 }
 
 .review-card {
@@ -147,29 +156,43 @@
   border-radius: 0.5rem;
   padding: 1.5rem;
   margin-bottom: 1rem;
+  transition: box-shadow 0.2s ease;
+}
+
+.review-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .review-card .review-author {
   font-weight: 600;
   color: #212529;
   margin-bottom: 0.25rem;
+  font-size: 1rem;
 }
 
 .review-card .review-date {
   font-size: 0.875rem;
   color: #6c757d;
+  display: block;
   margin-bottom: 0.5rem;
 }
 
 .review-card .review-rating {
   color: #ffc107;
-  margin-bottom: 0.75rem;
+  font-size: 1rem;
+}
+
+.review-card .review-title {
+  font-weight: 600;
+  color: #495057;
+  font-size: 1rem;
 }
 
 .review-card .review-text {
   color: #495057;
   line-height: 1.6;
   margin: 0;
+  font-size: 0.95rem;
 }
 
 @media (max-width: 768px) {
