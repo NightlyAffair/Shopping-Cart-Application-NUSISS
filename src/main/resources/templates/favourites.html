@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop @ISS – My Favorites</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link href="../static/css/style.css" rel="stylesheet">
+  <link href="../static/css/favorites.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-3">
+          <div class="logo">
+            <h5>Shop @ISS</h5>
+          </div>
+        </div>
+        <div class="col-md-6 text-center d-none d-md-block">
+          <span class="promotional-text">Today's Deals: Free shipping over $80 | 10% off on new arrivals</span>
+        </div>
+        <div class="col-md-3">
+          <div class="user-actions d-flex align-items-center justify-content-end gap-2">
+            <a href="#" class="text-white"><i class="bi bi-person-circle fs-4"></i></a>
+            <a th:href="@{/login}" class="btn btn-outline-light btn-sm">Login</a>
+            <a th:href="@{/signup}" class="btn btn-warning btn-sm">Sign Up</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- NavBar -->
+  <nav class="navbar navbar-expand-lg navbar-dark site-navbar">
+    <div class="container">
+      <a class="navbar-brand" th:href="@{/products}">
+        <i class="bi bi-grid-3x3-gap me-2"></i>Browse
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/settings}">
+              <i class="bi bi-gear me-1"></i>Settings
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{/favorites}">
+              <i class="bi bi-heart-fill me-1"></i>Favorites
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/cart}">
+              <i class="bi bi-cart3 me-1"></i>Cart
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="container my-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h2 class="fw-bold">
+        <i class="bi bi-heart-fill text-danger me-2"></i>My Favorites
+      </h2>
+      <span class="text-muted" th:text="${favorites?.size() ?: 0} + ' items'">0 items</span>
+    </div>
+
+    <!-- Empty State -->
+    <div th:if="${favorites == null || favorites.isEmpty()}" class="empty-state">
+      <div class="text-center py-5">
+        <i class="bi bi-heart display-1 text-muted mb-3"></i>
+        <h4 class="mb-3">No Favorites Yet</h4>
+        <p class="text-muted mb-4">Start adding products to your favorites to see them here!</p>
+        <a th:href="@{/products}" class="btn btn-primary">
+          <i class="bi bi-grid-3x3-gap me-2"></i>Browse Products
+        </a>
+      </div>
+    </div>
+
+    <!-- Favorites Grid -->
+    <div th:unless="${favorites == null || favorites.isEmpty()}" class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <div class="col" th:each="product : ${favorites}">
+        <div class="card favorite-card h-100">
+          <!-- Remove Button -->
+          <button class="btn-remove-favorite" th:attr="data-product-id=${product.productId}">
+            <i class="bi bi-x-circle-fill"></i>
+          </button>
+
+          <!-- Product Image -->
+          <img th:src="@{${product.imageUrl}}" 
+               src="https://via.placeholder.com/400x300" 
+               class="card-img-top" 
+               alt="Product image">
+
+          <div class="card-body d-flex flex-column">
+            <!-- Product Name -->
+            <h5 class="card-title" th:text="${product.productName}">Product Name</h5>
+
+            <!-- Product Description -->
+            <p class="card-text text-muted small" th:text="${product.description}">
+              Product description goes here with details about the item.
+            </p>
+
+            <!-- Rating -->
+            <div class="product-rating mb-2">
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star-fill text-warning"></i>
+              <i class="bi bi-star text-warning"></i>
+              <span class="text-muted small ms-1">(4.0)</span>
+            </div>
+
+            <!-- Price -->
+            <div class="product-price mb-3">
+              <span class="fs-4 fw-bold text-primary">$<span th:text="${product.unitPrice}">24.99</span></span>
+            </div>
+
+            <!-- Quantity and Add to Cart -->
+            <div class="mt-auto">
+              <form th:action="@{/favorites/add-to-cart}" method="post" class="add-to-cart-form">
+                <input type="hidden" name="productId" th:value="${product.productId}">
+                <input type="hidden" name="customerId" th:value="${customerId}">
+                
+                <div class="d-flex gap-2 align-items-center mb-2">
+                  <label class="form-label mb-0 small fw-semibold">Qty:</label>
+                  <div class="quantity-selector flex-grow-1">
+                    <button type="button" class="btn-qty-decrease">
+                      <i class="bi bi-dash"></i>
+                    </button>
+                    <input type="number" name="quantity" value="1" min="1" max="99" class="qty-input" readonly>
+                    <button type="button" class="btn-qty-increase">
+                      <i class="bi bi-plus"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                  </button>
+                  <a th:href="@{/products/{id}(id=${product.productId})}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-eye me-1"></i>View Details
+                  </a>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clear All Button -->
+    <div th:unless="${favorites == null || favorites.isEmpty()}" class="mt-4 text-center">
+      <form th:action="@{/favorites/clear}" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to remove all favorites?');">
+        <input type="hidden" name="customerId" th:value="${customerId}">
+        <button type="submit" class="btn btn-outline-danger">
+          <i class="bi bi-trash me-2"></i>Clear All Favorites
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p>&copy; 2025 TEAM_TWO. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Quantity controls
+      document.querySelectorAll('.add-to-cart-form').forEach(form => {
+        const qtyInput = form.querySelector('.qty-input');
+        const decreaseBtn = form.querySelector('.btn-qty-decrease');
+        const increaseBtn = form.querySelector('.btn-qty-increase');
+
+        decreaseBtn.addEventListener('click', () => {
+          const currentValue = parseInt(qtyInput.value);
+          if (currentValue > 1) {
+            qtyInput.value = currentValue - 1;
+          }
+        });
+
+        increaseBtn.addEventListener('click', () => {
+          const currentValue = parseInt(qtyInput.value);
+          if (currentValue < 99) {
+            qtyInput.value = currentValue + 1;
+          }
+        });
+      });
+
+      // Remove favorite
+      document.querySelectorAll('.btn-remove-favorite').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const productId = this.getAttribute('data-product-id');
+          if (confirm('Remove this item from favorites?')) {
+            // Create and submit form
+            const form = document.createElement('form');
+            form.method = 'POST';
+            form.action = '/favorites/remove';
+            
+            const productIdInput = document.createElement('input');
+            productIdInput.type = 'hidden';
+            productIdInput.name = 'productId';
+            productIdInput.value = productId;
+            
+            const customerIdInput = document.createElement('input');
+            customerIdInput.type = 'hidden';
+            customerIdInput.name = 'customerId';
+            customerIdInput.value = document.querySelector('input[name="customerId"]').value;
+            
+            form.appendChild(productIdInput);
+            form.appendChild(customerIdInput);
+            document.body.appendChild(form);
+            form.submit();
+          }
+        });
+      });
+
+      // Add to cart feedback
+      document.querySelectorAll('.add-to-cart-form').forEach(form => {
+        form.addEventListener('submit', function(e) {
+          const qty = this.querySelector('.qty-input').value;
+          const productName = this.closest('.card').querySelector('.card-title').textContent;
+          
+          // Optional: Show toast notification
+          console.log(`Added ${qty} x ${productName} to cart`);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
