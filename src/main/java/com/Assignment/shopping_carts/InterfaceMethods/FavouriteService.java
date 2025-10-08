@@ -16,10 +16,10 @@ import java.util.List;
 public interface FavouriteService {
     public List<Favourites> findByCustomerId(int customerId);
     public boolean toggleFavourite(int customerId, int productId);
-    public List<String> getFavouriteProducts(int customerId);
-    public List<Product> getFavouriteProducts(int productId);
+    public List<Product> findFavouriteProductsByCustomerId(int customerId);
+    //public List<Product> getFavouriteProducts(int productId);
 
-    public long countFavouritesByProductId(int customerId, int productId);
+    public long countFavouritesByProductId(int productId);
 
     //public boolean existsByCustomerIdAndProductId(int customerId, int productId);
     //private boolean addFavourite(int customerId, int productId);

@@ -2,11 +2,13 @@ package com.Assignment.shopping_carts.Service;
 
 import com.Assignment.shopping_carts.InterfaceMethods.FavouriteService;
 import com.Assignment.shopping_carts.Model.Favourites;
+import com.Assignment.shopping_carts.Model.Product;
 import com.Assignment.shopping_carts.Repository.FavouritesRepository;
 import com.Assignment.shopping_carts.Repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  * Favourites serv impl
@@ -21,8 +23,8 @@ import java.util.List;
 @Transactional
 public class FavouriteServiceImpl implements FavouriteService {
 
-    FavouritesRepository favRepository;
-    ProductRepository productRepository;
+    private final FavouritesRepository favRepository;
+    private final ProductRepository productRepository;
 
     public FavouriteServiceImpl(FavouritesRepository favRepository, ProductRepository productRepository) {
         this.favRepository = favRepository;
@@ -51,17 +53,12 @@ public class FavouriteServiceImpl implements FavouriteService {
     }
 
     @Override
-    public List<String> getFavouriteProductNames(int customerId) {
-        return favRepository.findFavouriteProductNamesByCustomerId(customerId);
+    public List<Product> findFavouriteProductsByCustomerId(int customerId) {
+        return favRepository.findFavouriteProductsByCustomerId(customerId);
     }
 
     @Override
-    public List<ProductInfo> getFavouriteProductInfo(int customerId) {
-        return favRepository.findFavouriteProductInfoByCustomerId(customerId);
-    }
-
-    @Override
-    public long countFavouritesByProductId(int customerId, int productId) {
+    public long countFavouritesByProductId(int productId) {
         return favRepository.countFavouritesByProductId(productId);
     } //counts how many times product item is favourited already. optional extra feature.
 }

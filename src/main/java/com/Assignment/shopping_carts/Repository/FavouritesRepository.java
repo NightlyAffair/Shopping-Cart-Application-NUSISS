@@ -20,15 +20,12 @@ import java.util.List;
 public interface FavouritesRepository extends JpaRepository<Favourites, Integer> {
     public List<Favourites> findByCustomerId(int customerId);
 
-    @Query("Select p.productName from Product p WHERE p.productId IN :ids")
-    public List<String> findNameByProductId(@Param("ids")List<Integer> ids);
-
     @Query("SELECT p FROM Product p JOIN Favourites f " +
             "ON p.productId = f.productId WHERE f.customerId = :customerId")
     List<Product> findFavouriteProductsByCustomerId(@Param("customerId") int customerId);
 
     //check if a product is already favourited by a customer
-    public boolean existsByCustomerIdAndProductId(Integer customerId, Integer productId);
+    public boolean existsByCustomerIdAndProductId(int customerId, int productId);
 
     public void deleteByCustomerIdAndProductId(int customerId, int productId);
 
