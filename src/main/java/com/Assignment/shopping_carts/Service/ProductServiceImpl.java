@@ -81,9 +81,4 @@ public class ProductServiceImpl implements ProductService {
         }
         return productRepository.findProductsByCategorySort(categoryId, keyword, sortObj);
     }
-
-    @Override
-    public List<Product> findProductsOrderByProductNameAsc(Integer categoryId, String keyword, Sort sort) {
-        return productRepository.findProductsByCategorySort(categoryId, keyword, sort);
-    }
 }
