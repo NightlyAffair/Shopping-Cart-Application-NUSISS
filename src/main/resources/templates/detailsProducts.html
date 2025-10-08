@@ -14,7 +14,7 @@
   <link href="../static/css/detailsProducts.css" rel="stylesheet">
 </head>
 <body>
-  <!-- Header -->
+  <!-- HEADER -->
   <header class="site-header">
     <div class="container">
       <div class="row align-items-center">
@@ -49,16 +49,6 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/settings}">
-              <i class="bi bi-gear me-1"></i>Settings
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" th:href="@{/favorites}">
-              <i class="bi bi-heart-fill me-1"></i>Favorites
-            </a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" th:href="@{/cart}">
               <i class="bi bi-cart3 me-1"></i>Cart
             </a>
@@ -68,7 +58,7 @@
     </div>
   </nav>
 
-  <!-- BreadCrumb -->
+  <!-- BreadhCrumb -->
   <nav aria-label="breadcrumb" class="bg-white border-bottom">
     <div class="container">
       <ol class="breadcrumb py-3 mb-0">
@@ -78,7 +68,6 @@
     </div>
   </nav>
 
-  <!-- Product Details -->
   <main class="container my-5">
     <div class="row g-4">
       <!-- Product Image -->
@@ -150,41 +139,63 @@
       </div>
     </div>
 
-    <!-- Reviews -->
+    <!-- REVIEWS SECTION -->
     <section class="reviews-section">
-      <h5>Customer Reviews</h5>
-      
-      <div class="review-card">
-        <h6 class="review-author">John Doe</h6>
-        <small class="review-date">Purchased on: February 16, 2025</small>
-        <div class="review-rating">
-          <i class="bi bi-star-fill"></i>
-          <i class="bi bi-star-fill"></i>
-          <i class="bi bi-star-fill"></i>
-          <i class="bi bi-star-fill"></i>
-          <i class="bi bi-star"></i>
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="mb-0">Customer Reviews</h5>
+        <div class="text-muted">
+          <span th:if="${reviews != null}" th:text="${reviews.size()} + ' review(s)'">0 reviews</span>
         </div>
-        <p class="review-text">
-          Great product! Exceeded my expectations. The quality is excellent and it arrived quickly.
-          Would definitely recommend to others.
-        </p>
       </div>
 
-      <div class="review-card">
-        <h6 class="review-author">Jane Smith</h6>
-        <small class="review-date">Purchased on: February 10, 2025</small>
-        <div class="review-rating">
-          <i class="bi bi-star-fill"></i>
-          <i class="bi bi-star-fill"></i>
-          <i class="bi bi-star-fill"></i>
-          <i class="bi bi-star-fill"></i>
-          <i class="bi bi-star-fill"></i>
+      <!-- Average Rating Summary -->
+      <div th:if="${reviews != null && !reviews.isEmpty()}" class="rating-summary mb-4 p-3 bg-light rounded">
+        <div class="row align-items-center">
+          <div class="col-md-3 text-center">
+            <h2 class="mb-0" th:text="${averageRating != null ? #numbers.formatDecimal(averageRating, 1, 1) : '0.0'}">4.5</h2>
+            <div class="text-warning">
+              <i th:each="i : ${#numbers.sequence(1, 5)}" 
+                 th:class="${i <= averageRating} ? 'bi bi-star-fill' : 'bi bi-star'"></i>
+            </div>
+            <small class="text-muted">Average Rating</small>
+          </div>
+          <div class="col-md-9">
+            <small class="text-muted d-block">Based on customer reviews</small>
+          </div>
         </div>
-        <p class="review-text">
-          Perfect! Exactly what I was looking for. The price is fair and the customer service was helpful.
-        </p>
+      </div>
+
+      <!-- No Reviews State -->
+      <div th:if="${reviews == null || reviews.isEmpty()}" class="text-center py-4">
+        <i class="bi bi-chat-left-text display-4 text-muted mb-3"></i>
+        <p class="text-muted">No reviews yet. Be the first to review this product!</p>
+      </div>
+
+      <!-- Reviews List -->
+      <div th:unless="${reviews == null || reviews.isEmpty()}">
+        <div class="review-card" th:each="review : ${reviews}">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <h6 class="review-author mb-0" th:text="${review.customerName}">Customer Name</h6>
+              <small class="review-date text-muted" th:text="'Reviewed on: ' + ${#temporals.format(review.reviewDate, 'MMMM dd, yyyy')}">
+                Reviewed on: February 16, 2025
+              </small>
+            </div>
+            <div class="review-rating text-warning">
+              <i th:each="i : ${#numbers.sequence(1, 5)}" 
+                 th:class="${i <= review.rating} ? 'bi bi-star-fill' : 'bi bi-star'"></i>
+            </div>
+          </div>
+          <h6 class="review-title mb-2" th:if="${review.reviewTitle}" th:text="${review.reviewTitle}">
+            Review Title
+          </h6>
+          <p class="review-text mb-0" th:text="${review.reviewText}">
+            Review text content goes here.
+          </p>
+        </div>
       </div>
     </section>
+  </main>
   </main>
 
   <!-- Footer -->
