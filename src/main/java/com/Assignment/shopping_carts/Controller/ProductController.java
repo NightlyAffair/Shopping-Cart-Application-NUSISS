@@ -1,9 +1,8 @@
 package com.Assignment.shopping_carts.Controller;
 
-import com.Assignment.shopping_carts.InterfaceMethods.CategoryService;
-import com.Assignment.shopping_carts.Model.Category;
-import com.Assignment.shopping_carts.Model.Product;
-import com.Assignment.shopping_carts.Service.ProductServiceImpl;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.Assignment.shopping_carts.InterfaceMethods.CategoryService;
+import com.Assignment.shopping_carts.Model.Category;
+import com.Assignment.shopping_carts.Model.Product;
+import com.Assignment.shopping_carts.Service.ProductServiceImpl;
 
 /**
  * ProductController Class
