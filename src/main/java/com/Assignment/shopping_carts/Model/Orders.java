@@ -34,14 +34,14 @@ public class Orders {
     @Setter(AccessLevel.NONE)
     private int orderId;
 
-    private String customerId;
+    private int customerId;
     private Date purchaseDate;
     private double unitAmount;
     private String status;
     @OneToMany(mappedBy="order")
     private List<OrderDetail> orderDetails;
     @ManyToOne
-    @JoinColumn(name="customer_id", referencedColumnName = "customerId", insertable = false, updatable = false)
+    @JoinColumn( referencedColumnName = "customerId", insertable = false, updatable = false)
     private Customer customer;
     @OneToMany(mappedBy = "order")
     private List<Review> reviews;

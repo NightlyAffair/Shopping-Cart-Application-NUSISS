@@ -10,17 +10,15 @@ import com.Assignment.shopping_carts.Model.compositeKey.ShoppingCartDetailId;
 
 public interface ShoppingCartDetailRepository extends JpaRepository<ShoppingCartDetail, ShoppingCartDetailId>{
 	//check one product is in cart or not
-	Optional<ShoppingCartDetail> findByCustomerIdAndProductId(int customerId, int productId);
+    Optional<ShoppingCartDetail> findByCustomerIdAndProductId(int customerId, int productId);
 
 	//check all products for the customer
-	List<ShoppingCartDetail> findByCustomerID(int customerId);
+	List<ShoppingCartDetail> findByCustomerId(int customerId);
 	
 	//delete one product
-	List<ShoppingCartDetail> deleteByCustomerIdAndProductId(int customerId, int productId);
+	void deleteByCustomerIdAndProductId(int customerId, int productId);
 	
 	//delete all product
-	List<ShoppingCartDetail> deleteByCustomerId(int customerId);
-	
-	//update quantity in cart
-	List<ShoppingCartDetail> updateQuantity(int customerId, int productId, int newQuantity);
+	void deleteByCustomerId(int customerId);
+
 }

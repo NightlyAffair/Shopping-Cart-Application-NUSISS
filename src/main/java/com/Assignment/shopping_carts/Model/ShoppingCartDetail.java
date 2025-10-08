@@ -2,6 +2,7 @@ package com.Assignment.shopping_carts.Model;
 
 
 import com.Assignment.shopping_carts.Model.compositeKey.ShoppingCartDetailId;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -10,7 +11,7 @@ import lombok.Setter;
 
 /**
  * ShoppingCartDetail Entity Class
- * Author: Zhou Jason
+ * Author: Zhou Jayson
  * Date: 2025-10-02
  * Modifier by :
  * Last Modified by :
@@ -28,14 +29,21 @@ public class ShoppingCartDetail {
     - quantity: int
      */
     @Id
-    @Setter(AccessLevel.NONE)
     private int productId;
     @Id
-    @Setter(AccessLevel.NONE)
-    private int customerID;
+    private int customerId;
     private int quantity;
 
     @ManyToOne
-    private Customer customers;
+    @JoinColumn(name = "customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
+    private Customer customer;
+    @ManyToOne
+    @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)
+    private Product product;
 
+    public double getSubPrice() {
+        //Also considered discount
+        double priceAfterDiscount = product.getUnitPrice() * (1 - product.getDiscount());
+        return priceAfterDiscount * quantity;
+    }
 }

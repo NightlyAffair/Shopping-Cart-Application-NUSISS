@@ -5,8 +5,9 @@ import com.Assignment.shopping_carts.Model.compositeKey.FavouritesId;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * Favourites Entity Class
@@ -25,20 +26,21 @@ public class Favourites {
     - productId: int (PK/FK)
     - customerId: int (PK/FK)
      */
-    @Id
-    @Getter(AccessLevel.NONE)
-    private int productId;
+
 
     @Id
-    @Getter(AccessLevel.NONE)
+    private int productId;
+    @Id
     private int customerId;
 
-    @ManyToOne
-    @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)
-    private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
+    @JoinColumn( referencedColumnName = "customerId", insertable = false, updatable = false)
     private Customer customer;
+
+
+    @ManyToOne
+    @JoinColumn( referencedColumnName = "productId", insertable = false, updatable = false)
+    private Product product;
 
 }

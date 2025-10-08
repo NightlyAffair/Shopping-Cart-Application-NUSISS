@@ -40,8 +40,9 @@ public class LogInterceptor implements HandlerInterceptor {
                     paramName, request.getParameter(paramName));
         }
         Boolean loginStatus = (Boolean) session.getAttribute("login_status");
+        session.setAttribute("login_status", loginStatus);
         if (loginStatus == null || !loginStatus) {
-            response.sendRedirect("/login");
+            response.sendRedirect("/Log");
             return false;
         }
         return true;
