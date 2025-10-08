@@ -52,7 +52,12 @@ public class FavouriteServiceImpl implements FavouriteService {
 
     @Override
     public List<String> getFavouriteProductNames(int customerId) {
-        return favRepository.findFavouriteProductNamesByProductId(customerId);
+        return favRepository.findFavouriteProductNamesByCustomerId(customerId);
+    }
+
+    @Override
+    public List<ProductInfo> getFavouriteProductInfo(int customerId) {
+        return favRepository.findFavouriteProductInfoByCustomerId(customerId);
     }
 
     @Override
@@ -60,6 +65,8 @@ public class FavouriteServiceImpl implements FavouriteService {
         return favRepository.countFavouritesByProductId(productId);
     } //counts how many times product item is favourited already. optional extra feature.
 }
+
+
 
     /*
     //if you want to check if customer favourited which product.

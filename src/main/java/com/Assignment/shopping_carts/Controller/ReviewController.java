@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.Assignment.shopping_carts.Service.ReviewServiceImpl;
+import com.Assignment.shopping_carts.Service.ReviewService;
 import com.Assignment.shopping_carts.Model.Review;
 
 @RestController
@@ -15,7 +15,7 @@ import com.Assignment.shopping_carts.Model.Review;
 public class ReviewController {
 
     @Autowired
-    private ReviewServiceImpl reviewService;
+    private ReviewService reviewService;
 
     // Receive customer review
     @PostMapping("/add")
