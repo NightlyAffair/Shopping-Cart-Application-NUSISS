@@ -1,0 +1,182 @@
+.settings-sidebar {
+  position: sticky;
+  top: 20px;
+}
+
+.settings-sidebar .list-group-item {
+  border: 1px solid #dee2e6;
+  border-radius: 0.375rem;
+  margin-bottom: 0.5rem;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.settings-sidebar .list-group-item:hover {
+  background-color: #f8f9fa;
+  transform: translateX(4px);
+}
+
+.settings-sidebar .list-group-item.active {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+  color: white;
+}
+
+.settings-sidebar .list-group-item.text-danger:hover {
+  background-color: #fff5f5;
+  color: #dc3545 !important;
+}
+
+.settings-sidebar .list-group-item i {
+  width: 20px;
+}
+
+.settings-card {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.settings-header {
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #f8f9fa;
+  margin-bottom: 2rem;
+}
+
+.settings-header h4 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #212529;
+  margin-bottom: 0.5rem;
+}
+
+.settings-header h4 i {
+  color: #0d6efd;
+}
+
+.settings-card .form-label {
+  font-weight: 600;
+  color: #495057;
+  margin-bottom: 0.5rem;
+}
+
+.settings-card .form-control,
+.settings-card .input-group {
+  margin-bottom: 0;
+}
+
+.settings-card .input-group-text {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  color: #6c757d;
+}
+
+.settings-card .form-text {
+  font-size: 0.875rem;
+  color: #6c757d;
+  margin-top: 0.5rem;
+}
+
+.logout-section {
+  padding: 1rem 0;
+}
+
+.logout-section .alert {
+  margin-bottom: 1.5rem;
+}
+
+/* Success/Error messages */
+.alert {
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+}
+
+.alert i {
+  font-size: 1.1rem;
+}
+
+/* Button group spacing */
+.settings-card .btn {
+  min-width: 140px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .settings-sidebar {
+    position: static;
+    margin-bottom: 2rem;
+  }
+
+  .settings-sidebar .list-group {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 0.5rem;
+  }
+
+  .settings-sidebar .list-group-item {
+    flex: 0 0 auto;
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+
+  .settings-card {
+    padding: 1.5rem;
+  }
+
+  .settings-header {
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .settings-header h4 {
+    font-size: 1.25rem;
+  }
+
+  .settings-card .btn {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .d-flex.gap-2 {
+    flex-direction: column;
+  }
+}
+
+/* Focus states */
+.settings-card .form-control:focus {
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Password strength indicator (optional enhancement) */
+.password-strength {
+  height: 4px;
+  border-radius: 2px;
+  background-color: #dee2e6;
+  margin-top: 0.5rem;
+  overflow: hidden;
+}
+
+.password-strength-bar {
+  height: 100%;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  width: 0;
+}
+
+.password-strength-bar.weak {
+  width: 33%;
+  background-color: #dc3545;
+}
+
+.password-strength-bar.medium {
+  width: 66%;
+  background-color: #ffc107;
+}
+
+.password-strength-bar.strong {
+  width: 100%;
+  background-color: #198754;
+}
