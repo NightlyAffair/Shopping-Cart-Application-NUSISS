@@ -6,6 +6,8 @@ export default function PurchaseHistory() {
   const [orders, setOrders] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
+  const [selectedProductId, setSelectedProductId] = useState(null);
+  const [customerId, setCustomerId] = useState(1); // Replace with actual logged-in user ID 
   const [reviewContent, setReviewContent] = useState('');
   const [rating, setRating] = useState(5);
 
@@ -21,69 +23,81 @@ export default function PurchaseHistory() {
 
   const openReviewForm = (orderId, productId) => {
     setSelectedOrderId({ orderId, productId });
+    setCustomerId(customerId);
     setShowForm(true);
+  };
+
+  const submitReview = async () => {
+    if(!selectedOrderId) return;
+    const reviewData = {
+      productId: selectedOrderId.productId,
+      customerId: customerId,
+      orderId: selectedOrderId.orderId,
+      content: reviewContent,
+      rating: rating
+    };
   };
 
   return (
     <div>
-    <Header />
-    <div className="container">
-      <div className="row">
-        <div className="col">
-          <div>
-            <div className="table-responsive">
-              <table className="table table-bordered">
-                <thead>
-                  <tr>
-                    <th scope="col">Order ID</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Total Amount</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders.map(order =>
-                    order.orderDetails.map((item, idx) => (
-                      <tr key={`${order.orderId}-${idx}`}>
-                        <td className="id">{order.orderId}</td>
-                        <td>
-                          <div className="d-flex align-items-center">
-                            <div>
-                              <img src="https://via.placeholder.com/60" className="img-fluid rounded-3" alt="Product" />
+      <Header />
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <div>
+              <div className="table-responsive">
+                <table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">Order ID</th>
+                      <th scope="col">Product</th>
+                      <th scope="col">Date</th>
+                      <th scope="col">Total Amount</th>
+                      <th scope="col">Quantity</th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {orders.map(order =>
+                      order.orderDetails.map((item, idx) => (
+                        <tr key={`${order.orderId}-${idx}`}>
+                          <td className="id">{order.orderId}</td>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <div>
+                                <img src="https://via.placeholder.com/60" className="img-fluid rounded-3" alt="Product" />
+                              </div>
+                              <div className="flex-column ms-3">
+                                <a href="productDetails.html">
+                                  <h6>{item.product.productName}</h6>
+                                </a>
+                                <p>Category: {item.product.category}</p>
+                              </div>
                             </div>
-                            <div className="flex-column ms-3">
-                              <a href="productDetails.html">
-                                <h6>{item.product.productName}</h6>
-                              </a>
-                              <p>Category: {item.product.category}</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="date"><span>{order.orderDate}</span></td>
-                        <td className="price"><span>${order.totalAmount}</span></td>
-                        <td className="quantity"><span>{item.quantity}</span></td>
-                        <td>
-                          <button type="button" onClick={() => openReviewForm(order.orderId, item.product.productId)}>
-                            Review
-                          </button>
-                        </td>
+                          </td>
+                          <td className="date"><span>{order.orderDate}</span></td>
+                          <td className="price"><span>${order.totalAmount}</span></td>
+                          <td className="quantity"><span>{item.quantity}</span></td>
+                          <td>
+                            <button type="button" onClick={() => openReviewForm(order.orderId, item.product.productId)}>
+                              Review
+                            </button>
+                          </td>
                         <td>
                           
                         </td>
-                      </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-                  
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
+
+            </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }
