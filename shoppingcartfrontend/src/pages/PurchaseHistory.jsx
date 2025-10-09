@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
+import Sidebar from "../components/Sidebar";
 
 export default function PurchaseHistory() {
   const [orders, setOrders] = useState([]);
@@ -12,14 +13,51 @@ export default function PurchaseHistory() {
   const [rating, setRating] = useState(5);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/purchaseHistory/customer/1") // Replace with actual user ID
-      .then(response => {
-        setOrders(response.data);
-      })
-      .catch(e => {
-        console.error("Error fetching purchase history:", e);
-      });
+      const sampleOrders = [
+      {
+        //start
+        orderId: 101,
+        orderDate: '2025-10-01',
+        totalAmount: 49.99,
+        customerId: 1,
+        orderDetails: [
+          {
+            quantity: 1,
+            product: { productId: 201, productName: 'Test Product A', category: 'Electronics' }
+          },
+          {
+            quantity: 2,
+            product: { productId: 202, productName: 'Test Product B', category: 'Books' }
+          }
+        ]
+      },
+      {
+        orderId: 102,
+        orderDate: '2025-09-20',
+        totalAmount: 19.99,
+        customerId: 1,
+        orderDetails: [
+          {
+            quantity: 1,
+            product: { productId: 203, productName: 'Test Product C', category: 'Home' }
+          }
+        ]
+      }
+    ];
+     // Use hard-coded data instead of axios for testing
+    setOrders(sampleOrders);
+
+    // If you later want to re-enable real fetch, replace setOrders(sampleOrders) with axios.get(...)
   }, []);
+  //end
+  //   axios.get("http://localhost:8080/api/purchaseHistory/customer/1") // Replace with actual user ID
+  //     .then(response => {
+  //       setOrders(response.data);
+  //     })
+  //     .catch(e => {
+  //       console.error("Error fetching purchase history:", e);
+  //     });
+  // }, []);
 
   const openReviewForm = (orderId, productId) => {
     setSelectedOrderId({ orderId, productId });
@@ -36,68 +74,108 @@ export default function PurchaseHistory() {
       content: reviewContent,
       rating: rating
     };
+    //start
+    // For testing: just log the payload
+    console.log('Submitting review:', reviewData);
+
+    // When backend is ready, uncomment and use:
+    // try {
+    //   await axios.post('http://localhost:8080/api/reviews', reviewData);
+    // } catch (err) {
+    //   console.error('Error submitting review:', err);
+    // }
+
+    // reset form after submit
+    setShowForm(false);
+    setReviewContent('');
+    setRating(5);
+    setSelectedOrderId(null);
+    setSelectedProductId(null);
+
+    //end
   };
 
   return (
     <div>
-      <Header />
-      <div className="container">
-        <div className="row">
-          <div className="col">
-            <div>
-              <div className="table-responsive">
-                <table className="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th scope="col">Order ID</th>
-                      <th scope="col">Product</th>
-                      <th scope="col">Date</th>
-                      <th scope="col">Total Amount</th>
-                      <th scope="col">Quantity</th>
-                      <th scope="col"></th>
-                      <th scope="col"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {orders.map(order =>
-                      order.orderDetails.map((item, idx) => (
-                        <tr key={`${order.orderId}-${idx}`}>
-                          <td className="id">{order.orderId}</td>
-                          <td>
-                            <div className="d-flex align-items-center">
-                              <div>
-                                <img src="https://via.placeholder.com/60" className="img-fluid rounded-3" alt="Product" />
-                              </div>
-                              <div className="flex-column ms-3">
-                                <a href="productDetails.html">
-                                  <h6>{item.product.productName}</h6>
-                                </a>
-                                <p>Category: {item.product.category}</p>
-                              </div>
+    <Header />
+    <div className="container">
+      <div className="row">
+        <div className="col">
+          <div>
+            <div className="table-responsive">
+              <table className="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">Order ID</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Total Amount</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col"></th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {orders.map(order =>
+                    order.orderDetails.map((item, idx) => (
+                      <tr key={`${order.orderId}-${idx}`}>
+                        <td className="id">{order.orderId}</td>
+                        <td>
+                          <div className="d-flex align-items-center">
+                            <div>
+                              <img src="https://via.placeholder.com/60" className="img-fluid rounded-3" alt="Product" />
                             </div>
-                          </td>
-                          <td className="date"><span>{order.orderDate}</span></td>
-                          <td className="price"><span>${order.totalAmount}</span></td>
-                          <td className="quantity"><span>{item.quantity}</span></td>
-                          <td>
-                            <button type="button" onClick={() => openReviewForm(order.orderId, item.product.productId)}>
-                              Review
-                            </button>
-                          </td>
+                            <div className="flex-column ms-3">
+                              <a href="productDetails.html">
+                                <h6>{item.product.productName}</h6>
+                              </a>
+                              <p>Category: {item.product.category}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="date"><span>{order.orderDate}</span></td>
+                        <td className="price"><span>${order.totalAmount}</span></td>
+                        <td className="quantity"><span>{item.quantity}</span></td>
+                        <td>
+                          <button type="button" onClick={() => openReviewForm(order.orderId, item.product.productId)}>
+                            Review
+                          </button>
+                        </td>
                         <td>
                           
                         </td>
-                        </tr>
-                      ))
-                    )}
-                  </tbody>
-                </table>
-
-            </div>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+              {showForm && (
+        <div style={{ marginTop: "20px" }}>
+          <h3>Write Review</h3>
+          <textarea
+            value={reviewContent}
+            onChange={(e) => setReviewContent(e.target.value)}
+            placeholder="Write your review..."
+          />
+          <br />
+          <label>Rating: </label>
+          <select value={rating} onChange={(e) => setRating(e.target.value)}>
+            <option value="5">⭐⭐⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="1">⭐</option>
+          </select>
+          <br />
+          <button onClick={submitReview}>Submit</button>
+          <button onClick={() => setShowForm(false)}>Cancel</button>
+        </div>
+      )}    
             </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }
