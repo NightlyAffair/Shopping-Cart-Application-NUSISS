@@ -3,6 +3,7 @@ package com.Assignment.shopping_carts.Controller;
 import com.Assignment.shopping_carts.InterfaceMethods.FavouriteService;
 import com.Assignment.shopping_carts.Model.Favourites;
 import com.Assignment.shopping_carts.Model.Product;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,17 +29,27 @@ public class FavouritesController {
 
     @PostMapping("/toggle")
     @ResponseBody
-    public Boolean toggleFavourite(@RequestParam int customerId,
-                                   @RequestParam int productId) {
+    public Boolean toggleFavourite(@RequestParam int productId, HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) {
+            return false;
+        }
         return favService.toggleFavourite(customerId, productId);
     }
 
     //Get all favourite items for a customer
-    @GetMapping("/customer/{customerId}")
-    public String getFavourites(@PathVariable int customerId, Model model) {
+    @GetMapping("/customer")
+    public String getFavourites(Model model, HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) {
+            //temp, hardcorded customerid for testing
+            customerId = 1;
+            session.setAttribute("customerId", customerId);
+            //return "redirect:/Log";
+        }
         List<Product> FavProducts = favService
                 .findFavouriteProductsByCustomerId(customerId);
-        model.addAttribute("FavProducts", FavProducts);
+        model.addAttribute("favourites", FavProducts);
         return "favourites";
     }
 

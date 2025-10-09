@@ -22,6 +22,4 @@ public interface FavouriteService {
     public long countFavouritesByProductId(int productId);
 
     //public boolean existsByCustomerIdAndProductId(int customerId, int productId);
-    //private boolean addFavourite(int customerId, int productId);
-    //private void deleteFavourite(int customerId, int productId);
 }

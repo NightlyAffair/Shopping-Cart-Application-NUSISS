@@ -35,6 +35,7 @@ public class FavouriteServiceImpl implements FavouriteService {
     public List<Favourites> findByCustomerId(int customerId) {
         return favRepository.findByCustomerId(customerId);
     }
+
     //allow a user to add or remove a product from their favourites list.
     //when customer click button, check if its alrdy favourited. if yes, unfavourite. otherwise favourite it.
     @Override
