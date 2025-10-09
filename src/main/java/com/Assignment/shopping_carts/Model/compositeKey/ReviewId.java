@@ -1,8 +1,6 @@
 package com.Assignment.shopping_carts.Model.compositeKey;
 
 
-import com.Assignment.shopping_carts.Model.Customer;
-import com.Assignment.shopping_carts.Model.Product;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
@@ -20,4 +18,5 @@ import java.io.Serializable;
 public class ReviewId implements Serializable {
     private int productId;
     private int customerId;
+    private int orderId;
 }
