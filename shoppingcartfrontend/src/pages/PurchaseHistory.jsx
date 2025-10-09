@@ -15,7 +15,7 @@ export default function PurchaseHistory() {
     axios.get("http://localhost:8080/api/purchaseHistory/customer/1") // Replace with actual user ID
       .then(response => {
         console.log(response.data);
-        setOrders(response.data);
+        setOrders(Array.isArray(response.data) ? response.data : [response.data]);
       })
       .catch(e => {
         console.error("Error fetching purchase history:", e);
@@ -52,7 +52,7 @@ export default function PurchaseHistory() {
                 </thead>
                 <tbody>
                   {orders.map(order =>
-                    order.orderDetail.map((item, idx) => (
+                    order.orderDetails.map((item, idx) => (
                       <tr key={`${order.orderId}-${idx}`}>
                         <td className="id">{order.orderId}</td>
                         <td>
@@ -62,9 +62,9 @@ export default function PurchaseHistory() {
                             </div>
                             <div className="flex-column ms-3">
                               <a href="productDetails.html">
-                                <h6>{item.Product.productName}</h6>
+                                <h6>{item.product.productName}</h6>
                               </a>
-                              <p>Category: {item.Product.category}</p>
+                              <p>Category: {item.product.category}</p>
                             </div>
                           </div>
                         </td>
