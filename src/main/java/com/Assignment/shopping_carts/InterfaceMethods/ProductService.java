@@ -41,5 +41,4 @@ public interface ProductService {
 
     List<Product> findProductsByCategorySort(Integer categoryId, String keyword, String sort);
 
-    List<Product> findProductsOrderByProductNameAsc(Integer categoryId, String keyword, Sort sort);
 }

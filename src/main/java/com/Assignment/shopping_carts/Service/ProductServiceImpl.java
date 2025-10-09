@@ -5,6 +5,9 @@ import com.Assignment.shopping_carts.Model.Category;
 import com.Assignment.shopping_carts.Model.Product;
 import com.Assignment.shopping_carts.Repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +17,7 @@ import java.util.List;
  * ProductServiceImpl Class
  * Author: Glenn Min
  * Date: 2025-10-06 12:00
- * Modifier by : Sheng Qi
+ * Modifier by : Sheng Qi, Nithvin(Pagination)  
  * Last Modified: 2025-10-07 10:30
  */
 
@@ -82,8 +85,22 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findProductsByCategorySort(categoryId, keyword, sortObj);
     }
 
-    @Override
-    public List<Product> findProductsOrderByProductNameAsc(Integer categoryId, String keyword, Sort sort) {
-        return productRepository.findProductsByCategorySort(categoryId, keyword, sort);
+    public Page<Product> getPage(Integer pageNumber, Integer pageSize, Integer categoryId, String keyword, String sort) {
+            Pageable pageRequest = PageRequest.of(pageNumber, pageSize, sortEnum(sort));
+
+            return productRepository.findByCategoryAndKeywordPaginated(categoryId, keyword, pageRequest);
+    }
+
+    public Sort sortEnum(String sort) {
+        switch (sort !=null ? sort : "nameAsc") {
+            case "priceAsc":
+                return Sort.by(Sort.Direction.ASC, "unitPrice");
+            case "priceDesc":
+                return Sort.by(Sort.Direction.DESC, "unitPrice");
+            case "nameAsc":
+                return Sort.by(Sort.Direction.ASC, "productName");
+            default:
+                return Sort.by(Sort.Direction.ASC, "productName");
+        }
     }
 }

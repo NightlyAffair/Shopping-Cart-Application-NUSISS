@@ -1,8 +1,6 @@
 package com.Assignment.shopping_carts.Model.compositeKey;
 
 
-import com.Assignment.shopping_carts.Model.Customer;
-import com.Assignment.shopping_carts.Model.Product;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serializable;
