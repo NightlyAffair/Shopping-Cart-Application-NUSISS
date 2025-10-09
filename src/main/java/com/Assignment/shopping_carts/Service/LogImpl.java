@@ -5,6 +5,7 @@ import com.Assignment.shopping_carts.Model.Customer;
 import com.Assignment.shopping_carts.Repository.CustomerRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -76,6 +77,12 @@ public class LogImpl implements LogInterface {
         } else {
             System.out.println("ℹ️ [LogImpl] Customer table already has data, skip initialization.");
         }
+    }
+
+    @Override
+    @Transactional
+    public Customer findByUserName(String userName){
+        return CusRep.findByUserName(userName).get();
     }
 
 }

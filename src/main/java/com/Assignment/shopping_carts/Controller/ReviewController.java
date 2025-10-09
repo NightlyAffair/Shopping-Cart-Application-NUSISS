@@ -10,7 +10,7 @@ import com.Assignment.shopping_carts.Model.Review;
 import java.util.List;
 
 @RestController
-@RequestMapping("/PurchaseHistory/reviews")
+@RequestMapping("/api/reviews")
 public class ReviewController {
 
     @Autowired
