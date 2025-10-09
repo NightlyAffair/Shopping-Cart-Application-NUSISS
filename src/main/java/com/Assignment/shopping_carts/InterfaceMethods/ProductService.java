@@ -2,9 +2,12 @@ package com.Assignment.shopping_carts.InterfaceMethods;
 
 import com.Assignment.shopping_carts.Model.Category;
 import com.Assignment.shopping_carts.Model.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * ProductService Interface
@@ -16,29 +19,28 @@ import java.util.List;
 
 public interface ProductService {
 
-    // Find product by ID (for product details page)
-    Product getProductById(int productId);
+    // Basic CRUD Operations
+    Product createProduct(Product product);
+    Optional<Product> getProductById(int productId);
+    List<Product> getAllProducts();
+    Product updateProduct(int productId, Product product);
+    void deleteProduct(int productId);
 
-    // Search by keyword
-    List<Product> searchByKeyword(String keyword);
+    // Search Operations
+    List<Product> searchProductsByKeyword(String keyword);
+    List<Product> getProductsByCategory(Category category);
+    List<Product> searchByCategoryAndKeyword(Integer categoryId, String keyword);
 
-    // Find by category
-    List<Product> findByCategory(Category category);
+    // Sorting Operations
+    List<Product> getAllProductsSortedByPriceAsc();
+    List<Product> getAllProductsSortedByPriceDesc();
+    List<Product> getAllProductsSortedByRating();
+    List<Product> getProductsByCategoryWithSort(Integer categoryId, String keyword, Sort sort);
 
-    // Sort by price ascending
-    List<Product> findAllByOrderByUnitPriceAsc();
+    // Pagination
+    Page<Product> getProductsPaginated(Integer categoryId, String keyword, Pageable pageable);
 
-    // Sort by price descending
-    List<Product> findAllByOrderByUnitPriceDesc();
-
-    // Sort by highest average rating
-    List<Product> findByRatingDesc();
-
-    // Filter by category + keyword
-    List<Product> findByCategoryAndKeyword(Integer categoryId, String keyword);
-
-    List<Product> findByCategoryAndKeywordOrderByRating(Integer categoryId, String keyword);
-
-    List<Product> findProductsByCategorySort(Integer categoryId, String keyword, String sort);
-
+    // Rating Management
+    void updateProductAverageRating(int productId);
+    List<Product> getProductsSortedByRatingCalculated();
 }
