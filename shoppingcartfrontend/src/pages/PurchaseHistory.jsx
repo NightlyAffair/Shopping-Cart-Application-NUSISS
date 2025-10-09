@@ -1,3 +1,4 @@
+import "../css/Global.css"
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
@@ -13,6 +14,7 @@ export default function PurchaseHistory() {
   useEffect(() => {
     axios.get("http://localhost:8080/api/purchaseHistory/customer/1") // Replace with actual user ID
       .then(response => {
+        console.log(response.data);
         setOrders(response.data);
       })
       .catch(e => {
@@ -50,7 +52,7 @@ export default function PurchaseHistory() {
                 </thead>
                 <tbody>
                   {orders.map(order =>
-                    order.orderDetails.map((item, idx) => (
+                    order.orderDetail.map((item, idx) => (
                       <tr key={`${order.orderId}-${idx}`}>
                         <td className="id">{order.orderId}</td>
                         <td>
@@ -60,17 +62,17 @@ export default function PurchaseHistory() {
                             </div>
                             <div className="flex-column ms-3">
                               <a href="productDetails.html">
-                                <h6>{item.product.productName}</h6>
+                                <h6>{item.Product.productName}</h6>
                               </a>
-                              <p>Category: {item.product.category}</p>
+                              <p>Category: {item.Product.category}</p>
                             </div>
                           </div>
                         </td>
-                        <td className="date"><span>{order.orderDate}</span></td>
-                        <td className="price"><span>${order.totalAmount}</span></td>
+                        <td className="date"><span>{order.purchaseDate}</span></td>
+                        <td className="price"><span>${order.unitAmount}</span></td>
                         <td className="quantity"><span>{item.quantity}</span></td>
                         <td>
-                          <button type="button" onClick={() => openReviewForm(order.orderId, item.product.productId)}>
+                          <button type="button" onClick={() => openReviewForm(order.orderId, item.Product.productId)}>
                             Review
                           </button>
                         </td>

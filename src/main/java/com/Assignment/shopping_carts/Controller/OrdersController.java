@@ -15,7 +15,7 @@ import com.Assignment.shopping_carts.Service.OrdersServiceImpl;
 
 
 @RestController
-@RequestMapping("/purchaseHistory")
+@RequestMapping("/api/purchaseHistory")
 public class OrdersController {
 
   @Autowired
