@@ -9,22 +9,53 @@
 </head>
 <body>
 
-<p>Product Id: <span th:text="${product.productId}"></span></p>
-<p>Name: <span th:text="${product.productName}"></span></p>
-<p>Description: <span th:text="${product.description}"></span></p>
-<p>Price: <span th:text="${product.unitPrice}"></span></p>
+<h2>Product Detail</h2>
+<form th:action="@{/shoppingCartDetail/view}" method="get" style="display:inline;">
+    <input type="hidden" name="customerId" th:value="${customerId}">
+    <button type="submit">View Shopping Cart</button>
+</form>
 
+<div>
+    <p><strong>Product ID:</strong> <span th:text="${product.productId}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${product.productName}"></span></p>
+    <p><strong>Description:</strong> <span th:text="${product.description}"></span></p>
+    <p><strong>Price:</strong> $<span th:text="${#numbers.formatDecimal(product.unitPrice,1,2)}"></span></p>
+</div>
 
+<div th:if="${message}">
+    <p style="color: green;" th:text="${message}"></p>
+</div>
 
+<!-- 数量调整 -->
 <form th:action="@{/shoppingCartDetail/add}" method="post">
-    <input type="hidden" name="customerId" value="1">
+    <input type="hidden" name="customerId" th:value="${customerId}">
     <input type="hidden" name="productId" th:value="${product.productId}">
-    Quantity: <input type="number" name="quantity" value="1" min="1">
+
+    <div>
+        <button type="button" onclick="decrement()">-</button>
+        <input id="qtyInput" type="number" name="quantity" value="1" min="1" readonly>
+        <button type="button" onclick="increment()">+</button>
+    </div>
+
+    <br>
     <button type="submit">Add to Cart</button>
 </form>
 
+<a th:href="@{/shoppingCartDetail/view(customerId=${customerId})}">Back to Cart</a>
 
-<a th:href="@{/shoppingCartDetail/view(customerId=1)}">View Cart</a>
-</body>
+<script>
+    function increment() {
+        let qty = document.getElementById("qtyInput");
+        qty.value = parseInt(qty.value) + 1;
+    }
+
+    function decrement() {
+        let qty = document.getElementById("qtyInput");
+        let val = parseInt(qty.value);
+        if (val > 1) {
+            qty.value = val - 1;
+        }
+    }
+</script>
 </body>
 </html>
