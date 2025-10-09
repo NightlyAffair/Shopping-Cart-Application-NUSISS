@@ -1,14 +1,15 @@
-
+import {HashRouter as Router, Routes, Route, Navigate} from "react-router-dom";
+import AccountInfo from "./pages/AccountInfo"
 import './App.css';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-          <h1>Our Shopping Cart App</h1>
-          <p>Have you ordered yet?</p>
-      </header>
-    </div>
+      <Router>
+          <Routes>
+              <Route path="/" element={<Navigate to="/accountInfo" />} />
+              <Route path={"/accountInfo"} element={<AccountInfo />} />
+          </Routes>
+      </Router>
   );
 }
 
