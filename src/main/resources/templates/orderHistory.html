@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop @ISS – Order History Demo</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link href="../static/css/style.css" rel="stylesheet">
+
+  <style>    
+    /* Star Rating */
+    .rating-stars {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-end;
+      gap: 0.25rem;
+      font-size: 2rem;
+    }
+
+    .rating-stars input {
+      display: none;
+    }
+
+    .rating-stars label {
+      cursor: pointer;
+      color: #dee2e6;
+      transition: color 0.2s ease;
+    }
+
+    .rating-stars label:hover,
+    .rating-stars label:hover ~ label,
+    .rating-stars input:checked ~ label {
+      color: #ffc107;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-3">
+        <div class="logo">
+          <h5>Shop @ISS</h5>
+        </div>
+      </div>
+      
+      <div class="col-md-6 text-center d-none d-md-block">
+        <span class="promotional-text" th:if="${user == null}">
+          Today's Deals: Free shipping over $80 | 10% off on new arrivals
+        </span>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="user-actions d-flex align-items-center justify-content-end gap-3" 
+             th:if="${user != null}">
+  
+          <div class="dropdown user-dropdown">
+            <button class="btn btn-link text-decoration-none gap-0 p-0" 
+                    type="button" 
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false">
+        
+              <div class="user-avatar" th:text="${user.firstName.substring(0,1) + user.lastName.substring(0,1)}">
+                JD
+              </div>
+            </button>
+            
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li>
+                <div class="px-3 py-2 border-bottom">
+                  <div class="fw-semibold" th:text="${user.firstName + ' ' + user.lastName}">John Doe</div>
+                  <small class="text-muted" th:text="${user.email}">john@example.com</small>
+                </div>
+              </li>
+              <li><a class="dropdown-item" th:href="@{/orderHistory}">
+                <i class="bi bi-clock-history me-2"></i>Order History
+              </a></li>
+              <li><a class="dropdown-item" th:href="@{/favorites}">
+                <i class="bi bi-heart me-2"></i>My Favorites
+              </a></li>
+              <li><a class="dropdown-item" th:href="@{/settings}">
+                <i class="bi bi-gear me-2"></i>Settings
+              </a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <form th:action="@{/logout}" method="post" class="d-inline w-100">
+                  <button type="submit" class="dropdown-item text-danger">
+                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                  </button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <!-- NavBar -->
+  <nav class="navbar navbar-expand-lg navbar-dark site-navbar">
+    <div class="container">
+      <a class="navbar-brand" th:href="@{/products}">
+        <i class="bi bi-grid-3x3-gap me-2"></i>Browse
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/cart}">
+              <i class="bi bi-cart3 me-1"></i>Cart
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="container my-5">
+    <h2 class="fw-bold mb-4">
+      <i class="bi bi-clock-history me-2"></i>Order History
+    </h2>
+
+    <!-- Orders Table -->
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Order ID</th>
+            <th>Date</th>
+            <th>Products</th>
+            <th>Total</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Sample Order 1 -->
+          <tr>
+            <td><strong>#12345</strong></td>
+            <td>Jan 15, 2025</td>
+            <td>
+              <img src="https://via.placeholder.com/50" alt="Product" class="product-thumb">
+            </td>
+            <td><strong class="text-primary">$99.99</strong></td>
+            <td><span class="badge bg-success">Delivered</span></td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary" 
+                      data-bs-toggle="collapse" 
+                      data-bs-target="#orderDetails12345">
+                <i class="bi bi-eye me-1"></i>View
+              </button>
+            </td>
+          </tr>
+          <!-- Order Details -->
+          <tr>
+            <td colspan="6" class="p-0 border-0">
+              <div class="collapse" id="orderDetails12345">
+                <div class="order-details-card">
+                  <h5 class="mb-3">Order Details</h5>
+                  <table class="table table-sm">
+                    <thead>
+                      <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Subtotal</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/60" alt="Product" class="detail-product-thumb me-3">
+                            <div>
+                              <div class="fw-semibold">Premium Wireless Mouse</div>
+                              <small class="text-muted">Ergonomic design with long battery life</small>
+                            </div>
+                          </div>
+                        </td>
+                        <td>$24.99</td>
+                        <td>2</td>
+                        <td class="fw-semibold">$49.98</td>
+                        <td>
+                          <div class="d-flex gap-2 flex-wrap">
+                            <button class="btn btn-sm btn-outline-warning" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#reviewModal"
+                                    data-product-id="101"
+                                    data-product-name="Premium Wireless Mouse"
+                                    data-order-id="12345">
+                              <i class="bi bi-star me-1"></i>Review
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" 
+                                    onclick="requestRefund(this)"
+                                    data-order-id="12345"
+                                    data-product-id="101">
+                              <i class="bi bi-arrow-return-left me-1"></i>Refund
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/60" alt="Product" class="detail-product-thumb me-3">
+                            <div>
+                              <div class="fw-semibold">USB-C Cable</div>
+                              <small class="text-muted">Fast charging cable</small>
+                            </div>
+                          </div>
+                        </td>
+                        <td>$9.99</td>
+                        <td>5</td>
+                        <td class="fw-semibold">$49.95</td>
+                        <td>
+                          <div class="d-flex gap-2 flex-wrap">
+                            <button class="btn btn-sm btn-outline-warning" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#reviewModal"
+                                    data-product-id="102"
+                                    data-product-name="USB-C Cable"
+                                    data-order-id="12345">
+                              <i class="bi bi-star me-1"></i>Review
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" 
+                                    onclick="requestRefund(this)"
+                                    data-order-id="12345"
+                                    data-product-id="102">
+                              <i class="bi bi-arrow-return-left me-1"></i>Refund
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+          <!-- Sample Order 2 -->
+          <tr>
+            <td><strong>#12346</strong></td>
+            <td>Jan 20, 2025</td>
+            <td>
+              <img src="https://via.placeholder.com/50" alt="Product" class="product-thumb">
+            </td>
+            <td><strong class="text-primary">$45.99</strong></td>
+            <td><span class="badge bg-warning text-dark">Processing</span></td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary" 
+                      data-bs-toggle="collapse" 
+                      data-bs-target="#orderDetails12346">
+                <i class="bi bi-eye me-1"></i>View
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="6" class="p-0 border-0">
+              <div class="collapse" id="orderDetails12346">
+                <div class="order-details-card">
+                  <h5 class="mb-3">Order Details</h5>
+                  <table class="table table-sm">
+                    <thead>
+                      <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Subtotal</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <div class="d-flex align-items-center">
+                            <img src="https://via.placeholder.com/60" alt="Product" class="detail-product-thumb me-3">
+                            <div>
+                              <div class="fw-semibold">Notebook Set</div>
+                              <small class="text-muted">3-pack premium notebooks</small>
+                            </div>
+                          </div>
+                        </td>
+                        <td>$15.99</td>
+                        <td>1</td>
+                        <td class="fw-semibold">$15.99</td>
+                        <td>
+                          <div class="text-muted small">
+                            <i class="bi bi-info-circle me-1"></i>Actions available after delivery
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- Review Modal -->
+  <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header bg-light">
+          <h5 class="modal-title fw-bold" id="reviewModalLabel">
+            <i class="bi bi-star-fill text-warning me-2"></i>Write a Review
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form id="reviewForm" onsubmit="return handleReviewSubmit(event)">
+          <div class="modal-body">
+            <input type="hidden" name="productId" id="reviewProductId">
+            <input type="hidden" name="orderId" id="reviewOrderId">
+            
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Product</label>
+              <p class="text-muted mb-0" id="reviewProductName">Product Name</p>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Rating <span class="text-danger">*</span></label>
+              <div class="rating-stars">
+                <input type="radio" name="rating" value="5" id="star5" required>
+                <label for="star5"><i class="bi bi-star-fill"></i></label>
+                
+                <input type="radio" name="rating" value="4" id="star4">
+                <label for="star4"><i class="bi bi-star-fill"></i></label>
+                
+                <input type="radio" name="rating" value="3" id="star3">
+                <label for="star3"><i class="bi bi-star-fill"></i></label>
+                
+                <input type="radio" name="rating" value="2" id="star2">
+                <label for="star2"><i class="bi bi-star-fill"></i></label>
+                
+                <input type="radio" name="rating" value="1" id="star1">
+                <label for="star1"><i class="bi bi-star-fill"></i></label>
+              </div>
+              <small class="text-muted">Click on a star to rate</small>
+            </div>
+
+            <div class="mb-3">
+              <label for="reviewTitle" class="form-label fw-semibold">Review Title <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="reviewTitle" name="reviewTitle" 
+                     placeholder="Sum up your experience" required maxlength="100">
+            </div>
+
+            <div class="mb-3">
+              <label for="reviewText" class="form-label fw-semibold">Your Review <span class="text-danger">*</span></label>
+              <textarea class="form-control" id="reviewText" name="reviewText" rows="4" 
+                        placeholder="Share your thoughts about this product..." required maxlength="500"></textarea>
+              <small class="text-muted">Maximum 500 characters</small>
+            </div>
+          </div>
+          <div class="modal-footer bg-light">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="submit" class="btn btn-primary">
+              <i class="bi bi-send me-2"></i>Submit Review
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Review modal setup
+    const reviewModal = document.getElementById('reviewModal');
+    reviewModal.addEventListener('show.bs.modal', function(event) {
+      const button = event.relatedTarget;
+      const productId = button.getAttribute('data-product-id');
+      const productName = button.getAttribute('data-product-name');
+      const orderId = button.getAttribute('data-order-id');
+      
+      document.getElementById('reviewProductId').value = productId;
+      document.getElementById('reviewOrderId').value = orderId;
+      document.getElementById('reviewProductName').textContent = productName;
+      
+      // Reset form
+      document.getElementById('reviewForm').reset();
+    });
+
+    // Handle review submission
+    function handleReviewSubmit(event) {
+      event.preventDefault();
+      
+      const formData = new FormData(event.target);
+      const data = {
+        productId: formData.get('productId'),
+        orderId: formData.get('orderId'),
+        rating: formData.get('rating'),
+        reviewTitle: formData.get('reviewTitle'),
+        reviewText: formData.get('reviewText')
+      };
+      
+      console.log('Review Submitted:', data);
+      
+      // Show success message
+      alert(`Review submitted successfully!\n\nProduct ID: ${data.productId}\nRating: ${data.rating} stars\nTitle: ${data.reviewTitle}`);
+      
+      // Close modal
+      bootstrap.Modal.getInstance(reviewModal).hide();
+      
+      // In real app, this would submit to your backend:
+      // fetch('/orders/review', {
+      //   method: 'POST',
+      //   body: formData
+      // }).then(response => { ... });
+      
+      return false;
+    }
+
+    // Request refund function
+    function requestRefund(button) {
+      const orderId = button.getAttribute('data-order-id');
+      const productId = button.getAttribute('data-product-id');
+      
+      if (confirm('Are you sure you want to request a refund for this product?')) {
+        console.log('Refund requested for:', { orderId, productId });
+        alert(`Refund request submitted!\n\nOrder ID: ${orderId}\nProduct ID: ${productId}\n\nYou will be notified once it's processed.`);
+        
+        // In real app, this would submit to your backend:
+        // fetch('/orders/refund', {
+        //   method: 'POST',
+        //   body: JSON.stringify({ orderId, productId })
+        // }).then(response => { ... });
+      }
+    }
+  </script>
+</body>
+</html>

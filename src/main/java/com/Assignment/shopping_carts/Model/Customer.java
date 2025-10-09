@@ -7,9 +7,10 @@ import lombok.Setter;
 import java.util.List;
 
 
+
 /**
  * Customer Entity Class
- * Author: Zhou Jayson
+ * Author: Zhou Jason
  * Date: 2025-10-02
  * Modifier by :
  * Last Modified by :
@@ -30,11 +31,14 @@ public class Customer {
     private String password;
     private String address;
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     private List<ShoppingCartDetail> cart;
+
     @OneToMany(mappedBy = "customer")
     private List<Favourites> favourites;
+
     @OneToMany(mappedBy = "customer")
-    private List<Order> orders;
+    private List<Orders> orders;
+
 
 }
