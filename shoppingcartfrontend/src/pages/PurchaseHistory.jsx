@@ -66,14 +66,23 @@ export default function PurchaseHistory() {
   };
 
   const submitReview = async () => {
-    if(!selectedOrderId) return;
-    const reviewData = {
-      productId: selectedOrderId.productId,
-      customerId: customerId,
-      orderId: selectedOrderId.orderId,
+    if(!selectedOrderId || !selectedProductId) return;
+
+    const payload = {
+      //start
+      rating: Number(rating),
       content: reviewContent,
-      rating: rating
+      productId: selectedProductId,
+      customerId,
+      orderId: selectedOrderId.orderId
     };
+       //end
+      // productId: selectedOrderId.productId,
+      // customerId: customerId,
+      // orderId: selectedOrderId.orderId,
+      // content: reviewContent,
+      // rating: rating
+    //};
     //start
     // For testing: just log the payload
     console.log('Submitting review:', reviewData);
@@ -84,15 +93,21 @@ export default function PurchaseHistory() {
     // } catch (err) {
     //   console.error('Error submitting review:', err);
     // }
+    try {
 
+    //start
+    const url = `http://localhost:8080/api/reviews/add/${selectedProductId}/${customerId}/${selectedOrderId}`;
+    const resp = await axios.post(url, payload);
+    console.log('Review submitted successfully:', resp.data);
     // reset form after submit
     setShowForm(false);
     setReviewContent('');
     setRating(5);
     setSelectedOrderId(null);
     setSelectedProductId(null);
-
-    //end
+    } catch (err) {
+      console.error('Error submitting review:', err.response?.data || err.message);
+    }
   };
 
   return (
