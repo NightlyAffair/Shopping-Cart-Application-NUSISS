@@ -9,12 +9,16 @@ export default function Sidebar() {
         navigate("/accountInfo")
     }
 
+    const navigateToPurchaseHistory = () => {
+        navigate("/purchaseHistory")
+    }
+
     return (
         <div style={{ height: "100vh",width:"30vh", backgroundColor: "white" }}>
-            <p>>Settings</p>
+            <h1>Profile</h1>
             <div className={"site-navbar"} style={{display: "flex", flexDirection: "column"}}>
                 <button onClick={navigateToAccountInfo}>Account Information</button>
-                <button onClick={navigateToAccountInfo}>Purchase History</button>
+                <button onClick={navigateToPurchaseHistory}>Purchase History</button>
                 <button onClick={navigateToAccountInfo}>Logout</button>
             </div>
         </div>

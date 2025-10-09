@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
+import Sidebar from "../components/Sidebar";
 
 export default function PurchaseHistory() {
   const [orders, setOrders] = useState([]);
@@ -27,7 +28,10 @@ export default function PurchaseHistory() {
   return (
     <div>
     <Header />
-    <div className="container">
+      <div style={{display: 'flex', flexDirection: 'row'}}>
+        <Sidebar />
+
+        <div className="container">
       <div className="row">
         <div className="col">
           <div>
@@ -83,6 +87,7 @@ export default function PurchaseHistory() {
         </div>
       </div>
     </div>
+      </div>
     </div>
   );
 }
