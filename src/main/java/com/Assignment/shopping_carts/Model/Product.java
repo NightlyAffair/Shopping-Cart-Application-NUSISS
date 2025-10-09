@@ -30,8 +30,7 @@ public class Product {
     private String imageUrl;
     private double discount;
     private double unitPrice;
-    private Double averageRating; // Calculated from reviews
-
+    private Double averageRating;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
