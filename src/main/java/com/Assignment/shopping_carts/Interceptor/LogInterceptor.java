@@ -31,19 +31,24 @@ public class LogInterceptor implements HandlerInterceptor {
                              HttpServletResponse response, Object handler) throws IOException {
         LOGGER.info("LoggingInterceptor preHandle()");
         LOGGER.info("Request URL: {}", request.getRequestURL());
-        HttpSession session = request.getSession();
-        Enumeration<String> paramNames =
-                request.getParameterNames();
-        while (paramNames.hasMoreElements()) {
-            String paramName = paramNames.nextElement();
-            LOGGER.info("Request param: {} = {}",
-                    paramName, request.getParameter(paramName));
-        }
-        Boolean loginStatus = (Boolean) session.getAttribute("login_status");
-        if (loginStatus == null || !loginStatus) {
-            response.sendRedirect("/login");
+        HttpSession session = request.getSession(false);
+
+        if (session == null) {
+            LOGGER.warn("[LogInterceptor] No session found! Redirecting to /Log");
+            response.sendRedirect("/Log");
             return false;
         }
+
+        Boolean loginStatus = (Boolean) session.getAttribute("login_status");
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        LOGGER.info("[LogInterceptor] login_status = {}", loginStatus);
+        session.setAttribute("login_status", loginStatus);
+        if (loginStatus == null || !loginStatus|| customerId == null) {
+            LOGGER.warn("[LogInterceptor] Invalid session: login_status={}, customerId={}. Redirecting to /Log", loginStatus, customerId);
+            response.sendRedirect("/Log");
+            return false;
+        }
+        LOGGER.info("[LogInterceptor] User logged in, session id: {}", session.getId());
         return true;
 }
 

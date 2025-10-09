@@ -33,8 +33,12 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer")
     private List<ShoppingCartDetail> cart;
+
     @OneToMany(mappedBy = "customer")
     private List<Favourites> favourites;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Orders> orders;
 
 
 }

@@ -18,4 +18,5 @@ import java.io.Serializable;
 public class ReviewId implements Serializable {
     private int productId;
     private int customerId;
+    private int orderId;
 }
