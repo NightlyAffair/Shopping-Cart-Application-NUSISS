@@ -2,6 +2,8 @@ package com.Assignment.shopping_carts.Repository;
 
 import com.Assignment.shopping_carts.Model.Category;
 import com.Assignment.shopping_carts.Model.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -9,11 +11,11 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-/*
+/**
  * ProductRepository Interface
  * Author: Glenn Min
  * Date: 2025-10-06 12:00
- * Modifier by : Sheng Qi
+ * Modifier by : Sheng Qi, Nithvin(Pagination)
  * Last Modified: 2025-10-07 10:30
  */
 
@@ -61,5 +63,11 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
                                          @Param("keyword") String keyword,
                                          Sort sort);
 
+    @Query("SELECT p FROM Product p " +
+            "WHERE (:categoryId = 0 OR p.category.categoryId = :categoryId) " +
+            "AND (:keyword IS NULL OR :keyword = '' OR p.productName LIKE CONCAT('%', :keyword, '%'))")
+    Page<Product> findByCategoryAndKeywordPaginated(@Param("categoryId") Integer categoryId,
+                                                     @Param("keyword") String keyword,
+                                                     Pageable pageable);
 
 }

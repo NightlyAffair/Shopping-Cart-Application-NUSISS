@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop @ISS – Settings</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link href="../static/css/style.css" rel="stylesheet">
+  <link href="../static/css/settings.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Header -->
+  <header class="site-header">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-3">
+        <div class="logo">
+          <h5>Shop @ISS</h5>
+        </div>
+      </div>
+      
+
+      <div class="col-md-6 text-center d-none d-md-block">
+        <span class="promotional-text" th:if="${user == null}">
+          Today's Deals: Free shipping over $80 | 10% off on new arrivals
+        </span>
+      </div>
+      
+      <div class="col-md-3">
+        <div class="user-actions d-flex align-items-center justify-content-end gap-3" 
+             th:if="${user != null}">
+  
+          <div class="dropdown user-dropdown">
+            <button class="btn btn-link text-decoration-none gap-0 p-0" 
+                    type="button" 
+                    data-bs-toggle="dropdown" 
+                    aria-expanded="false">
+        
+              <div class="user-avatar" th:text="${user.firstName.substring(0,1) + user.lastName.substring(0,1)}">
+                JD
+              </div>
+            </button>
+            
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+              <li>
+                <div class="px-3 py-2 border-bottom">
+                  <div class="fw-semibold" th:text="${user.firstName + ' ' + user.lastName}">John Doe</div>
+                  <small class="text-muted" th:text="${user.email}">john@example.com</small>
+                </div>
+              </li>
+              <li><a class="dropdown-item" th:href="@{/orderHistory}">
+                <i class="bi bi-clock-history me-2"></i>Order History
+              </a></li>
+              <li><a class="dropdown-item" th:href="@{/favorites}">
+                <i class="bi bi-heart me-2"></i>My Favorites
+              </a></li>
+              <li><a class="dropdown-item" th:href="@{/settings}">
+                <i class="bi bi-gear me-2"></i>Settings
+              </a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <form th:action="@{/logout}" method="post" class="d-inline w-100">
+                  <button type="submit" class="dropdown-item text-danger">
+                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                  </button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+  <!-- NavBar -->
+  <nav class="navbar navbar-expand-lg navbar-dark site-navbar">
+    <div class="container">
+      <a class="navbar-brand" th:href="@{/products}">
+        <i class="bi bi-grid-3x3-gap me-2"></i>Browse
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/cart}">
+              <i class="bi bi-cart3 me-1"></i>Cart
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main -->
+  <main class="container my-5">
+    <div class="row">
+      <!-- Sidebar -->
+      <div class="col-md-3 mb-4">
+        <div class="settings-sidebar">
+          <div class="list-group">
+            <a href="#account" class="list-group-item list-group-item-action active" data-bs-toggle="list">
+              <i class="bi bi-person-circle me-2"></i>Account Information
+            </a>
+            <a href="#password" class="list-group-item list-group-item-action" data-bs-toggle="list">
+              <i class="bi bi-shield-lock me-2"></i>Change Password
+            </a>
+            <a href="#logout" class="list-group-item list-group-item-action text-danger" data-bs-toggle="list">
+              <i class="bi bi-box-arrow-right me-2"></i>Log Out
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9">
+        <div class="tab-content">
+          <!-- Account Info -->
+          <div class="tab-pane fade show active" id="account">
+            <div class="settings-card">
+              <div class="settings-header">
+                <h4><i class="bi bi-person-circle me-2"></i>Account Information</h4>
+                <p class="text-muted mb-0">Manage your personal information</p>
+              </div>
+
+              <form th:action="@{/settings/update}" method="post">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName" 
+                           th:value="${user?.firstName}" placeholder="John" required>
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" 
+                           th:value="${user?.lastName}" placeholder="Doe" required>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="username" class="form-label">Username</label>
+                    <div class="input-group">
+                      <span class="input-group-text">@</span>
+                      <input type="text" class="form-control" id="username" name="username" 
+                             th:value="${user?.username}" placeholder="johndoe" required>
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" 
+                           th:value="${user?.email}" placeholder="john.doe@example.com" required>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="phone" class="form-label">Phone Number <span class="text-muted">(Optional)</span></label>
+                    <input type="tel" class="form-control" id="phone" name="phone" 
+                           th:value="${user?.phone}" placeholder="+1 (555) 123-4567">
+                  </div>
+                </div>
+
+                <div class="d-flex gap-2 mt-4">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-check-circle me-2"></i>Save Changes
+                  </button>
+                  <button type="reset" class="btn btn-outline-secondary">
+                    <i class="bi bi-x-circle me-2"></i>Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Change Password -->
+          <div class="tab-pane fade" id="password">
+            <div class="settings-card">
+              <div class="settings-header">
+                <h4><i class="bi bi-shield-lock me-2"></i>Change Password</h4>
+                <p class="text-muted mb-0">Update your password to keep your account secure</p>
+              </div>
+
+              <form th:action="@{/settings/change-password}" method="post">
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label for="currentPassword" class="form-label">Current Password</label>
+                    <input type="password" class="form-control" id="currentPassword" 
+                           name="currentPassword" required>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="newPassword" class="form-label">New Password</label>
+                    <input type="password" class="form-control" id="newPassword" 
+                           name="newPassword" required>
+                    <div class="form-text">
+                      Password must be at least 8 characters long
+                    </div>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="confirmPassword" class="form-label">Confirm New Password</label>
+                    <input type="password" class="form-control" id="confirmPassword" 
+                           name="confirmPassword" required>
+                  </div>
+                </div>
+
+                <div class="alert alert-info mt-3" role="alert">
+                  <i class="bi bi-info-circle me-2"></i>
+                  <strong>Password Tips:</strong> Use a combination of uppercase, lowercase, numbers, and special characters.
+                </div>
+
+                <div class="d-flex gap-2 mt-3">
+                  <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-shield-check me-2"></i>Update Password
+                  </button>
+                  <button type="reset" class="btn btn-outline-secondary">
+                    <i class="bi bi-x-circle me-2"></i>Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          <!-- Log Out -->
+          <div class="tab-pane fade" id="logout">
+            <div class="settings-card">
+              <div class="settings-header">
+                <h4><i class="bi bi-box-arrow-right me-2"></i>Log Out</h4>
+                <p class="text-muted mb-0">Sign out of your account</p>
+              </div>
+
+              <div class="logout-section">
+                <div class="alert alert-warning" role="alert">
+                  <i class="bi bi-exclamation-triangle me-2"></i>
+                  Are you sure you want to log out? You'll need to sign in again to access your account.
+                </div>
+
+                <form th:action="@{/logout}" method="post">
+                  <button type="submit" class="btn btn-danger">
+                    <i class="bi bi-box-arrow-right me-2"></i>Log Out
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container text-center">
+      <p>&copy; 2025 TEAM_TWO. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Password validation
+    const newPassword = document.getElementById('newPassword');
+    const confirmPassword = document.getElementById('confirmPassword');
+
+    function validatePassword() {
+      if (newPassword.value !== confirmPassword.value) {
+        confirmPassword.setCustomValidity("Passwords don't match");
+      } else {
+        confirmPassword.setCustomValidity('');
+      }
+    }
+
+    if (newPassword && confirmPassword) {
+      newPassword.addEventListener('change', validatePassword);
+      confirmPassword.addEventListener('keyup', validatePassword);
+    }
+
+    // Show success message if updated (can be triggered by server-side redirect)
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === 'true') {
+      const alertDiv = document.createElement('div');
+      alertDiv.className = 'alert alert-success alert-dismissible fade show';
+      alertDiv.innerHTML = `
+        <i class="bi bi-check-circle me-2"></i>
+        <strong>Success!</strong> Your settings have been updated.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+      `;
+      document.querySelector('.settings-card').prepend(alertDiv);
+    }
+  </script>
+</body>
+</html>

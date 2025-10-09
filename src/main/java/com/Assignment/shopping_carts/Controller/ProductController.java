@@ -1,25 +1,26 @@
 package com.Assignment.shopping_carts.Controller;
 
-import com.Assignment.shopping_carts.InterfaceMethods.CategoryService;
-import com.Assignment.shopping_carts.InterfaceMethods.*;
-import com.Assignment.shopping_carts.Model.Category;
-import com.Assignment.shopping_carts.Model.Product;
-import com.Assignment.shopping_carts.Service.ProductServiceImpl;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.Assignment.shopping_carts.InterfaceMethods.CategoryService;
+import com.Assignment.shopping_carts.Model.Category;
+import com.Assignment.shopping_carts.Model.Product;
+import com.Assignment.shopping_carts.Service.ProductServiceImpl;
 
 /**
  * ProductController Class
  * Author: Glenn Min
  * Date: 2025-10-06 12:00
- * Modifier by : Sheng Qi
+ * Modifier by : Sheng Qi, Nithvin(Pagination)
  * Last Modified: 2025-10-07 10:30
  */
 
@@ -66,6 +67,33 @@ public class ProductController {
 
         model.addAttribute("products", products);
 
+
+        return "products/list";
+    }
+
+    @GetMapping("/page")
+    public String getProductsPaginated(@RequestParam(value = "pageNumber", required =false, defaultValue = "0") Integer pageNumber,
+                                        @RequestParam(value = "pageSize", required =false, defaultValue = "10") Integer pageSize,
+                                        @RequestParam(value = "categoryId", defaultValue = "0", required = false) Integer categoryId,
+                                        @RequestParam(value = "keyword", required = false) String keyword,
+                                        @RequestParam(value = "sort", defaultValue = "nameAsc", required = false) String sort,
+                                        Model model) {
+
+        if (categoryId == null) {
+            categoryId = 0;
+        }
+        if(keyword == null || keyword.trim().isEmpty()) {
+            keyword = null;
+        }
+
+        Page<Product> productPage = productService.getPage(pageNumber, pageSize, categoryId, keyword, sort);
+
+        List<Category> categories = categoryService.getCategories();
+        model.addAttribute("categories", categories);
+        model.addAttribute("products", productPage.getContent());
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+        model.addAttribute("totalItems", productPage.getTotalElements());
 
         return "products/list";
     }
