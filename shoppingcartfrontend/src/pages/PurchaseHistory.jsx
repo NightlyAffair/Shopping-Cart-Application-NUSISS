@@ -128,13 +128,33 @@ export default function PurchaseHistory() {
                   )}
                 </tbody>
               </table>
-                  
+                 {showForm && (
+        <div style={{ marginTop: "20px" }}>
+          <h3>Write Review</h3>
+          <textarea
+            value={reviewContent}
+            onChange={(e) => setReviewContent(e.target.value)}
+            placeholder="Write your review..."
+          />
+          <br />
+          <label>Rating: </label>
+          <select value={rating} onChange={(e) => setRating(e.target.value)}>
+            <option value="5">⭐⭐⭐⭐⭐</option>
+            <option value="4">⭐⭐⭐⭐</option>
+            <option value="3">⭐⭐⭐</option>
+            <option value="2">⭐⭐</option>
+            <option value="1">⭐</option>
+          </select>
+          <br />
+          <button onClick={submitReview}>Submit</button>
+          <button onClick={() => setShowForm(false)}>Cancel</button>
+        </div>
+      )} 
             </div>
           </div>
         </div>
       </div>
     </div>
       </div>
-    </div>
   );
 }
