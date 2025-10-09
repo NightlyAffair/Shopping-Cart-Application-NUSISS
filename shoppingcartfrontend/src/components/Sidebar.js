@@ -1,6 +1,13 @@
 import {useNavigate} from "react-router-dom";
 import "../css/Global.css"
-
+/**
+ * Sidebar
+ * Author: Nithvin Leelakrishnan
+ * Date: 2025-10-09
+ * Modifier by :
+ * Last Modified by :
+ * Last Modified: 2025-10-09 14:00
+ */
 export default function Sidebar() {
 
     const navigate = useNavigate();
