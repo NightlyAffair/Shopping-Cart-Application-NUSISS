@@ -16,7 +16,7 @@ function App() {
           <Routes>
               <Route path="/" element={<Navigate to="/accountinfo" />} />
               <Route path={"/accountinfo"} element={<AccountInfo />} />
-              <Route path={"/purchasehistory"} element={<PurchaseHistory />} />
+              <Route path={"/purchaseHistory"} element={<PurchaseHistory />} />
           </Routes>
       </Router>
   );

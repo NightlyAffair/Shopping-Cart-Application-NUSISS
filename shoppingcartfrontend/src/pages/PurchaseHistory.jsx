@@ -1,3 +1,4 @@
+import "../css/Global.css"
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Header from '../components/Header';
@@ -48,6 +49,14 @@ export default function PurchaseHistory() {
     setOrders(sampleOrders);
 
     // If you later want to re-enable real fetch, replace setOrders(sampleOrders) with axios.get(...)
+    axios.get("http://localhost:8080/api/purchaseHistory/customer/1") // Replace with actual user ID
+      .then(response => {
+        console.log(response.data);
+        setOrders(response.data);
+      })
+      .catch(e => {
+        console.error("Error fetching purchase history:", e);
+      });
   }, []);
   //end
   //   axios.get("http://localhost:8080/api/purchaseHistory/customer/1") // Replace with actual user ID
@@ -63,51 +72,6 @@ export default function PurchaseHistory() {
     setSelectedOrderId({ orderId, productId });
     setCustomerId(customerId);
     setShowForm(true);
-  };
-
-  const submitReview = async () => {
-    if(!selectedOrderId || !selectedProductId) return;
-
-    const payload = {
-      //start
-      rating: Number(rating),
-      content: reviewContent,
-      productId: selectedProductId,
-      customerId,
-      orderId: selectedOrderId.orderId
-    };
-       //end
-      // productId: selectedOrderId.productId,
-      // customerId: customerId,
-      // orderId: selectedOrderId.orderId,
-      // content: reviewContent,
-      // rating: rating
-    //};
-    //start
-    // For testing: just log the payload
-    console.log('Submitting review:', reviewData);
-
-    // When backend is ready, uncomment and use:
-    // try {
-    //   await axios.post('http://localhost:8080/api/reviews', reviewData);
-    // } catch (err) {
-    //   console.error('Error submitting review:', err);
-    // }
-    try {
-
-    //start
-    const url = `http://localhost:8080/api/reviews/add/${selectedProductId}/${customerId}/${selectedOrderId}`;
-    const resp = await axios.post(url, payload);
-    console.log('Review submitted successfully:', resp.data);
-    // reset form after submit
-    setShowForm(false);
-    setReviewContent('');
-    setRating(5);
-    setSelectedOrderId(null);
-    setSelectedProductId(null);
-    } catch (err) {
-      console.error('Error submitting review:', err.response?.data || err.message);
-    }
   };
 
   return (
@@ -132,7 +96,7 @@ export default function PurchaseHistory() {
                 </thead>
                 <tbody>
                   {orders.map(order =>
-                    order.orderDetails.map((item, idx) => (
+                    order.orderDetail.map((item, idx) => (
                       <tr key={`${order.orderId}-${idx}`}>
                         <td className="id">{order.orderId}</td>
                         <td>
@@ -142,17 +106,17 @@ export default function PurchaseHistory() {
                             </div>
                             <div className="flex-column ms-3">
                               <a href="productDetails.html">
-                                <h6>{item.product.productName}</h6>
+                                <h6>{item.Product.productName}</h6>
                               </a>
-                              <p>Category: {item.product.category}</p>
+                              <p>Category: {item.Product.category}</p>
                             </div>
                           </div>
                         </td>
-                        <td className="date"><span>{order.orderDate}</span></td>
-                        <td className="price"><span>${order.totalAmount}</span></td>
+                        <td className="date"><span>{order.purchaseDate}</span></td>
+                        <td className="price"><span>${order.unitAmount}</span></td>
                         <td className="quantity"><span>{item.quantity}</span></td>
                         <td>
-                          <button type="button" onClick={() => openReviewForm(order.orderId, item.product.productId)}>
+                          <button type="button" onClick={() => openReviewForm(order.orderId, item.Product.productId)}>
                             Review
                           </button>
                         </td>
@@ -164,33 +128,13 @@ export default function PurchaseHistory() {
                   )}
                 </tbody>
               </table>
-              {showForm && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>Write Review</h3>
-          <textarea
-            value={reviewContent}
-            onChange={(e) => setReviewContent(e.target.value)}
-            placeholder="Write your review..."
-          />
-          <br />
-          <label>Rating: </label>
-          <select value={rating} onChange={(e) => setRating(e.target.value)}>
-            <option value="5">⭐⭐⭐⭐⭐</option>
-            <option value="4">⭐⭐⭐⭐</option>
-            <option value="3">⭐⭐⭐</option>
-            <option value="2">⭐⭐</option>
-            <option value="1">⭐</option>
-          </select>
-          <br />
-          <button onClick={submitReview}>Submit</button>
-          <button onClick={() => setShowForm(false)}>Cancel</button>
-        </div>
-      )}    
+                  
             </div>
           </div>
         </div>
       </div>
     </div>
+      </div>
     </div>
   );
 }
