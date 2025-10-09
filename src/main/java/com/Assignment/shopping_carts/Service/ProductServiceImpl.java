@@ -17,8 +17,8 @@ import java.util.List;
  * ProductServiceImpl Class
  * Author: Glenn Min
  * Date: 2025-10-06 12:00
- * Modifier by : Sheng Qi, Nithvin(Pagination)  
- * Last Modified: 2025-10-07 10:30
+ * Modifier by : Sheng Qi, Nithvin(Pagination), Updated for product details
+ * Last Modified: 2025-10-09
  */
 
 @Service
@@ -26,6 +26,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    // Get product by ID
+    @Override
+    public Product getProductById(int productId) {
+        return productRepository.findById(productId).orElse(null);
+    }
 
     // Search by keyword
     @Override
@@ -54,7 +60,8 @@ public class ProductServiceImpl implements ProductService {
     // Sort by rating
     @Override
     public List<Product> findByRatingDesc() {
-        return productRepository.findByRatingDesc();
+        // Now uses the stored averageRating field - much faster!
+        return productRepository.findAllByOrderByAverageRatingDesc();
     }
 
     // Filter by category + keyword
@@ -70,8 +77,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> findProductsByCategorySort(Integer categoryId, String keyword, String sort) {
-        Sort sortObj = null;
-        switch (sort !=null ? sort : "nameAsc") {
+        Sort sortObj;
+        switch (sort != null ? sort : "nameAsc") {
             case "priceAsc":
                 sortObj = Sort.by(Sort.Direction.ASC, "unitPrice");
                 break;
@@ -81,24 +88,35 @@ public class ProductServiceImpl implements ProductService {
             case "nameAsc":
                 sortObj = Sort.by(Sort.Direction.ASC, "productName");
                 break;
+            case "nameDesc":
+                sortObj = Sort.by(Sort.Direction.DESC, "productName");
+                break;
+            case "rating":
+                sortObj = Sort.by(Sort.Direction.DESC, "averageRating");
+                break;
+            default:
+                sortObj = Sort.by(Sort.Direction.ASC, "productName");
         }
         return productRepository.findProductsByCategorySort(categoryId, keyword, sortObj);
     }
 
     public Page<Product> getPage(Integer pageNumber, Integer pageSize, Integer categoryId, String keyword, String sort) {
-            Pageable pageRequest = PageRequest.of(pageNumber, pageSize, sortEnum(sort));
-
-            return productRepository.findByCategoryAndKeywordPaginated(categoryId, keyword, pageRequest);
+        Pageable pageRequest = PageRequest.of(pageNumber, pageSize, sortEnum(sort));
+        return productRepository.findByCategoryAndKeywordPaginated(categoryId, keyword, pageRequest);
     }
 
     public Sort sortEnum(String sort) {
-        switch (sort !=null ? sort : "nameAsc") {
+        switch (sort != null ? sort : "nameAsc") {
             case "priceAsc":
                 return Sort.by(Sort.Direction.ASC, "unitPrice");
             case "priceDesc":
                 return Sort.by(Sort.Direction.DESC, "unitPrice");
             case "nameAsc":
                 return Sort.by(Sort.Direction.ASC, "productName");
+            case "nameDesc":
+                return Sort.by(Sort.Direction.DESC, "productName");
+            case "rating":
+                return Sort.by(Sort.Direction.DESC, "averageRating");
             default:
                 return Sort.by(Sort.Direction.ASC, "productName");
         }

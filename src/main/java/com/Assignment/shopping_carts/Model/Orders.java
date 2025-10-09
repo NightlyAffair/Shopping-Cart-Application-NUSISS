@@ -1,13 +1,20 @@
 package com.Assignment.shopping_carts.Model;
 
 
-import jakarta.persistence.*;
+import java.sql.Date;
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
-
-import java.sql.Date;
-import java.util.List;
 
 /**
  * Order Entity Class
@@ -20,6 +27,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "orders")
 public class Orders {
     /*
     - id: int (PK)
