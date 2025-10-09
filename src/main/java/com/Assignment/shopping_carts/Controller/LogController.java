@@ -43,8 +43,11 @@ public class LogController {
     @PostMapping("/try")
     public String tryLogin(@RequestParam(name = "userName") String userName,@RequestParam(name = "password") String password,HttpSession session){
         if(logService.LoginTry(userName,password)){
-            System.out.println("good job");
+            Customer customer = logService.findByUserName(userName);
+
+            session.setAttribute("customerId",customer.getCustomerId());
             session.setAttribute("login_status",true);
+            session.setAttribute("user_name",userName);
         }else {
             session.setAttribute("login_status",false);
         }
@@ -56,10 +59,6 @@ public class LogController {
     public String homepage(){
         return "homepage";
     }
-
-
-
-
 
 
 
