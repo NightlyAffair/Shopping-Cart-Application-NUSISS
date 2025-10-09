@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+/src/main/resources/application.properties
+/shoppingcartfrontend/node_modules
+/shoppingcartfrontend/package.json
+/shoppingcartfrontend/package-lock.json

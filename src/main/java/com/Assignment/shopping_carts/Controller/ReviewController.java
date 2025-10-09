@@ -17,9 +17,9 @@ public class ReviewController {
     private ReviewServiceImpl reviewService;
 
     // Receive customer review, only if not already reviewed for this product/order/customer
-    @PostMapping("/add")
-    public ResponseEntity<String> addReview(@RequestBody Review review) {
-        if (reviewService.hasReview(review.getProductId(), review.getCustomerId(), review.getOrderId())) {
+    @PostMapping("/add/{productId}/{customerId}/{orderId}")
+    public ResponseEntity<String> addReview(@PathVariable int productId, @PathVariable int customerId, @PathVariable int orderId, @RequestBody Review review) {
+        if (reviewService.hasReview(productId, customerId, orderId)) {
             return new ResponseEntity<>("Review already exists for this product/order.", HttpStatus.BAD_REQUEST);
         }
         try {
