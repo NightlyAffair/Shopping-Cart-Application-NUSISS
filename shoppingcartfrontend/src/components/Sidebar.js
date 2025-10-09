@@ -11,7 +11,7 @@ export default function Sidebar() {
 
     return (
         <div style={{ height: "100vh",width:"30vh", backgroundColor: "white" }}>
-            <p> style={{font-weight: 600;}}>Settings</p>
+            <p>>Settings</p>
             <div className={"site-navbar"} style={{display: "flex", flexDirection: "column"}}>
                 <button onClick={navigateToAccountInfo}>Account Information</button>
                 <button onClick={navigateToAccountInfo}>Purchase History</button>
