@@ -39,7 +39,6 @@ public interface ProductRepository extends JpaRepository<Product,Integer> {
     // Sort by highest avg rating (NOW USES STORED FIELD - MUCH FASTER!)
     List<Product> findAllByOrderByAverageRatingDesc();
 
-    // Alternative: Keep the old query for comparison (can be removed later)
     @Query("SELECT p FROM Product p LEFT JOIN p.reviews r GROUP BY p.productId ORDER BY AVG(r.rating) DESC")
     List<Product> findByRatingDescCalculated();
 
