@@ -57,4 +57,5 @@ public class Product {
         this.discount = discount;
         this.unitPrice = unitPrice;
     }
+
 }

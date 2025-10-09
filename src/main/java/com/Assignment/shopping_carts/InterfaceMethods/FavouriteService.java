@@ -1,6 +1,7 @@
 package com.Assignment.shopping_carts.InterfaceMethods;
 
 import com.Assignment.shopping_carts.Model.Favourites;
+import com.Assignment.shopping_carts.Model.Product;
 
 import java.util.List;
 /**
@@ -15,9 +16,10 @@ import java.util.List;
 public interface FavouriteService {
     public List<Favourites> findByCustomerId(int customerId);
     public boolean toggleFavourite(int customerId, int productId);
-    public List<String> getFavouriteProductNames(int productId);
+    public List<Product> findFavouriteProductsByCustomerId(int customerId);
+    //public List<Product> getFavouriteProducts(int productId);
 
-    public long countFavouritesByProductId(int customerId, int productId);
+    public long countFavouritesByProductId(int productId);
 
     //public boolean existsByCustomerIdAndProductId(int customerId, int productId);
     //private boolean addFavourite(int customerId, int productId);
