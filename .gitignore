@@ -33,3 +33,4 @@ build/
 .vscode/
 
 /shoppingcartfrontend
+src/main/java/com/Assignment/shopping_carts/Model/Favourites.java
