@@ -77,7 +77,8 @@ export default function PurchaseHistory() {
                     ))
                   )}
                 </tbody>
-              </table>    
+              </table>
+                  
             </div>
           </div>
         </div>
