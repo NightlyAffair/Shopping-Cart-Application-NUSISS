@@ -10,14 +10,14 @@ import java.util.List;
  * ProductService Interface
  * Author: Glenn Min
  * Date: 2025-10-06 12:00
- * Modifier by :
- * Last Modified:
+ * Modifier by : Updated for product details
+ * Last Modified: 2025-10-09
  */
 
 public interface ProductService {
 
-    // Find all
-//    List<Product> findAllBy(Product product);
+    // Find product by ID (for product details page)
+    Product getProductById(int productId);
 
     // Search by keyword
     List<Product> searchByKeyword(String keyword);
