@@ -128,6 +128,7 @@ export default function PurchaseHistory() {
                   )}
                 </tbody>
               </table>
+              {/* show form when click review button */}
                  {showForm && (
         <div style={{ marginTop: "20px" }}>
           <h3>Write Review</h3>
