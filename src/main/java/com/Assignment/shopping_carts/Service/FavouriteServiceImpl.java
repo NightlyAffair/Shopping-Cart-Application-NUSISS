@@ -1,15 +1,16 @@
 package com.Assignment.shopping_carts.Service;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.Assignment.shopping_carts.InterfaceMethods.FavouriteService;
 import com.Assignment.shopping_carts.Model.Favourites;
 import com.Assignment.shopping_carts.Model.Product;
 import com.Assignment.shopping_carts.Repository.FavouritesRepository;
 import com.Assignment.shopping_carts.Repository.ProductRepository;
-import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import jakarta.transaction.Transactional;
 /**
  * Favourites serv impl
  * Author: YH
