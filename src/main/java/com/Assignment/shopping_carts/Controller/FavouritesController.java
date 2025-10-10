@@ -1,7 +1,9 @@
 package com.Assignment.shopping_carts.Controller;
 
 import com.Assignment.shopping_carts.InterfaceMethods.FavouriteService;
+import com.Assignment.shopping_carts.Model.Favourites;
 import com.Assignment.shopping_carts.Model.Product;
+import com.Assignment.shopping_carts.Repository.FavouritesRepository;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,7 +15,7 @@ import java.util.List;
  * Date: 2025-10-04
  * Modifier by : yh
  * Last Modified by : yh
- * Last Modified: 2025-10-07 18:00
+ * Last Modified: 2025-10-010 18:00
  */
 
 @Controller
@@ -26,25 +28,36 @@ public class FavouritesController {
         this.favService = favService;
     }
 
-    @PostMapping("/toggle")
-    @ResponseBody
-    public Boolean toggleFavourite(@RequestParam int productId, HttpSession session) {
+    @GetMapping("/CustomerId/{customerId}")
+    public List<Favourites> findByCustomerId(@PathVariable("customerId")
+                                       int customerId, Model model) {
+        return favService.findByCustomerId(customerId);
+    }
+
+    @PostMapping("/save")
+    public String saveFavourite(@RequestParam int productId, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
-            return false;
+            return "redirect:/Log";
+            /*
+            //temp, hardcorded customerid for testing
+            customerId = 1;
+            session.setAttribute("customerId", customerId); */
         }
-        return favService.toggleFavourite(customerId, productId);
+        String result = favService.saveFavourites(customerId, productId);
+        return "redirect:/displayProducts/details/" + productId;
     }
 
     //Get all favourite items for a customer
     @GetMapping("/customer")
     public String getFavourites(Model model, HttpSession session) {
+        session.setAttribute("productId", 1);
         Integer customerId = (Integer) session.getAttribute("customerId");
+
         if (customerId == null) {
             //temp, hardcorded customerid for testing
             customerId = 1;
             session.setAttribute("customerId", customerId);
-            //return "redirect:/Log";
         }
         List<Product> FavProducts = favService
                 .findFavouriteProductsByCustomerId(customerId);

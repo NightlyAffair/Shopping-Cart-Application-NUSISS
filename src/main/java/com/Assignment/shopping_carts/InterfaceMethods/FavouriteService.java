@@ -10,12 +10,12 @@ import java.util.List;
  * Date: 2025-10-05
  * Modifier by : YH
  * Last Modified by : YH
- * Last Modified: 2025-10-07 18:00
+ * Last Modified: 2025-10-10 18:00
  */
 
 public interface FavouriteService {
     public List<Favourites> findByCustomerId(int customerId);
-    public boolean toggleFavourite(int customerId, int productId);
+    public String saveFavourites(int customerId, int productId);
     public List<Product> findFavouriteProductsByCustomerId(int customerId);
 
     public long countFavouritesByProductId(int productId);
