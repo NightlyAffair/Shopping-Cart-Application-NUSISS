@@ -223,7 +223,7 @@ main {
   .site-header .promotional-text {
     display: none;
   }
-  
+
   .site-header .container {
     flex-direction: column;
     gap: 0.5rem;
