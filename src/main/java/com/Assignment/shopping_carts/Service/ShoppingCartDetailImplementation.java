@@ -23,7 +23,7 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class ShoppingCartDetailImplementation implements ShoppingCartDetailInterface {
+public class   ShoppingCartDetailImplementation implements ShoppingCartDetailInterface {
     @Autowired
     private ShoppingCartDetailRepository cartRepo;//注入购物车的repository，不需要手动new
 
