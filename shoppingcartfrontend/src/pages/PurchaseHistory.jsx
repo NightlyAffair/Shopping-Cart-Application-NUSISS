@@ -102,8 +102,43 @@ export default function PurchaseHistory() {
       setSelectedProductId(null);
     } catch (err) {
       console.error('Error submitting review:', err.response?.data || err.message);
-    
-      alert('Failed to submit review. Please try again.');}
+      alert('Failed to submit review. Please try again.');
+    }
+  };
+
+  //add helper to close modal (thae)
+  const closeModal = () => {
+    setShowForm(false);
+  };
+
+  //inline styles for modal (thae)
+  const modalOverlayStyle = {
+    position: "fixed",
+    top: 0, left: 0, right: 0, bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 9999
+  };
+
+  const modalStyle = {
+    width: 520,
+    maxWidth: '95%',
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 8,
+    boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
+  };
+
+  const closeBtnStyle = {
+    position: "absolute",
+    top: 8,
+    right: 12,
+    background: 'transparent',
+    border: 'none',
+    fontSize: 22,
+    cursor: 'pointer'
   };
 
   return (
@@ -160,29 +195,51 @@ export default function PurchaseHistory() {
                   )}
                 </tbody>
               </table>
-              {/* show form when click review button */}
+              {/* show form as modal overlay when click review button */}
                  {showForm && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>Write Review</h3>
-          <textarea
-            value={reviewContent}
-            onChange={(e) => setReviewContent(e.target.value)}
-            placeholder="Write your review..."
-          />
-          <br />
-          <label>Rating: </label>
-          <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
-            <option value="5">⭐⭐⭐⭐⭐</option>
-            <option value="4">⭐⭐⭐⭐</option>
-            <option value="3">⭐⭐⭐</option>
-            <option value="2">⭐⭐</option>
-            <option value="1">⭐</option>
-          </select>
-          <br />
-          <button onClick={submitReview}>Submit</button>
-          <button onClick={() => setShowForm(false)}>Cancel</button>
-        </div>
-      )} 
+        <div
+                    style={modalOverlayStyle}
+                    onClick={closeModal} /* clicking backdrop closes modal */
+                  >
+                    <div
+                      style={modalStyle}
+                      onClick={(e) => e.stopPropagation()} /* prevent backdrop close when clicking inside */
+                    >
+                      <button aria-label="Close review" style={closeBtnStyle} onClick={closeModal}>×</button>
+
+                      <h3 style={{ marginTop: 0 }}>Write Review</h3>
+
+                      <div style={{ marginBottom: 8 }}>
+                        <label style={{ display: 'block', marginBottom: 6 }}>Your review</label>
+                        <textarea
+                          value={reviewContent}
+                          onChange={(e) => setReviewContent(e.target.value)}
+                          placeholder="Write your review..."
+                          style={{ width: '100%', minHeight: 100, padding: 8, boxSizing: 'border-box' }}
+                        />
+                      </div>
+                       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+                        <label style={{ minWidth: 60 }}>Rating</label>
+                        <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
+                          <option value={5}>⭐⭐⭐⭐⭐</option>
+                          <option value={4}>⭐⭐⭐⭐</option>
+                          <option value={3}>⭐⭐⭐</option>
+                          <option value={2}>⭐⭐</option>
+                          <option value={1}>⭐</option>
+                        </select>
+                        <div style={{ marginLeft: 'auto', color: '#666', fontSize: 14 }}>
+                          Order: {selectedOrderId} • Product: {selectedProductId}
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
+                        <button onClick={submitReview} style={{ padding: '8px 14px', background: '#007bff', color: '#fff', border: 'none', borderRadius: 4 }}>Submit</button>
+                        <button onClick={closeModal} style={{ padding: '8px 14px', background: '#f0f0f0', border: 'none', borderRadius: 4 }}>Cancel</button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+           
             </div>
           </div>
         </div>
