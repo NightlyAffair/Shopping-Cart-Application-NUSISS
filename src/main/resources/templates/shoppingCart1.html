@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Cart</title>
+</head>
+<body>
+<h2>Shopping Cart</h2>
+
+<table border="1"><!-- 创建表格，border="1"有边框 -->
+    <thead><!-- 表头区域 -->
+    <tr><!-- 表格的一行 -->
+        <th><input type="checkbox" id="selectAll"></th><!-- 全选复选框 -->
+        <th>Product Id</th><!-- 字段名 -->
+        <th>Product Name</th><!-- 字段名 -->
+        <th>Description</th><!-- 字段名 -->
+        <th>Unit Price</th><!-- 字段名 -->
+        <th>Quantity</th><!-- 字段名 -->
+        <th>Subtotal</th><!-- 字段名 -->
+        <th>Actions</th><!-- 字段名 -->
+    </tr>
+    </thead>
+    <tbody><!-- 表格主体 -->
+
+    <tr th:each="item : ${products}"><!--循环：对products列表里的每个item生成一行 -->
+        <td>
+            <input type="checkbox" class="select-product" name="selectedProducts"
+                   th:value="${item.product.productId}"
+                   th:checked="${selectedProducts.contains(item.product.productId)}">
+        </td>
+        <td th:text="${item.product.productId}"></td><!-- 显示商品ID -->
+        <td class="pname" th:text="${item.product.productName}"></td>
+        <td th:text="${item.product.description}"></td>
+        <td th:text="'$' + ${#numbers.formatDecimal(item.product.unitPrice, 1, 2)}"></td>
+        <td class="qty" th:text="${item.quantity}"></td>
+
+        <!-- 显示小计 -->
+        <td><span class="subtotal" th:text="${#numbers.formatDecimal(item.quantity * item.product.unitPrice, 1, 2)}"></span></td>
+
+        <td><!-- 操作按钮区域 -->
+            <form th:action="@{/shoppingCartDetail/plus}" method="post" style="display:inline;">
+                <input type="hidden" name="customerId" th:value="${customerId}"><!-- 隐藏域：传顾客ID -->
+                <input type="hidden" name="productId" th:value="${item.product.productId}"><!-- 隐藏域：传商品ID -->
+                <button type="submit">+</button><!-- 提交表单，数量+1 -->
+            </form>
+            <form th:action="@{/shoppingCartDetail/minus}" method="post" style="display:inline;">
+                <input type="hidden" name="customerId" th:value="${customerId}">
+                <input type="hidden" name="productId" th:value="${item.product.productId}">
+                <button type="submit">-</button> <!-- 提交表单，数量-1 -->
+            </form>
+            <form th:action="@{/shoppingCartDetail/remove}" method="post" style="display:inline;">
+                <input type="hidden" name="customerId" th:value="${customerId}">
+                <input type="hidden" name="productId" th:value="${item.product.productId}">
+                <button type="submit">Remove</button><!-- 提交表单，移除该商品 -->
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<form th:action="@{/shoppingCartDetail/clear}" method="post">
+    <input type="hidden" name="customerId" th:value="${customerId}">
+    <button type="submit">Clear Cart</button><!-- 清空购物车按钮 -->
+</form>
+
+
+
+<div id="orderSummary"><!-- 订单总结区域 -->
+    <h2>Order summary</h2>
+    <div id="selectedList"></div>
+    <hr>
+    <div class="row">
+        <span id="productSummary">Total Price (0)</span>
+        <span id="productTotal">$0.00</span>
+    </div>
+    <hr>
+    <div class="row" id="deliveryFeeRow" style="display:none;">
+        <span>Delivery fee</span>
+        <span>$0.00</span>
+    </div>
+
+    <div class="row">
+        <strong>Total Price</strong>
+        <strong id="selectedTotal">$0.00</strong>
+    </div>
+
+    <form th:action="@{/shoppingCartDetail/checkout}" method="post">
+        <input type="hidden" name="customerId" th:value="${customerId}">
+        <button type="submit" id="checkoutBtn">Check out</button>
+    </form>
+</div>
+
+<!-- 去结算 -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {//页面加载完成后执行
+        const checkboxes = document.querySelectorAll(".select-product");
+        const totalSpan = document.getElementById("selectedTotal");
+        const productSummary = document.getElementById("productSummary");
+        const productTotal = document.getElementById("productTotal");
+        const deliveryFeeRow = document.getElementById("deliveryFeeRow");
+
+        function updateTotal() {
+            let sum = 0;
+            let count = 0;
+            let details = "";
+            let hasProduct = false;
+
+            checkboxes.forEach((cb) => {
+                if (cb.checked) {
+                    hasProduct = true;
+                    let row = cb.closest("tr");
+                    let name = row.querySelector(".pname").textContent;
+                    let qty = parseInt(row.querySelector(".qty").textContent) || 0;
+                    let subtotal = parseFloat(row.querySelector(".subtotal").textContent) || 0;
+
+                    count += qty;
+                    sum += subtotal;
+                    details += `<div>${name} (${qty}) &nbsp;&nbsp;&nbsp; $${subtotal.toFixed(2)}</div>`;
+                }
+            });
+            deliveryFeeRow.style.display = hasProduct ? "flex" : "none";
+
+            productSummary.textContent = `Products (${count})`;
+            productTotal.textContent = `$${sum.toFixed(2)}`;
+            totalSpan.textContent = `$${sum.toFixed(2)}`;
+
+            document.getElementById("selectedList").innerHTML = details || "<div>No Selected Product</div>";
+        }
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener("change", function () {
+                const productId = cb.value;
+                const checked = cb.checked;
+
+                // AJAX 请求到后端更新 session
+                fetch("/shoppingCartDetail/select", {
+                    method: "POST",
+                    headers: {"Content-Type": "application/x-www-form-urlencoded"},
+                    body: `productId=${productId}&checked=${checked}`
+                }).then(resp => resp.text())
+                    .then(data => console.log("Session updated:", data))
+                    .catch(err => console.error("Error:", err));
+
+                // 本地刷新合计
+                updateTotal();
+            });
+        });
+
+        updateTotal();
+        checkboxes.forEach(cb => cb.addEventListener("change", updateTotal));
+
+        document.getElementById("selectAll").addEventListener("change", function () {
+            checkboxes.forEach(cb => cb.checked = this.checked);
+            checkboxes.forEach(cb => cb.dispatchEvent(new Event("change")));
+        });
+    });
+</script>
+</body>
+</html>
