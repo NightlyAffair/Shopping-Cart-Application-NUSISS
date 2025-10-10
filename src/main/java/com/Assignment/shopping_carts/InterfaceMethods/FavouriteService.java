@@ -17,7 +17,6 @@ public interface FavouriteService {
     public List<Favourites> findByCustomerId(int customerId);
     public boolean toggleFavourite(int customerId, int productId);
     public List<Product> findFavouriteProductsByCustomerId(int customerId);
-    //public List<Product> getFavouriteProducts(int productId);
 
     public long countFavouritesByProductId(int productId);
 

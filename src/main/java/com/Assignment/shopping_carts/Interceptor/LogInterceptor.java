@@ -21,7 +21,7 @@ import java.util.Enumeration;
  * Last Modified: 2025-10-07 11:00
  */
 
-
+/*
 @Component
 public class LogInterceptor implements HandlerInterceptor {
     private static final Logger LOGGER =
@@ -53,4 +53,6 @@ public class LogInterceptor implements HandlerInterceptor {
 }
 
 }
+
+ */
 
