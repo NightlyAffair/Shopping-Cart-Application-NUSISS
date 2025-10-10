@@ -23,6 +23,7 @@ import java.util.Set;
  * Last Modified: 2025-10-07 23:00
  */
 
+
 @RequestMapping("/shoppingCartDetail")
 @Controller
 public class ShoppingCartDetailController {
@@ -34,7 +35,7 @@ public class ShoppingCartDetailController {
         cartService.addProductToCart(customerId, productId, quantity);//调用interface中addProductToCart方法
         model.addAttribute("productId", productId);//给页面传数据（当前操作的product的id）
         model.addAttribute("message", "Add to Cart Successfully!");//放提示语
-        return "productDetail";
+        return "redirect:/displayProducts/details/" + productId;
     }
 
     @GetMapping("/view")//处理“/shoppingCartDetail/view”的GET请求
@@ -55,11 +56,11 @@ public class ShoppingCartDetailController {
         model.addAttribute("customerId", customerId);//给页面传customerId
         model.addAttribute("selectedProducts", selected);//给页面传selected
         return "shoppingCart";
-        /*
-        1a.用户刚进cart界面，是没有任何select product的，这时候new HashSet<>()
+    /*    1a.用户刚进cart界面，是没有任何select product的，这时候new HashSet<>()
         1b.下次再来如果上次有勾选没买的，再勾选其他的就直接加进去了（页面保存上次勾选的记录）
-        2.选择结束后，controller传给前端，用户就看到对应product被勾选了
-        */
+        2.选择结束后，controller传给前端，用户就看到对应product被勾选了*/
+
+
     }
 
     @PostMapping("/select")//处理“/shoppingCartDetail/select”的Post请求
