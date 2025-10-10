@@ -29,7 +29,7 @@
       <div class="col-md-3">
         <div class="user-actions d-flex align-items-center justify-content-end gap-2">
           <a href="#" class="text-white"><i class="bi bi-person-circle fs-4"></i></a>
-          <a th:href="@{/login}" class="btn btn-outline-light btn-sm">Login</a>
+          <a th:href="@{/Log}" class="btn btn-outline-light btn-sm">Login</a>
           <a th:href="@{/signup}" class="btn btn-warning btn-sm">Sign Up</a>
         </div>
       </div>
@@ -40,7 +40,7 @@
 <!-- NavBar -->
 <nav class="navbar navbar-expand-lg navbar-dark site-navbar">
   <div class="container">
-    <a class="navbar-brand" th:href="@{/products}">
+    <a class="navbar-brand" th:href="@{/displayProducts/page}">
       <i class="bi bi-grid-3x3-gap me-2"></i>Browse
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -49,7 +49,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" th:href="@{/cart}">
+          <a class="nav-link" th:href="@{/shoppingCartDetail/view(customerId=${session.customerId})}">
             <i class="bi bi-cart3 me-1"></i>Cart
           </a>
         </li>
@@ -103,7 +103,7 @@
         </p>
 
         <!-- Quantity Selector -->
-        <form th:action="@{/cart/add}" method="post" id="addToCartForm">
+        <form th:action="@{/shoppingCartDetail/add}" method="post" id="addToCartForm">
           <input type="hidden" name="customerId" value="1" th:value="${session.customerId != null ? session.customerId : 1}">
           <input type="hidden" name="productId" th:value="${product.productId}">
 
@@ -119,17 +119,19 @@
               </button>
             </div>
           </div>
-
-          <!-- Action Buttons -->
           <div class="action-buttons">
             <button type="submit" class="btn btn-primary btn-add-cart">
               <i class="bi bi-cart-plus me-2"></i>Add to Cart
             </button>
-            <button type="button" class="btn btn-outline-danger btn-favorite" id="favBtn">
-              <i class="bi bi-heart"></i>
-            </button>
-          </div>
+            </form>
+
+        <form th:action="@{/favourites/save}" method="post" style="display: inline;">
+          <input type="hidden" name="productId" th:value="${product.productId}">
+          <button type="submit" class="btn btn-outline-danger btn-favorite" id="favBtn">
+            <i class="bi bi-heart"></i>
+          </button>
         </form>
+      </div>
 
         <!-- Additional Info -->
         <div class="mt-4 pt-4 border-top">
@@ -178,20 +180,14 @@
       <div class="review-card" th:each="review : ${reviews}">
         <div class="d-flex justify-content-between align-items-start mb-2">
           <div>
-            <h6 class="review-author mb-0" th:text="${review.customerName}">Customer Name</h6>
-            <small class="review-date text-muted" th:text="'Reviewed on: ' + ${#temporals.format(review.reviewDate, 'MMMM dd, yyyy')}">
-              Reviewed on: February 16, 2025
-            </small>
+            <h6 class="review-author mb-0" th:text="${review.customerId}">Customer Name</h6>
           </div>
           <div class="review-rating text-warning">
             <i th:each="i : ${#numbers.sequence(1, 5)}"
                th:class="${i <= review.rating} ? 'bi bi-star-fill' : 'bi bi-star'"></i>
           </div>
         </div>
-        <h6 class="review-title mb-2" th:if="${review.reviewTitle}" th:text="${review.reviewTitle}">
-          Review Title
-        </h6>
-        <p class="review-text mb-0" th:text="${review.reviewText}">
+        <p class="review-text mb-0" th:text="${review.description}">
           Review text content goes here.
         </p>
       </div>

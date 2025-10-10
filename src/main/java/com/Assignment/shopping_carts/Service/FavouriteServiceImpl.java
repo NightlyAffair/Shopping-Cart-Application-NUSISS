@@ -8,7 +8,6 @@ import com.Assignment.shopping_carts.Repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 /**
  * Favourites serv impl

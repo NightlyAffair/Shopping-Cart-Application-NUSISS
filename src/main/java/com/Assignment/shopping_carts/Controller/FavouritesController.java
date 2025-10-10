@@ -1,7 +1,6 @@
 package com.Assignment.shopping_carts.Controller;
 
 import com.Assignment.shopping_carts.InterfaceMethods.FavouriteService;
-import com.Assignment.shopping_carts.Model.Favourites;
 import com.Assignment.shopping_carts.Model.Product;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
