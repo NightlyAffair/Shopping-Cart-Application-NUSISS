@@ -1,96 +1,208 @@
 import "../css/Global.css"
+import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Header from '../components/Header';
-import Sidebar from "../components/Sidebar";
 
+/**
+ * PurchaseHistoryPage
+ * Author: Aung Kyaw Kyaw 
+ * Date: 2025-10-10
+ * Modifier by :
+ * Last Modified by :
+ * Last Modified: 2025-10-10 11:00
+ */
 export default function PurchaseHistory() {
-  const [orders, setOrders] = useState([]);
-  const [showForm, setShowForm] = useState(false);
-  const [selectedOrderId, setSelectedOrderId] = useState(null);
-  const [reviewContent, setReviewContent] = useState('');
-  const [rating, setRating] = useState(5);
+  const [orders, setOrders] = useState()
+  const [loading, setLoading] = useState(true);
 
+  const loadPurchaseHistory = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/purchaseHistory/customer/1") // Replace with actual user ID
+      console.log(response.data)
+      //setOrders(Array.isArray(response.data) ? response.data : [response.data]);
+      setOrders(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error loading purchase history:", error);
+    }
+  }
   useEffect(() => {
-    axios.get("http://localhost:8080/api/purchaseHistory/customer/1") // Replace with actual user ID
-      .then(response => {
-        console.log(response.data);
-        setOrders(Array.isArray(response.data) ? response.data : [response.data]);
-      })
-      .catch(e => {
-        console.error("Error fetching purchase history:", e);
-      });
+    loadPurchaseHistory();
+
   }, []);
 
-  const openReviewForm = (orderId, productId) => {
-    setSelectedOrderId({ orderId, productId });
-    setShowForm(true);
-  };
+  if (loading) {
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    )
+  }
 
   return (
     <div>
-    <Header />
-      <div style={{display: 'flex', flexDirection: 'row'}}>
+      <Header />
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
         <Sidebar />
 
         <div className="container">
-      <div className="row">
-        <div className="col">
-          <div>
-            <div className="table-responsive">
-              <table className="table table-bordered">
-                <thead>
-                  <tr>
-                    <th scope="col">Order ID</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Total Amount</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders.map(order =>
-                    order.orderDetails.map((item, idx) => (
-                      <tr key={`${order.orderId}-${idx}`}>
-                        <td className="id">{order.orderId}</td>
-                        <td>
-                          <div className="d-flex align-items-center">
-                            <div>
-                              <img src="https://via.placeholder.com/60" className="img-fluid rounded-3" alt="Product" />
-                            </div>
-                            <div className="flex-column ms-3">
-                              <a href="productDetails.html">
-                                <h6>{item.product.productName}</h6>
-                              </a>
-                              <p>Category: {item.product.category}</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="date"><span>{order.purchaseDate}</span></td>
-                        <td className="price"><span>${order.unitAmount}</span></td>
-                        <td className="quantity"><span>{item.quantity}</span></td>
-                        <td>
-                          <button type="button" onClick={() => openReviewForm(order.orderId, item.Product.productId)}>
-                            Review
-                          </button>
-                        </td>
-                        <td>
-                          
-                        </td>
+          <div className="row">
+            <div className="col">
+              <div>
+                <div className="table-responsive">
+                  <table className="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th scope="col">Order ID</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Total Amount</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                       </tr>
-                    ))
-                  )}
-                </tbody>
-              </table>
-                  
+                    </thead>  
+                    <tbody>
+                      {orders.map(order =>
+                        order.orderDetails?.map((item, idx) => (
+                          <tr key={`${order.orderId}-${idx}`}>
+                            <td className="id">{order.orderId}</td>
+                            <td>
+                              <div className="d-flex align-items-center">
+                                <div>
+                                  <img src="https://via.placeholder.com/60" className="img-fluid rounded-3" alt="Product" />
+                                </div>
+                                <div className="flex-column ms-3">
+                                  <a href="productDetails.html">
+                                    <h6>{item.product?.productName}</h6>
+                                  </a>
+                                  <p>Category: {item.product?.category}</p>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="date"><span>{order.purchaseDate}</span></td>
+                            <td className="price"><span>${order.unitAmount}</span></td>
+                            <td className="quantity"><span>{item.quantity}</span></td>
+                            <td>
+                              <button type="button">
+                                Review
+                              </button>
+                            </td>
+                            <td>
+
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-      </div>
-    </div>
   );
 }
+
+
+
+// import "../css/Global.css"
+// import React, { useEffect, useState } from 'react';
+// import axios from 'axios';
+// import Header from '../components/Header';
+// import Sidebar from "../components/Sidebar";
+
+// export default function PurchaseHistory() {
+//   const [orders, setOrders] = useState([]);
+//   const [showForm, setShowForm] = useState(false);
+//   const [selectedOrderId, setSelectedOrderId] = useState(null);
+//   const [reviewContent, setReviewContent] = useState('');
+//   const [rating, setRating] = useState(5);
+
+//   useEffect(() => {
+//     axios.get("http://localhost:8080/api/purchaseHistory/customer/1") // Replace with actual user ID
+//       .then(response => {
+//         console.log(response.data);
+//         setOrders(Array.isArray(response.data) ? response.data : [response.data]);
+//       })
+//       .catch(e => {
+//         console.error("Error fetching purchase history:", e);
+//       });
+//   }, []);
+
+//   const openReviewForm = (orderId, productId) => {
+//     setSelectedOrderId({ orderId, productId });
+//     setShowForm(true);
+//   };
+
+//   return (
+//     <div>
+//     <Header />
+//       <div style={{display: 'flex', flexDirection: 'row'}}>
+//         <Sidebar />
+
+//         <div className="container">
+//       <div className="row">
+//         <div className="col">
+//           <div>
+//             <div className="table-responsive">
+//               <table className="table table-bordered">
+//                 <thead>
+//                   <tr>
+//                     <th scope="col">Order ID</th>
+//                     <th scope="col">Product</th>
+//                     <th scope="col">Date</th>
+//                     <th scope="col">Total Amount</th>
+//                     <th scope="col">Quantity</th>
+//                     <th scope="col"></th>
+//                     <th scope="col"></th>
+//                   </tr>
+//                 </thead>
+//                 <tbody>
+//                   {orders.map(order =>
+//                     order.orderDetails.map((item, idx) => (
+//                       <tr key={`${order.orderId}-${idx}`}>
+//                         <td className="id">{order.orderId}</td>
+//                         <td>
+//                           <div className="d-flex align-items-center">
+//                             <div>
+//                               <img src="https://via.placeholder.com/60" className="img-fluid rounded-3" alt="Product" />
+//                             </div>
+//                             <div className="flex-column ms-3">
+//                               <a href="productDetails.html">
+//                                 <h6>{item.product.productName}</h6>
+//                               </a>
+//                               <p>Category: {item.product.category}</p>
+//                             </div>
+//                           </div>
+//                         </td>
+//                         <td className="date"><span>{order.purchaseDate}</span></td>
+//                         <td className="price"><span>${order.unitAmount}</span></td>
+//                         <td className="quantity"><span>{item.quantity}</span></td>
+//                         <td>
+//                           <button type="button" onClick={() => openReviewForm(order.orderId, item.Product.productId)}>
+//                             Review
+//                           </button>
+//                         </td>
+//                         <td>
+                          
+//                         </td>
+//                       </tr>
+//                     ))
+//                   )}
+//                 </tbody>
+//               </table>
+                  
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//       </div>
+//     </div>
+//   );
+// }

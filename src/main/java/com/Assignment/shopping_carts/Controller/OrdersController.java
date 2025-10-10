@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.Assignment.shopping_carts.Model.Orders;
 import com.Assignment.shopping_carts.Service.OrdersServiceImpl;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/purchaseHistory")
 public class OrdersController {

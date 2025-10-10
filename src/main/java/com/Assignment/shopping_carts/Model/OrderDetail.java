@@ -2,9 +2,11 @@ package com.Assignment.shopping_carts.Model;
 
 
 import com.Assignment.shopping_carts.Model.compositeKey.OrderDetailId;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -39,9 +41,10 @@ public class OrderDetail {
     private boolean isRefunded;
 
     @ManyToOne
-    private Orders order;
+    private Orders orders;
 
     @ManyToOne
+    @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)
     private Product product;
 
 }
