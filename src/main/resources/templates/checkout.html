@@ -1,18 +1,120 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Check Out</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop @ISS – Payment Successful</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="../static/css/style.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        }
+
+        header {
+            background-color: #212529;
+            color: #fff;
+            padding: 1rem 0;
+        }
+
+        .success-card {
+            max-width: 480px;
+            margin: 6rem auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 绿色圆形图标 */
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background-color: #198754;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 1.5rem auto;
+            animation: pop 0.6s ease-out;
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+
+        .success-card h2 {
+            font-weight: 700;
+            color: #212529;
+        }
+
+        .success-card p {
+            color: #6c757d;
+            font-size: 1rem;
+            margin: 0.5rem 0 2rem 0;
+        }
+
+        .btn-primary {
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+
+        .btn-primary i {
+            margin-right: 8px;
+        }
+
+        footer {
+            text-align: center;
+            color: #6c757d;
+            margin-top: 5rem;
+            padding-bottom: 2rem;
+        }
+    </style>
 </head>
 <body>
-<div class="card">
-    <div class="icon">✔</div>
-    <h2>Payment Successful</h2>
-    <p>Your order has been placed successfully.</p>
-    <a href="/shoppingCartDetail/view?customerId=1" class="btn">Continue Shopping</a>
-</div>
+
+<!-- Header -->
+<header>
+    <div class="container d-flex justify-content-between align-items-center">
+        <h4 class="fw-bold mb-0">Shop @ISS</h4>
+        <span class="text-white-50 small">Free shipping over $80 | 10% off new arrivals</span>
+    </div>
+</header>
+
+<!-- Main content -->
+<main>
+    <div class="success-card">
+        <div class="success-icon">
+            <i class="bi bi-check-lg"></i>
+        </div>
+        <h2>Payment Successful!</h2>
+        <p>Your order has been placed successfully.</p>
+
+        <a th:href="@{/shoppingCartDetail/view(customerId=${customerId})}" class="btn btn-primary">
+            <i class="bi bi-cart3"></i> Continue Shopping
+        </a>
+    </div>
+</main>
+
+<footer>
+    &copy; 2025 TEAM_TWO. All rights reserved.
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

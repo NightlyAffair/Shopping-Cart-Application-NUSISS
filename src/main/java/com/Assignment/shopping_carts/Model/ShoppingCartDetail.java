@@ -40,6 +40,7 @@ public class ShoppingCartDetail {
     //updatable=false意思是更新数据库时，也只用customerId字段的值，不要再从customerEntity里取了
     @JoinColumn(name = "customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
     private Customer customer;
+
     @ManyToOne
     //分别写明：当前表的FK（productId），对应customer表的PK（productId），插入数据时不要重复插入，更新数据时不要重复更新数据
     //insertable=False意思是插入数据库时，只用customerId字段的值，不要再从customerEntity里取了
