@@ -13,7 +13,7 @@ public class CustomerRegisterDTO {
     private String userName;
 
     @NotBlank(message = "Password cannot be empty")
-    @Size(min = 6, max = 50, message = "Password must be at least 6 characters")
+    @Size(min = 6, max = 18, message = "Password must be at least 6 characters")
     private String password;
 
     @NotBlank(message = "Full name is required")

@@ -23,7 +23,9 @@ public class AccountInfoServiceImpl implements AccountInfoService {
 
     public Customer getCustomer(String id) {
         Integer intId = Integer.parseInt(id);
-        return accountInfoRepository.getCustomerByCustomerId(intId);
+        Customer customer = accountInfoRepository.getCustomerByCustomerId(intId);
+        System.out.println(customer);
+        return customer;
     }
 
     public void saveCustomer(Customer customer) {
