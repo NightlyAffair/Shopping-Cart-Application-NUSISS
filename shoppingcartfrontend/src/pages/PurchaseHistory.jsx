@@ -69,9 +69,41 @@ export default function PurchaseHistory() {
   // }, []);
 
   const openReviewForm = (orderId, productId) => {
-    setSelectedOrderId({ orderId, productId });
-    setCustomerId(customerId);
+    setSelectedOrderId (orderId);
+    //setCustomerId(customerId);
+    setSelectedProductId(productId);
     setShowForm(true);
+  };
+
+
+  //Add submitReview implementation so (thae)
+  const submitReview = async () => {
+    if (!selectedOrderId || !selectedProductId) return;
+
+    const payload = {
+      rating: Number(rating),
+      content: reviewContent,
+      productId: selectedProductId,
+      customerId:customerId,
+      orderId: selectedOrderId
+    };
+
+
+
+    try {
+      const url = `http://localhost:8080/api/reviews/add/${selectedProductId}/${customerId}/${selectedOrderId}`;
+      const resp =await axios.post(url, payload, { headers: { 'Content-Type': 'application/json' }});
+      console.log('Submitting review payload:', resp.data);
+      // reset form
+      setShowForm(false);
+      setReviewContent('');
+      setRating(5);
+      setSelectedOrderId(null);
+      setSelectedProductId(null);
+    } catch (err) {
+      console.error('Error submitting review:', err.response?.data || err.message);
+    
+      alert('Failed to submit review. Please try again.');}
   };
 
   return (
@@ -96,7 +128,7 @@ export default function PurchaseHistory() {
                 </thead>
                 <tbody>
                   {orders.map(order =>
-                    order.orderDetail.map((item, idx) => (
+                    (order.orderDetails || []).map((item, idx) => (
                       <tr key={`${order.orderId}-${idx}`}>
                         <td className="id">{order.orderId}</td>
                         <td>
@@ -106,17 +138,17 @@ export default function PurchaseHistory() {
                             </div>
                             <div className="flex-column ms-3">
                               <a href="productDetails.html">
-                                <h6>{item.Product.productName}</h6>
+                                <h6>{item.product.productName}</h6>
                               </a>
-                              <p>Category: {item.Product.category}</p>
+                              <p>Category: {item.product.category}</p>
                             </div>
                           </div>
                         </td>
-                        <td className="date"><span>{order.purchaseDate}</span></td>
-                        <td className="price"><span>${order.unitAmount}</span></td>
+                        <td className="date"><span>{order.orderDate}</span></td>
+                        <td className="price"><span>${order.totalAmount}</span></td>
                         <td className="quantity"><span>{item.quantity}</span></td>
                         <td>
-                          <button type="button" onClick={() => openReviewForm(order.orderId, item.Product.productId)}>
+                          <button type="button" onClick={() => openReviewForm(order.orderId, item.product.productId)}>
                             Review
                           </button>
                         </td>
@@ -139,7 +171,7 @@ export default function PurchaseHistory() {
           />
           <br />
           <label>Rating: </label>
-          <select value={rating} onChange={(e) => setRating(e.target.value)}>
+          <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
             <option value="5">⭐⭐⭐⭐⭐</option>
             <option value="4">⭐⭐⭐⭐</option>
             <option value="3">⭐⭐⭐</option>
