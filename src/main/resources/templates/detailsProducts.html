@@ -123,7 +123,9 @@
             <button type="submit" class="btn btn-primary btn-add-cart">
               <i class="bi bi-cart-plus me-2"></i>Add to Cart
             </button>
+          </div>
             </form>
+
 
         <form th:action="@{/favourites/save}" method="post" style="display: inline;">
           <input type="hidden" name="productId" th:value="${product.productId}">
