@@ -12,8 +12,8 @@ import java.util.List;
  * Product Entity Class
  * Author: Zhou Jason
  * Date: 2025-10-02
- * Modified by: Glenn
- * Last Modified: 2025-10-04 04:00
+ * Modified by: Glenn, Updated with imageUrl and averageRating
+ * Last Modified: 2025-10-09
  */
 
 @Data
@@ -27,8 +27,10 @@ public class Product {
 
     private String productName;
     private String description;
+    private String imageUrl;
     private double discount;
     private double unitPrice;
+    private Double averageRating;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -47,15 +49,17 @@ public class Product {
     private List<Favourites> favourites = new ArrayList<>();
 
     public Product() {
+        this.averageRating = 0.0;
     }
 
-    public Product(String productName, String description, Category category,
-                   double discount, double unitPrice) {
+    public Product(String productName, String description, String imageUrl,
+                   Category category, double discount, double unitPrice) {
         this.productName = productName;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.category = category;
         this.discount = discount;
         this.unitPrice = unitPrice;
+        this.averageRating = 0.0;
     }
-
 }
