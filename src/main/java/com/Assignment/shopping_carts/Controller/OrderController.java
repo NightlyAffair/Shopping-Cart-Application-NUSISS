@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.Assignment.shopping_carts.Model.Orders;
-import com.Assignment.shopping_carts.Repository.OrderRepository;
 
 
 @Controller
