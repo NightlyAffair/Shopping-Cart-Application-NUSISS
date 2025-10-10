@@ -82,7 +82,7 @@ export default function PurchaseHistory() {
 
     const payload = {
       rating: Number(rating),
-      content: reviewContent,
+      description: reviewContent,
       productId: selectedProductId,
       customerId:customerId,
       orderId: selectedOrderId
@@ -221,11 +221,11 @@ export default function PurchaseHistory() {
                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
                         <label style={{ minWidth: 60 }}>Rating</label>
                         <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
-                          <option value={5}>⭐⭐⭐⭐⭐</option>
-                          <option value={4}>⭐⭐⭐⭐</option>
-                          <option value={3}>⭐⭐⭐</option>
-                          <option value={2}>⭐⭐</option>
-                          <option value={1}>⭐</option>
+                          <option value={5}>Very Good</option>
+                          <option value={4}>Good</option>
+                          <option value={3}>Normal</option>
+                          <option value={2}>Bad</option>
+                          <option value={1}>Very Bad</option>
                         </select>
                         <div style={{ marginLeft: 'auto', color: '#666', fontSize: 14 }}>
                           Order: {selectedOrderId} • Product: {selectedProductId}
