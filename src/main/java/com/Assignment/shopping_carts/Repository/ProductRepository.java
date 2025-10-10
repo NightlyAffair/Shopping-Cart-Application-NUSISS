@@ -1,3 +1,11 @@
+/**
+ * ProductRepository Interface
+ * Author: Glenn Min
+ * Date: 2025-10-06 12:00
+ * Modifier by : Sheng Qi, Nithvin(Pagination), Updated for averageRating
+ * Last Modified: 2025-10-09
+ */
+
 package com.Assignment.shopping_carts.Repository;
 
 import com.Assignment.shopping_carts.Model.Category;
@@ -10,14 +18,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-
-/**
- * ProductRepository Interface
- * Author: Glenn Min
- * Date: 2025-10-06 12:00
- * Modifier by : Sheng Qi, Nithvin(Pagination), Updated for averageRating
- * Last Modified: 2025-10-09
- */
 
 public interface ProductRepository extends JpaRepository<Product,Integer> {
 
