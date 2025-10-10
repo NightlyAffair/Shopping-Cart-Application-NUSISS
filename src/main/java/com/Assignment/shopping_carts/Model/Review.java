@@ -1,7 +1,14 @@
 package com.Assignment.shopping_carts.Model;
 
 import com.Assignment.shopping_carts.Model.compositeKey.ReviewId;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -24,16 +31,6 @@ import lombok.Setter;
     uniqueConstraints = @UniqueConstraint(columnNames = {"productId", "customerId", "orderId"})
 )
 public class Review {
-    /*
-    - productId: int (PK/FK)
-    - customerId: int (PK/FK)
-    - orderId: int (FK)
-    - rating: int
-    - description: String
-     */
-
-
-
     @Id
     @Setter(AccessLevel.NONE)
     private int productId;
@@ -46,20 +43,12 @@ public class Review {
     @Setter(AccessLevel.NONE)
     private int orderId;
 
-
-
     private int rating;
     private String description;
-
-
 
     @ManyToOne
     @JoinColumn(name = "orderId", referencedColumnName = "orderId", insertable = false, updatable = false)
     private Orders order;
-
-    
-
-
 
     @ManyToOne
     @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)
