@@ -10,7 +10,7 @@ import com.Assignment.shopping_carts.Model.Orders;
 import com.Assignment.shopping_carts.Repository.OrdersRepository;
 
 @Service
-public class OrdersServiceImpl extends OrdersService{
+public class OrdersServiceImpl implements OrdersService{
 
   @Autowired
   private OrdersRepository ordersRepository;
