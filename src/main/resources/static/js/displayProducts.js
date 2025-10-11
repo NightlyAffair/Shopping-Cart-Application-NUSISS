@@ -1,115 +1,89 @@
-document.addEventListener("DOMContentLoaded", function () {
+/**
+ * displayProducts JS
+ * Authors: Glenn Min
+ * Date: 2025-10-08
+ * Last Modified by: Glenn Min
+ * New Updates: minor bug fixes
+ * Last Modified: 2025-10-11
+ */
 
-  // ========================
-  // 1️⃣ FAVORITE BUTTON
-  // ========================
-  document.querySelectorAll(".wishlist-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      btn.classList.toggle("active");
-      const icon = btn.querySelector("i");
-      if (btn.classList.contains("active")) {
-        icon.classList.remove("bi-heart");
-        icon.classList.add("bi-heart-fill");
-      } else {
-        icon.classList.remove("bi-heart-fill");
-        icon.classList.add("bi-heart");
-      }
-    });
-  });
+document.addEventListener("DOMContentLoaded", () => {
 
-  // ========================
-  // 2️⃣ SEARCH BAR
-  // ========================
-  const searchInput = document.querySelector(".filter-bar input[type='text']");
-  const productCards = document.querySelectorAll(".product-card");
+  // Favourites
+  const wishlistButtons = document.querySelectorAll(".wishlist-btn");
 
-  if (searchInput) {
-    searchInput.addEventListener("input", () => {
-      const keyword = searchInput.value.toLowerCase();
-      productCards.forEach((card) => {
-        const title = card.querySelector(".card-title").textContent.toLowerCase();
-        const description = card.querySelector(".card-text").textContent.toLowerCase();
-        if (title.includes(keyword) || description.includes(keyword)) {
-          card.parentElement.style.display = "block";
-        } else {
-          card.parentElement.style.display = "none";
+  wishlistButtons.forEach((btn) => {
+    const icon = btn.querySelector("i");
+    const productId = btn.getAttribute("data-id");
+
+    btn.addEventListener("click", async () => {
+      try {
+        // POST to backend: toggle favorite in session
+        const response = await fetch(`/products/favorite/${productId}`, {
+          method: "POST"
+        });
+
+        if (!response.ok) {
+          console.error("Error toggling favorite:", response.statusText);
+          return;
         }
-      });
-    });
-  }
 
-  // ========================
-  // 3️⃣ SORT & CATEGORY DROPDOWNS
-  // ========================
-  const categorySelect = document.querySelector(".filter-bar select:nth-of-type(1)");
-  const sortSelect = document.querySelector(".filter-bar select:nth-of-type(2)");
+        const result = await response.text();
 
-  function applyFilters() {
-    const selectedCategory = categorySelect.value.toLowerCase();
-    const sortOption = sortSelect.value.toLowerCase();
+        // Update heart icon & visual feedback
+        if (result === "added") {
+          btn.classList.add("active");
+          icon.classList.replace("bi-heart", "bi-heart-fill");
+          showToast("Added to favorites ❤️");
+        } else if (result === "removed") {
+          btn.classList.remove("active");
+          icon.classList.replace("bi-heart-fill", "bi-heart");
+          showToast("Removed from favorites 💔");
+        }
 
-    let products = Array.from(productCards);
-
-    // Filter by category (simulated)
-    products.forEach((card) => {
-      const title = card.querySelector(".card-title").textContent.toLowerCase();
-      if (selectedCategory === "all categories" || title.includes(selectedCategory)) {
-        card.parentElement.style.display = "block";
-      } else {
-        card.parentElement.style.display = "none";
-      }
-    });
-
-    // Sort by price (simulated)
-    if (sortOption.includes("low")) {
-      products.sort((a, b) =>
-          parseFloat(a.querySelector(".price").textContent.replace("$", "")) -
-          parseFloat(b.querySelector(".price").textContent.replace("$", ""))
-      );
-    } else if (sortOption.includes("high")) {
-      products.sort((a, b) =>
-          parseFloat(b.querySelector(".price").textContent.replace("$", "")) -
-          parseFloat(a.querySelector(".price").textContent.replace("$", ""))
-      );
-    }
-
-    // Rearrange DOM
-    const container = document.querySelector(".row.g-4");
-    products.forEach((p) => container.appendChild(p.parentElement));
-  }
-
-  categorySelect.addEventListener("change", applyFilters);
-  sortSelect.addEventListener("change", applyFilters);
-
-  // ========================
-  // 4️⃣ PAGINATION
-  // ========================
-  const paginationLinks = document.querySelectorAll(".pagination .page-link");
-  const itemsPerPage = 4;
-  let currentPage = 1;
-
-  function showPage(pageNum) {
-    const products = Array.from(productCards);
-    products.forEach((card, index) => {
-      const start = (pageNum - 1) * itemsPerPage;
-      const end = pageNum * itemsPerPage;
-      card.parentElement.style.display = index >= start && index < end ? "block" : "none";
-    });
-
-    paginationLinks.forEach((link) => link.parentElement.classList.remove("active"));
-    paginationLinks[pageNum].parentElement.classList.add("active");
-    currentPage = pageNum;
-  }
-
-  paginationLinks.forEach((link, index) => {
-    link.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (!isNaN(link.textContent)) {
-        showPage(parseInt(link.textContent));
+      } catch (err) {
+        console.error("Favorite toggle failed:", err);
       }
     });
   });
 
-  // Initialize
-  showPage(currentPage);
+  // Toast
+
+  function showToast(message) {
+    const toast = document.createElement("div");
+    toast.className = "custom-toast";
+    toast.textContent = message;
+    document.body.appendChild(toast);
+
+    setTimeout(() => toast.classList.add("show"), 50);
+    setTimeout(() => {
+      toast.classList.remove("show");
+      setTimeout(() => toast.remove(), 300);
+    }, 2000);
+  }
+
+  const style = document.createElement("style");
+  style.textContent = `
+    .custom-toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #0d6efd;
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      z-index: 9999;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .custom-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  `;
+  document.head.appendChild(style);
+
 });
