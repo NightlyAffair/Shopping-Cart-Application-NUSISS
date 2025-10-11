@@ -65,5 +65,16 @@ public class Review {
     @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)
     private Product product;
     
+
+    //edit code(Thae)
+    public void setProductId(int productId){
+        this.productId = productId;
+    }
+    public void setCustomerId(int customerId){
+        this.customerId = customerId;
+    }
+    public void setOrderId(int orderId){
+        this.orderId = orderId;
+    }
    
 }
