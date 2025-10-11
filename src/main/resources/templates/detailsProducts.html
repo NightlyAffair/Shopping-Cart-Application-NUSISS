@@ -126,7 +126,7 @@
                             </button>
                         </form>
 
-        <form th:action="@{/favourites/save}" method="post" style="display: inline;">
+        <form th:action="@{/favourites/save}" method="post" id="favsForm" style="display: inline;">
           <input type="hidden" name="productId" th:value="${product.productId}">
             <input type="hidden" name="customerId" value="1" th:value="${session.customerId != null ? session.customerId : 1}">
           <button type="submit" class="btn btn-outline-danger btn-favorite" id="favBtn">
