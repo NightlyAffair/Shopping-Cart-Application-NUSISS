@@ -55,6 +55,13 @@ public class LogController {
     }
 
 
+    @PostMapping("/forgetPassword")
+    public String forgetPassword(@RequestParam(name = "userName") String userName,@RequestParam(name="full name")){
+
+    }
+
+
+
     @GetMapping("/homepage")
     public String homepage(){
         return "homepage";
