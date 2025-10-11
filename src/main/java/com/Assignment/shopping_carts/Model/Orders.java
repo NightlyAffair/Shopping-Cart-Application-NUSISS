@@ -47,13 +47,13 @@ public class Orders {
     private double unitAmount;
     private String status;
 
-    @OneToMany(mappedBy="order")
+    @OneToMany(mappedBy="orders")
     private List<OrderDetail> orderDetails;
 
     @ManyToOne
-    @JoinColumn( referencedColumnName = "customerId", insertable = false, updatable = false)
+    @JoinColumn(name = "customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
     private Customer customer;
     
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "orders")
     private List<Review> reviews;
 }
