@@ -15,7 +15,7 @@ import java.util.List;
  * Date: 2025-10-04
  * Modifier by : yh
  * Last Modified by : yh
- * Last Modified: 2025-10-010 18:00
+ * Last Modified: 2025-10-10 18:00
  */
 
 @Controller
@@ -27,22 +27,32 @@ public class FavouritesController {
     public FavouritesController(FavouriteService favService) {
         this.favService = favService;
     }
-
+/*
     @GetMapping("/CustomerId/{customerId}")
     public List<Favourites> findByCustomerId(@PathVariable("customerId")
                                        int customerId, Model model) {
         return favService.findByCustomerId(customerId);
+    } */
+
+    @GetMapping
+    public String showFavourites(Model model, HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if(customerId == null) {
+            //return "redirect:/Log";
+            customerId = 1;
+            session.setAttribute("customerId", customerId);
+        } model.addAttribute("favourites", favService.findFavouriteProductsByCustomerId(customerId));
+        return "favourites";
     }
 
     @PostMapping("/save")
     public String saveFavourite(@RequestParam int productId, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
-            return "redirect:/Log";
-            /*
-            //temp, hardcorded customerid for testing
+            //return "redirect:/Log";
+
             customerId = 1;
-            session.setAttribute("customerId", customerId); */
+            session.setAttribute("customerId", customerId);
         }
         String result = favService.saveFavourites(customerId, productId);
         return "redirect:/displayProducts/details/" + productId;
@@ -51,11 +61,10 @@ public class FavouritesController {
     //Get all favourite items for a customer
     @GetMapping("/customer")
     public String getFavourites(Model model, HttpSession session) {
-        session.setAttribute("productId", 1);
         Integer customerId = (Integer) session.getAttribute("customerId");
 
         if (customerId == null) {
-            //temp, hardcorded customerid for testing
+            //return "redirect:/Log";
             customerId = 1;
             session.setAttribute("customerId", customerId);
         }
@@ -63,6 +72,18 @@ public class FavouritesController {
                 .findFavouriteProductsByCustomerId(customerId);
         model.addAttribute("favourites", FavProducts);
         return "favourites";
+    }
+
+    @PostMapping("/clear")
+    public String deleteFavourites(HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) {
+            //return "redirect:/Log";
+            customerId = 1;
+            session.setAttribute("customerId", customerId);
+        }
+        favService.deleteByCustomerId(customerId);
+        return "redirect:/favourites";
     }
 
 }

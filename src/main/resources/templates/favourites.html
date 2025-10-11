@@ -200,11 +200,8 @@
                        <i class="bi bi-eye me-1"></i>View
                      </a>
 
-                     <form th:action="@{/favourites/remove}" method="post" class="d-inline" onsubmit="return confirm('Remove from favorites?');">
-                       <input type="hidden" name="productId" th:value="${product.productId}">
-                         <!--Not needed  <input type="hidden" name="customerId" th:value="${customerId}"> -->
-                            <button type="submit" class="btn btn-outline-danger btn-sm btn-remove-favorite"
-                                data-product-id = "${product.productId}"> <!-- added this plus btn-remove-fav above -->
+                     <form th:action="@{/favourites/clear}" method="post" class="d-inline" onsubmit="return confirm('Remove from favorites?');">
+                            <button type="submit" class="btn btn-outline-danger btn-sm btn-remove-favorite">
                               <i class="bi bi-trash"></i>
                             </button>
                           </form>

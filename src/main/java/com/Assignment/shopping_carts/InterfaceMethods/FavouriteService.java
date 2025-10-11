@@ -17,6 +17,7 @@ public interface FavouriteService {
     public List<Favourites> findByCustomerId(int customerId);
     public String saveFavourites(int customerId, int productId);
     public List<Product> findFavouriteProductsByCustomerId(int customerId);
+    public void deleteByCustomerId(int customerId);
 
     public long countFavouritesByProductId(int productId);
 

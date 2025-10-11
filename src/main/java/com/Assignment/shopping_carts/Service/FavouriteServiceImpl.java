@@ -45,7 +45,7 @@ public class FavouriteServiceImpl implements FavouriteService {
     @Transactional
     public String saveFavourites(int customerId, int productId) {
         if(favRepository.existsByCustomerIdAndProductId(customerId, productId)) {
-            favRepository.deleteByCustomerIdAndProductId(customerId, productId);
+            favRepository.deleteByCustomerId(customerId);
             System.out.println("Like remove from favourites ");
             return "Removed from favourites";
         }
@@ -60,6 +60,10 @@ public class FavouriteServiceImpl implements FavouriteService {
     @Override
     public List<Product> findFavouriteProductsByCustomerId(int customerId) {
         return favRepository.findFavouriteProductsByCustomerId(customerId);
+    }
+
+    public void deleteByCustomerId(int customerId){
+        favRepository.deleteByCustomerId(customerId);
     }
 
     @Override
