@@ -4,51 +4,24 @@ import axios from 'axios';
 import Header from '../components/Header';
 import Sidebar from "../components/Sidebar";
 
+/**
+ * PurchaseHistoryPage
+ * Author: Aung Kyaw Kyaw 
+ * Date: 2025-10-10
+ * Modifier by :
+ * Last Modified by :
+ * Last Modified: 2025-10-10 11:00
+ */
+
 export default function PurchaseHistory() {
   const [orders, setOrders] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedProductId, setSelectedProductId] = useState(null);
-  const [customerId, setCustomerId] = useState(1); // Replace with actual logged-in user ID 
   const [reviewContent, setReviewContent] = useState('');
   const [rating, setRating] = useState(5);
 
   useEffect(() => {
-      const sampleOrders = [
-      {
-        //start
-        orderId: 101,
-        orderDate: '2025-10-01',
-        totalAmount: 49.99,
-        customerId: 1,
-        orderDetails: [
-          {
-            quantity: 1,
-            product: { productId: 201, productName: 'Test Product A', category: 'Electronics' }
-          },
-          {
-            quantity: 2,
-            product: { productId: 202, productName: 'Test Product B', category: 'Books' }
-          }
-        ]
-      },
-      {
-        orderId: 102,
-        orderDate: '2025-09-20',
-        totalAmount: 19.99,
-        customerId: 1,
-        orderDetails: [
-          {
-            quantity: 1,
-            product: { productId: 203, productName: 'Test Product C', category: 'Home' }
-          }
-        ]
-      }
-    ];
-     // Use hard-coded data instead of axios for testing
-    setOrders(sampleOrders);
-
-    // If you later want to re-enable real fetch, replace setOrders(sampleOrders) with axios.get(...)
     axios.get("http://localhost:8080/api/purchaseHistory/customer/1") // Replace with actual user ID
       .then(response => {
         console.log(response.data);
@@ -69,9 +42,8 @@ export default function PurchaseHistory() {
   // }, []);
 
   const openReviewForm = (orderId, productId) => {
-    setSelectedOrderId (orderId);
+    setSelectedOrderId ({orderId, productId});
     //setCustomerId(customerId);
-    setSelectedProductId(productId);
     setShowForm(true);
   };
 
@@ -163,7 +135,7 @@ export default function PurchaseHistory() {
                 </thead>
                 <tbody>
                   {orders.map(order =>
-                    (order.orderDetails || []).map((item, idx) => (
+                    (order.orderDetails.map((item, idx) => (
                       <tr key={`${order.orderId}-${idx}`}>
                         <td className="id">{order.orderId}</td>
                         <td>
