@@ -23,7 +23,7 @@ import java.util.List;
  */
 
 
-@RequestMapping("/Log")
+@RequestMapping("/login")
 @Controller
 public class LogController {
     @Autowired
@@ -55,14 +55,18 @@ public class LogController {
             if(redirectUrl!=null){
                 session.removeAttribute("redirectAfterLogin");
                 return "redirect:"+redirectUrl;
+            }else {
+                return "redirect:/displayProducts/page";
             }
+
         }else {
             session.setAttribute("login_status",false);
+            return "redirect:/login?error=1";
         }
 
 
         //
-        return "redirect:/Log?error=1";
+
     }
 
 
@@ -72,15 +76,16 @@ public class LogController {
             Customer customer = logService.findByUserName(userName);
             customer.setPassword(newPassword);
             logService.updatePassword(customer.getUserName(),customer.getPassword());
-            return  "redirect:/Log";
+            return  "redirect:/login";
         }
-        return "redirect:/Log/homepage";
+        return "redirect:/forgetPassword?error=1";
 
     }
 
-    @GetMapping("/homepage")
-    public String homepage(){
-        return "";
+
+    @PostMapping("/loginError")
+    public String loginError(){
+        return "login_error";
     }
 
 

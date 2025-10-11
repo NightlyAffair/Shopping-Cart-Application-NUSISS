@@ -51,7 +51,7 @@ public class LogInterceptor implements HandlerInterceptor {
             session.setAttribute("redirectAfterLogin", originalURL);
             LOGGER.info("[LogInterceptor] Saved redirectAfterLogin: {}", originalURL);
             //not log in redirect to Log page.
-            response.sendRedirect("/Log");
+            response.sendRedirect("/login");
             return false;
         }
 
