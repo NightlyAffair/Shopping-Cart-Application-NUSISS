@@ -1,4 +1,4 @@
-INSERT INTO customer (full_customer_idname, user_name, email, password, address) VALUES
+INSERT INTO Customer (full_customer_idname, user_name, email, password, address) VALUES
 ('Alice Tan',    'alice.t',    'alice.tan@example.com',    'Password123!', '10 Orchard Road, Singapore 238852'),
 ('Bob Lim',      'boblim',     'bob.lim@example.com',      'qwerty!234',   '42 Clementi Ave, Singapore 120042'),
 ('Chloe Wong',   'chloe_w',    'chloe.wong@example.com',   'MyPass@2025',  '99 Bukit Timah Rd, Singapore 589876'),
