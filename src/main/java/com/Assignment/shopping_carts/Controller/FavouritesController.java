@@ -46,6 +46,7 @@ public class FavouritesController {
     }
 
     @PostMapping("/save")
+    @ResponseBody
     public String saveFavourite(@RequestParam int productId, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
@@ -54,8 +55,8 @@ public class FavouritesController {
             customerId = 1;
             session.setAttribute("customerId", customerId);
         }
-        String result = favService.saveFavourites(customerId, productId);
-        return "redirect:/displayProducts/details/" + productId;
+        return favService.saveFavourites(customerId, productId);
+        //return "redirect:/displayProducts/details/" + productId;
     }
 
     //Get all favourite items for a customer
@@ -86,4 +87,15 @@ public class FavouritesController {
         return "redirect:/favourites";
     }
 
+    @GetMapping("/status/{productId}")
+    @ResponseBody //returns true or false
+    public boolean checkFavStatus(@PathVariable int productId, HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) {
+            //return "redirect:/Log";
+            customerId = 1;
+            session.setAttribute("customerId", customerId);
+        }
+        return favService.isProductFavourited(customerId,productId);
+    }
 }

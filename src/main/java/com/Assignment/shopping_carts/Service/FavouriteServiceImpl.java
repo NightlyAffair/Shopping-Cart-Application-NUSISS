@@ -26,12 +26,10 @@ import jakarta.transaction.Transactional;
 public class FavouriteServiceImpl implements FavouriteService {
 
     private final FavouritesRepository favRepository;
-    private final ProductRepository productRepository;
 
     @Autowired
-    public FavouriteServiceImpl(FavouritesRepository favRepository, ProductRepository productRepository) {
+    public FavouriteServiceImpl(FavouritesRepository favRepository) {
         this.favRepository = favRepository;
-        this.productRepository = productRepository;
     }
 
     @Override
@@ -64,6 +62,11 @@ public class FavouriteServiceImpl implements FavouriteService {
 
     public void deleteByCustomerId(int customerId){
         favRepository.deleteByCustomerId(customerId);
+    }
+
+    @Override
+    public boolean isProductFavourited(int customerId, int productId) {
+        return favRepository.existsByCustomerIdAndProductId(customerId, productId);
     }
 
     @Override
