@@ -24,6 +24,11 @@ public class ReviewController {
             return new ResponseEntity<>("Review already exists for this product/order.", HttpStatus.BAD_REQUEST);
         }
         try {
+             // set composite key fields from path variables (Thae)
+            review.setProductId(productId);
+            review.setCustomerId(customerId);
+            review.setOrderId(orderId);
+            //end
             reviewService.saveReview(review);
             return new ResponseEntity<>("success", HttpStatus.OK);
         } catch (Exception e) {
