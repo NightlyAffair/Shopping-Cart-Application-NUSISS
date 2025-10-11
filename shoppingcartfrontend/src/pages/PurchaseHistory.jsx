@@ -18,6 +18,7 @@ export default function PurchaseHistory() {
   const [showForm, setShowForm] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedProductId, setSelectedProductId] = useState(null);
+  const [customerId, setCustomerId] = useState(1); // Replace with actual logged-in user ID 
   const [reviewContent, setReviewContent] = useState('');
   const [rating, setRating] = useState(5);
 
@@ -41,9 +42,13 @@ export default function PurchaseHistory() {
   //     });
   // }, []);
 
-  const openReviewForm = (orderId, productId) => {
-    setSelectedOrderId ({orderId, productId});
+  const openReviewForm = (orderId, productId, custId) => {
+    setSelectedOrderId(orderId);
+    setSelectedProductId(productId);
     //setCustomerId(customerId);
+    if (custId !== undefined && custId !== null) {
+      setCustomerId(custId);
+    }
     setShowForm(true);
   };
 
@@ -164,7 +169,7 @@ export default function PurchaseHistory() {
                         </td>
                       </tr>
                     ))
-                  )}
+                  ))}
                 </tbody>
               </table>
               {/* show form as modal overlay when click review button */}
@@ -218,5 +223,5 @@ export default function PurchaseHistory() {
       </div>
     </div>
       </div>
-  );
+    );
 }
