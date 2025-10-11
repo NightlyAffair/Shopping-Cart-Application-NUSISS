@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ReviewRepository extends JpaRepository<Review, Integer> {
+public interface ReviewRepository extends JpaRepository<Review, com.Assignment.shopping_carts.Model.compositeKey.ReviewId> {
 	@Query("SELECT AVG(r.rating) FROM Review r WHERE r.productId = :productId")
 	Double findAverageRatingByProductId(@Param("productId") int productId);
 
