@@ -100,7 +100,7 @@
   <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
     <div class="col" th:each="product : ${products}">
       <div class="card h-100">
-        <a th:href="@{/products/details/{id}(id=${product.productId})}" class="text-decoration-none">
+        <a th:href="@{/displayProducts/details/{id}(id=${product.productId})}" class="text-decoration-none">
           <img th:src="${product.imageUrl}" class="card-img-top" alt="Product Image"
                onerror="this.src='https://via.placeholder.com/200'">
         </a>
