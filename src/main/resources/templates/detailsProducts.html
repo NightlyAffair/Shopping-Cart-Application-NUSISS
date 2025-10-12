@@ -235,17 +235,34 @@
     //FAV BUTTON
     const favBtn = document.getElementById("favBtn");
     const favsForm = document.getElementById("favsForm");
+    const productIdInput = favsForm.querySelector('input[name="productId"]');
+    const customerIdInput = favsForm.querySelector('input[name="customerId"]');
+
     favBtn.addEventListener("click", async (e) => {
         e.preventDefault(); // prevent page reload
-        const reply = await fetch(favsForm.action, {
-            method: "POST",
-            body: new FormData(favsForm)
-        });
-        if (reply.ok) {
-            const icon = favBtn.querySelector("i");
-            icon.classList.toggle("bi-heart");
-            icon.classList.toggle("bi-heart-fill");
-            favBtn.classList.toggle("active");
+        const productId = productIdInput.value;
+        const customerId = customerIdInput.value;
+        const body = `productId=${encodeURIComponent(productId)}&customerId=${encodeURIComponent(customerId)}`;
+
+        try {
+            const reply = await fetch(favsForm.action, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: body
+            });
+            if (reply.ok) {
+                const icon = favBtn.querySelector("i");
+                icon.classList.toggle("bi-heart");
+                icon.classList.toggle("bi-heart-fill");
+                favBtn.classList.toggle("active");
+                console.log("Fav status toggled successful")
+            } else {
+                console.error("failed to save fav.", reply.status);
+            }
+        } catch(error){
+            console.error("An error occurred during fetch:", error);
         }
     });
 </script>
