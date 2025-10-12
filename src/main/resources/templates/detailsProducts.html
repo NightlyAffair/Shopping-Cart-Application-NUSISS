@@ -40,7 +40,7 @@
 <!-- NavBar -->
 <nav class="navbar navbar-expand-lg navbar-dark site-navbar">
     <div class="container">
-        <a class="navbar-brand" th:href="@{/displayProducts/page}">
+        <a class="navbar-brand" th:href="@{/products/page}">
             <i class="bi bi-grid-3x3-gap me-2"></i>Browse
         </a>
         <button class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
@@ -106,8 +106,7 @@
 
                 <!-- Quantity Selector -->
                 <form id="addToCartForm" method="post" th:action="@{/shoppingCartDetail/add}">
-                    <input name="customerId" th:value="${session.customerId != null ? session.customerId : 1}" type="hidden"
-                           value="1">
+                    <input name="customerId" th:value="${session.customerId}" type="hidden">
                     <input name="productId" th:value="${product.productId}" type="hidden">
 
                     <div class="mb-4">
@@ -123,11 +122,11 @@
                 </form>
 
                 <div class="d-flex align-items-center gap-2">
-                    <form method="post" th:action="@{/shoppingCartDetail/add}">
-                        <button class="btn btn-primary btn-add-cart" type="submit">
+                        <button class="btn btn-primary btn-add-cart" type="button"
+                                onclick="document.getElementById('addToCartForm').submit()">
                             <i class="bi bi-cart-plus me-2"></i>Add to Cart
                         </button>
-                    </form>
+
 
                     <form id="favsForm" method="post" style="display: inline;" th:action="@{/favourites/save}">
                         <input name="productId" th:value="${product.productId}" type="hidden">
@@ -155,19 +154,19 @@
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h5 class="mb-0">Customer Reviews</h5>
                 <div class="text-muted">
-                    <span th:if="${reviews != null}" th:text="${reviews.size()} + ' review(s)'">0 reviews</span>
+                    <span th:if="${product.reviews != null}" th:text="${product.reviews.size()} + ' review(s)'">0 reviews</span>
                 </div>
             </div>
 
             <!-- Average Rating Summary -->
-            <div class="rating-summary mb-4 p-3 bg-light rounded" th:if="${reviews != null && !reviews.isEmpty()}">
+            <div class="rating-summary mb-4 p-3 bg-light rounded" th:if="${product.reviews != null && !product.reviews.isEmpty()}">
                 <div class="row align-items-center">
                     <div class="col-md-3 text-center">
                         <h2 class="mb-0"
-                            th:text="${averageRating != null ? #numbers.formatDecimal(averageRating, 1, 1) : '0.0'}">
+                            th:text="${product.averageRating != null ? #numbers.formatDecimal(product.averageRating, 1, 1) : '0.0'}">
                             4.5</h2>
                         <div class="text-warning">
-                            <i th:class="${i <= averageRating} ? 'bi bi-star-fill' : 'bi bi-star'"
+                            <i th:class="${i <= product.averageRating} ? 'bi bi-star-fill' : 'bi bi-star'"
                                th:each="i : ${#numbers.sequence(1, 5)}"></i>
                         </div>
                         <small class="text-muted">Average Rating</small>
@@ -179,14 +178,14 @@
             </div>
 
             <!-- No Reviews State -->
-            <div class="text-center py-4" th:if="${reviews == null || reviews.isEmpty()}">
+            <div class="text-center py-4" th:if="${product.reviews == null || product.reviews.isEmpty()}">
                 <i class="bi bi-chat-left-text display-4 text-muted mb-3"></i>
                 <p class="text-muted">No reviews yet. Be the first to review this product!</p>
             </div>
 
             <!-- Reviews List -->
-            <div th:unless="${reviews == null || reviews.isEmpty()}">
-                <div class="review-card" th:each="review : ${reviews}">
+            <div th:unless="${product.reviews == null || product.reviews.isEmpty()}">
+                <div class="review-card" th:each="review : ${product.reviews}">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <div>
                             <h6 class="review-author mb-0" th:text="${review.customerId}">Customer Name</h6>
