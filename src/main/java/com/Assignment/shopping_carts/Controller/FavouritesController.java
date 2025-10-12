@@ -15,7 +15,7 @@ import java.util.List;
  * Date: 2025-10-04
  * Modifier by : yh
  * Last Modified by : yh
- * Last Modified: 2025-10-10 18:00
+ * Last Modified: 2025-10-12 21:00
  */
 
 @Controller
@@ -28,6 +28,7 @@ public class FavouritesController {
         this.favService = favService;
     }
 
+    //gets customerid from sesssion. then get list of products, add list to model, return view fav
     @GetMapping
     public String showFavourites(Model model, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
@@ -39,8 +40,9 @@ public class FavouritesController {
         return "favourites";
     }
 
-    @PostMapping("/save")
-    @ResponseBody
+    //toggle button to update heart icon.
+    @PostMapping("/save")  //read productId from thymeleaf.
+    @ResponseBody //return string directly instead of view. (for the return portion below)
     public String saveFavourite(@RequestParam int productId, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
@@ -49,7 +51,7 @@ public class FavouritesController {
             customerId = 1;
             session.setAttribute("customerId", customerId);
         }
-        return favService.saveFavourites(customerId, productId);
+        return favService.saveFavourites(customerId, productId); //toggles fav status
         //return "redirect:/displayProducts/details/" + productId;
     }
 
@@ -69,6 +71,7 @@ public class FavouritesController {
         return "favourites";
     }
 
+    //for clear all products button, one shot delete all.
     @PostMapping("/clear")
     public String deleteAllFavourites(HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
@@ -81,6 +84,7 @@ public class FavouritesController {
         return "redirect:/favourites";
     }
 
+    //this is for trash bin icon, deletes only 1 product
     @PostMapping("/remove-product")
     public String deleteSingleFavourites(@RequestParam int productId, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");

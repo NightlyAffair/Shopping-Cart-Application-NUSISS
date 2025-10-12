@@ -2,9 +2,9 @@
 * displayProduct HTML
 * Authors: Glenn Min, Sheng Qi, Nithvin
 * Date: 2025-10-05
-* Last Modified by: Glenn Min
-* New Updates: minor bug fixes
-* Last Modified: 2025-10-11
+* Last Modified by: yh
+* New Updates: Linked the fav button to backend
+* Last Modified: 2025-10-12
 -->
 
 <!doctype html>
@@ -204,22 +204,22 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <!--<script th:src="@{/js/displayProducts.js}"></script>-->
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () { //waits for page to load
         document.querySelectorAll('.fav-btn').forEach(btn => {
             const productId = btn.getAttribute('data-id');
             const icon = btn.querySelector('i');
 
-            // --- 1. INITIAL STATUS CHECK (Runs on page load) ---
-            fetch(`/favourites/status/${productId}`) // ADDED LEADING SLASH FOR ABSOLUTE PATH
+            //this checks fav status to see if its alrdy been liked when you load the page. done using get request
+            fetch(`/favourites/status/${productId}`)
                 .then(response => {
                     if (!response.ok) throw new Error('Network response not ok');
                     return response.json();
                 })
                 .then(isFavourited => {
-                    // This logic now explicitly adds the correct state from a blank icon (i class="bi")
+                    //will either return true or false. if favourited fill heart. else empty heart
                     if (isFavourited) {
                         icon.classList.add('bi-heart-fill', 'text-danger');
-                        icon.classList.remove('bi-heart'); // Ensure we don't have bi-heart if it was somehow added
+                        icon.classList.remove('bi-heart');
                     } else {
                         icon.classList.add('bi-heart');
                         icon.classList.remove('bi-heart-fill', 'text-danger');
@@ -227,13 +227,15 @@
                 })
                 .catch(error => console.error('Fav status check failed', error));
 
-            // --- 2. CLICK HANDLER (Toggle logic) ---
+            //stops default form. function will run whenever user click btn, then execute code here. async waits for fetch resolve
+            //runs asynchronously to toggle the favourite status and update the UI.
+            //event is passed by browser contains what element or keys user press.
             btn.addEventListener('click', async function (event) {
                 event.preventDefault();
                 console.log('Clicked fav button', productId); //for debug
 
-                try {
-                    const response = await fetch(`/favourites/save`, { // ADDED LEADING SLASH
+                try { //sends post request to add/remove fav, only sends productid
+                    const response = await fetch(`/favourites/save`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
@@ -244,18 +246,17 @@
                     if (!response.ok) throw new Error('Toggle failed');
 
                     const result = await response.text();
-
                     if (result.trim().toLowerCase().includes('added')) {
-                        // ON ADDED: Show filled red heart
+                        // On added, show filled heart
                         icon.classList.remove('bi-heart');
                         icon.classList.add('bi-heart-fill', 'text-danger');
                     } else if (result.trim().toLowerCase().includes('removed')) {
-                        // ON REMOVED: Show empty grey heart
+                        // On removed, show empty heart
                         icon.classList.remove('bi-heart-fill', 'text-danger');
                         icon.classList.add('bi-heart');
                     }
                 } catch (err) {
-                    console.error('Fav button toggle failed:', err); // Changed to console.error for consistency
+                    console.error('Fav button toggle failed:', err);
                 }
             });
         });

@@ -115,7 +115,7 @@
       <span class="text-muted" th:text="${favourites?.size() ?: 0} + ' items'">0 items</span>
     </div>
 
-    <!-- Empty State -->
+    <!-- Empty State. if no favourites, show empty state -->
     <div th:if="${favourites == null || favourites.isEmpty()}" class="empty-state">
       <div class="text-center py-5">
         <i class="bi bi-heart display-1 text-muted mb-3"></i>
@@ -130,7 +130,7 @@
       <!-- Status message -->
       <div id="statusMessage" class="text-muted mb-2"></div>
 
-    <!-- Favorites Table -->
+    <!-- Favorites Table, shows all fav products -->
     <div th:unless="${favourites == null || favourites.isEmpty()}">
       <div class="table-responsive">
         <table class="table table-hover align-middle">
@@ -245,7 +245,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Quantity controls
+      // Quantity controls to ++/--
       document.querySelectorAll('.add-to-cart-form').forEach(form => {
         const qtyInput = form.querySelector('.qty-input');
         const decreaseBtn = form.querySelector('.btn-qty-decrease');
@@ -266,39 +266,40 @@
         });
       });
 
-      // Remove favorite
+      // Remove favorite, loops thru trash buttons to remv fav.
         const statusMessage = document.getElementById('statusMessage');
       document.querySelectorAll('.btn-remove-favorite').forEach(btn => {
         btn.addEventListener('click', function(e) {
-            const productId = this.getAttribute('data-product-id');
+            const productId = this.getAttribute('data-product-id'); //onclick get product id
 
-          if (!confirm('Remove this item from favourites?')) {
+          if (!confirm('Remove this item from favourites?')) { //checks for confirmation
+              //stops form submission to it wont reload.
               e.preventDefault();
               statusMessage.innerText = "Deletion cancelled"
               } else {
-                // Create and submit form
+                // Create hidden form and submit form
                 const form = document.createElement('form');
                 form.method = 'POST';
-                form.action = '/favourites/remove-product';
+                form.action = '/favourites/remove-product'; //sends post request to remove product in fav controller
 
                 const productIdInput = document.createElement('input');
                 productIdInput.type = 'hidden';
                 productIdInput.name = 'productId';
                 productIdInput.value = productId;
-                form.appendChild(productIdInput);
+                form.appendChild(productIdInput); //append form to body
                 document.body.appendChild(form);
                 form.submit();
           }
         });
       });
 
-      // Add to cart feedback
+      // Add to cart, reads quantity, product name,
       document.querySelectorAll('.add-to-cart-form').forEach(form => {
         form.addEventListener('submit', function(e) {
           const qty = this.querySelector('.qty-input').value;
           const productName = this.closest('tr').querySelector('.product-name').textContent;
           
-          // Show toast notification
+          // log message to console
           console.log(`Added ${qty} x ${productName} to cart`);
         });
       });

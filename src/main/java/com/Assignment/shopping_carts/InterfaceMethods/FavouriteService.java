@@ -15,13 +15,17 @@ import java.util.List;
 
 public interface FavouriteService {
     public List<Favourites> findByCustomerId(int customerId);
+    //add to fav if its not already added. otherwise add it
     public String saveFavourites(int customerId, int productId);
+    //fetch full product attributes, like name, descrpition, image url
     public List<Product> findFavouriteProductsByCustomerId(int customerId);
+    //removes all records of customer whole list removed.
     public void deleteByCustomerId(int customerId);
+    //removes SINGLE product of customer, so need product ID.
     public void deleteByCustomerIdAndProductId(int customerId, int productId);
+    //checks if its alryd favuourited, return true if yes, false if no.
     public boolean isProductFavourited(int customerId, int productId);
 
     public long countFavouritesByProductId(int productId);
 
-    //public boolean existsByCustomerIdAndProductId(int customerId, int productId);
 }
