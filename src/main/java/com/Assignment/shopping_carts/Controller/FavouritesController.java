@@ -27,12 +27,6 @@ public class FavouritesController {
     public FavouritesController(FavouriteService favService) {
         this.favService = favService;
     }
-/*
-    @GetMapping("/CustomerId/{customerId}")
-    public List<Favourites> findByCustomerId(@PathVariable("customerId")
-                                       int customerId, Model model) {
-        return favService.findByCustomerId(customerId);
-    } */
 
     @GetMapping
     public String showFavourites(Model model, HttpSession session) {
@@ -76,7 +70,7 @@ public class FavouritesController {
     }
 
     @PostMapping("/clear")
-    public String deleteFavourites(HttpSession session) {
+    public String deleteAllFavourites(HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
             //return "redirect:/Log";
@@ -84,6 +78,18 @@ public class FavouritesController {
             session.setAttribute("customerId", customerId);
         }
         favService.deleteByCustomerId(customerId);
+        return "redirect:/favourites";
+    }
+
+    @PostMapping("/remove-product")
+    public String deleteSingleFavourites(@RequestParam int productId, HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) {
+            //return "redirect:/Log";
+            customerId = 1;
+            session.setAttribute("customerId", customerId);
+        }
+        favService.deleteByCustomerIdAndProductId(customerId, productId);
         return "redirect:/favourites";
     }
 
@@ -99,3 +105,11 @@ public class FavouritesController {
         return favService.isProductFavourited(customerId,productId);
     }
 }
+
+
+/*
+    @GetMapping("/CustomerId/{customerId}")
+    public List<Favourites> findByCustomerId(@PathVariable("customerId")
+                                       int customerId, Model model) {
+        return favService.findByCustomerId(customerId);
+    } */

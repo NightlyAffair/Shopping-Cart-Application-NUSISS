@@ -30,6 +30,9 @@ public interface FavouritesRepository extends JpaRepository<Favourites, Integer>
 
     public void deleteByCustomerId(int customerId);
 
+    public void deleteByCustomerIdAndProductId(int customerId, int productId);
+
+
     //count how many customers favourited a product
     long countFavouritesByProductId(int productId);
 }
