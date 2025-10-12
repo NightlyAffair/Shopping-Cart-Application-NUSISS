@@ -20,6 +20,12 @@ public class ReviewController {
     // Receive customer review, only if not already reviewed for this product/order/customer
     @PostMapping("/add/{productId}/{customerId}/{orderId}")
     public ResponseEntity<String> addReview(@PathVariable int productId, @PathVariable int customerId, @PathVariable int orderId, @RequestBody Review review) {
+        //testing
+         System.out.println("Received review request: productId=" + productId + ", customerId=" + customerId + ", orderId=" + orderId);
+        System.out.println("Review payload: rating=" + review.getRating() + ", description=" + review.getDescription());
+        //end
+        
+        
         if (reviewService.hasReview(productId, customerId, orderId)) {
             return new ResponseEntity<>("Review already exists for this product/order.", HttpStatus.BAD_REQUEST);
         }
@@ -29,10 +35,18 @@ public class ReviewController {
             review.setCustomerId(customerId);
             review.setOrderId(orderId);
             //end
+            //testing
+             System.out.println("About to save review with IDs set");
             reviewService.saveReview(review);
+            System.out.println("Review saved successfully");
+            //end
+            //reviewService.saveReview(review);
             return new ResponseEntity<>("success", HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
+            //testing one line
+            e.printStackTrace();
+            //end
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -45,9 +59,9 @@ public class ReviewController {
     }
 
     // Get average rating for a product
-    @GetMapping("/product/{productId}/average-rating")
-    public ResponseEntity<Double> getAverageRatingForProduct(@PathVariable int productId) {
-        Double avg = reviewService.getAverageRatingForProduct(productId);
-        return new ResponseEntity<>(avg, HttpStatus.OK);
-    }
+    // @GetMapping("/product/{productId}/average-rating")
+    // public ResponseEntity<Double> getAverageRatingForProduct(@PathVariable int productId) {
+    //     Double avg = reviewService.getAverageRatingForProduct(productId);
+    //     return new ResponseEntity<>(avg, HttpStatus.OK);
+    // }
 }

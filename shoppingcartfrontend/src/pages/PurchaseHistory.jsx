@@ -23,25 +23,46 @@ export default function PurchaseHistory() {
   const [rating, setRating] = useState(5);
 
   useEffect(() => {
-    axios.get("http://localhost:8080/api/purchaseHistory/customer/1") // Replace with actual user ID
-      .then(response => {
-        console.log(response.data);
-        setOrders(response.data);
-      })
-      .catch(e => {
-        console.error("Error fetching purchase history:", e);
-      });
+     // Use dummy data for testing Review button (no backend needed)
+    const dummyOrders = [
+      {
+        orderId: 1,
+        customerId: 1,
+        orderDate: "2025-10-01",
+        totalAmount: 149.99,
+        orderDetails: [
+          {
+            quantity: 2,
+            product: {
+              productId: 2,
+              productName: "Sample Product A",
+              category: "Electronics"
+            }
+          },
+          {
+            quantity: 1,
+            product: {
+              productId: 3,
+              productName: "Sample Product B", 
+              category: "Books"
+            }
+          }
+        ]
+      }
+    ];
+    console.log('Using dummy data:', dummyOrders);
+    setOrders(dummyOrders);
+    //real data test start
+    // axios.get("http://localhost:8080/api/purchaseHistory/customer/1") // Replace with actual user ID
+    //   .then(response => {
+    //     console.log(response.data);
+    //     setOrders(response.data);
+    //   })
+    //   .catch(e => {
+    //     console.error("Error fetching purchase history:", e);
+    //   });
   }, []);
-  //end
-  //   axios.get("http://localhost:8080/api/purchaseHistory/customer/1") // Replace with actual user ID
-  //     .then(response => {
-  //       setOrders(response.data);
-  //     })
-  //     .catch(e => {
-  //       console.error("Error fetching purchase history:", e);
-  //     });
-  // }, []);
-
+  //real data test end
   const openReviewForm = (orderId, productId, custId) => {
     setSelectedOrderId(orderId);
     setSelectedProductId(productId);
@@ -60,17 +81,21 @@ export default function PurchaseHistory() {
     const payload = {
       rating: Number(rating),
       description: reviewContent,
-      productId: selectedProductId,
-      customerId:customerId,
-      orderId: selectedOrderId
+     
     };
 
-
+    console.log('Submitting review payload:', payload);
+    console.log('URL will be:', `http://localhost:8080/api/reviews/add/${selectedProductId}/${customerId}/${selectedOrderId}`);
 
     try {
       const url = `http://localhost:8080/api/reviews/add/${selectedProductId}/${customerId}/${selectedOrderId}`;
-      const resp =await axios.post(url, payload, { headers: { 'Content-Type': 'application/json' }});
-      console.log('Submitting review payload:', resp.data);
+      const response = await axios.post(url, payload, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+
+      console.log('Review submitted successfully:', response.data);
+      alert('Review submitted successfully!');
+      
       // reset form
       setShowForm(false);
       setReviewContent('');
@@ -139,37 +164,49 @@ export default function PurchaseHistory() {
                   </tr>
                 </thead>
                 <tbody>
-                  {orders.map(order =>
-                    (order.orderDetails.map((item, idx) => (
-                      <tr key={`${order.orderId}-${idx}`}>
-                        <td className="id">{order.orderId}</td>
-                        <td>
-                          <div className="d-flex align-items-center">
-                            <div>
-                              <img src="https://via.placeholder.com/60" className="img-fluid rounded-3" alt="Product" />
-                            </div>
-                            <div className="flex-column ms-3">
-                              <a href="productDetails.html">
-                                <h6>{item.product.productName}</h6>
-                              </a>
-                              <p>Category: {item.product.category}</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="date"><span>{order.orderDate}</span></td>
-                        <td className="price"><span>${order.totalAmount}</span></td>
-                        <td className="quantity"><span>{item.quantity}</span></td>
-                        <td>
-                          <button type="button" onClick={() => openReviewForm(order.orderId, item.product.productId)}>
-                            Review
-                          </button>
-                        </td>
-                        <td>
-                          
-                        </td>
-                      </tr>
-                    ))
-                  ))}
+                  {/* {orders.map(order =>
+                    (order.orderDetails.map((item, idx) => ( */}
+                      {/* //thae add some codes */}
+{(orders || []).map(order => {
+  const details = order.orderDetails || [];
+  return details.map((item, idx) => (
+    <tr key={`${order.orderId}-${idx}`}>
+      <td className="id">{order.orderId}</td>
+      <td>
+        <div className="d-flex align-items-center">
+          <div>
+            <img src="https://via.placeholder.com/60" className="img-fluid rounded-3" alt="Product" />
+          </div>
+          <div className="flex-column ms-3">
+            <a href="productDetails.html">
+              {/* <h6>{item.product.productName}</h6> */}
+              <h6>{item.product?.productName || 'Unknown Product'}</h6>
+            </a>
+            {/* <p>Category: {item.product.category}</p> */}
+            <p>Category: {item.product?.category || 'N/A'}</p>
+          </div>
+        </div>
+      </td>
+      {/* <td className="date"><span>{order.orderDate}</span></td>
+      <td className="price"><span>${order.totalAmount}</span></td>
+      <td className="quantity"><span>{item.quantity}</span></td> */}
+      <td className="date"><span>{order.orderDate || order.purchaseDate || 'N/A'}</span></td>
+      <td className="price"><span>${order.totalAmount || order.unitAmount || '0.00'}</span></td>
+      <td className="quantity"><span>{item.quantity || 0}</span></td>
+      <td>
+        {/* <button type="button" onClick={() => openReviewForm(order.orderId, item.product.productId)}>
+          Review
+        </button> */}
+        <button type="button" onClick={() => openReviewForm(order.orderId, item.product?.productId, order.customerId)}>
+          Review
+        </button>
+      </td>
+      <td>
+        
+      </td>
+    </tr>
+  ));
+})}
                 </tbody>
               </table>
               {/* show form as modal overlay when click review button */}
