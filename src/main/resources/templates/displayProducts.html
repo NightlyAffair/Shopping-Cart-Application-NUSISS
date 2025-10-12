@@ -1,3 +1,12 @@
+<!--
+* displayProduct HTML
+* Authors: Glenn Min, Sheng Qi, Nithvin
+* Date: 2025-10-05
+* Last Modified by: Glenn Min
+* New Updates: minor bug fixes
+* Last Modified: 2025-10-11
+-->
+
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -5,13 +14,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Shop @ISS – Browse Products</title>
 
+  <!-- Bootstrap CSS + Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
+  <!-- Global Styles -->
   <link th:href="@{/css/style.css}" rel="stylesheet">
   <link th:href="@{/css/displayProducts.css}" rel="stylesheet">
 </head>
 <body>
+
+<!-- Header -->
 <header class="site-header">
   <div class="container">
     <div class="row align-items-center">
@@ -26,7 +39,7 @@
       <div class="col-md-3">
         <div class="user-actions d-flex align-items-center justify-content-end gap-2">
           <a href="#" class="text-white"><i class="bi bi-person-circle fs-4"></i></a>
-          <a th:href="@{/login}" class="btn btn-outline-light btn-sm">Login</a>
+          <a th:href="@{/Log}" class="btn btn-outline-light btn-sm">Login</a>
           <a th:href="@{/signup}" class="btn btn-warning btn-sm">Sign Up</a>
         </div>
       </div>
@@ -46,7 +59,12 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" th:href="@{/cart}">
+          <a class="nav-link" th:href="@{/products/favorites}">
+            <i class="bi bi-heart-fill me-1"></i>Favorites
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" th:href="@{/products/cart}">
             <i class="bi bi-cart3 me-1"></i>Cart
           </a>
         </li>
@@ -55,7 +73,7 @@
   </div>
 </nav>
 
-<!-- Filter Bar -->
+<!-- Filter -->
 <section class="filter-bar">
   <div class="container">
     <form th:action="@{/products/page}" method="get">
@@ -96,14 +114,23 @@
   </div>
 </section>
 
+<!-- Main Section -->
 <main class="container my-5">
   <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-4">
     <div class="col" th:each="product : ${products}">
-      <div class="card h-100">
-        <a th:href="@{/displayProducts/details/{id}(id=${product.productId})}" class="text-decoration-none">
+      <div class="card h-100 position-relative product-card">
+        <!-- Favorite Button -->
+        <button type="button" class="wishlist-btn"
+                th:attr="data-id=${product.productId}"
+                title="Add to Favorites">
+          <i class="bi bi-heart"></i>
+        </button>
+
+        <a th:href="@{/products/details/{id}(id=${product.productId})}" class="text-decoration-none">
           <img th:src="${product.imageUrl}" class="card-img-top" alt="Product Image"
                onerror="this.src='https://via.placeholder.com/200'">
         </a>
+
         <div class="card-body">
           <h6 class="card-title">
             <a th:href="@{/products/details/{id}(id=${product.productId})}"
@@ -114,13 +141,15 @@
           <p class="fw-bold text-primary">
             $<span th:text="${#numbers.formatDecimal(product.unitPrice, 1, 2)}">0.00</span>
           </p>
+
           <div class="d-flex justify-content-between align-items-center">
             <small class="text-warning">
               <i class="bi bi-star-fill"></i>
               <span th:text="${product.averageRating != null ?
                      #numbers.formatDecimal(product.averageRating, 1, 1) : '0.0'}">0.0</span>
             </small>
-            <a th:href="@{/cart/add(productId=${product.productId})}" class="btn btn-sm btn-primary">
+
+            <a th:href="@{/products/cart/add(productId=${product.productId})}" class="btn btn-sm btn-primary" title="Add to Cart">
               <i class="bi bi-cart-plus"></i>
             </a>
           </div>
@@ -128,7 +157,7 @@
       </div>
     </div>
 
-    <!-- No products found message -->
+    <!-- No products found -->
     <div class="col-12 text-center" th:if="${#lists.isEmpty(products)}">
       <p class="text-muted">No products found. Try adjusting your filters.</p>
     </div>
@@ -137,7 +166,6 @@
   <!-- Pagination -->
   <nav aria-label="Product pagination" class="mt-5" th:if="${totalPages > 1}">
     <ul class="pagination justify-content-center">
-      <!-- Previous Button -->
       <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
         <a class="page-link"
            th:href="@{/products/page(pageNumber=${currentPage - 1}, categoryId=${selectedCategory}, keyword=${currentKeyword}, sort=${currentSort})}">
@@ -145,7 +173,6 @@
         </a>
       </li>
 
-      <!-- Page Numbers -->
       <li class="page-item"
           th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
           th:classappend="${pageNum == currentPage} ? 'active'">
@@ -154,7 +181,6 @@
            th:text="${pageNum + 1}">1</a>
       </li>
 
-      <!-- Next Button -->
       <li class="page-item" th:classappend="${currentPage + 1 >= totalPages} ? 'disabled'">
         <a class="page-link"
            th:href="@{/products/page(pageNumber=${currentPage + 1}, categoryId=${selectedCategory}, keyword=${currentKeyword}, sort=${currentSort})}">

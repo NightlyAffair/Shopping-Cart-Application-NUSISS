@@ -1,3 +1,12 @@
+/**
+ * ProductServiceImpl Class
+ * Authors: Glenn Min, Sheng Qi, Nithwin
+ * Date: 2025-10-02
+ * Last Modified by: Glenn Min
+ * New Updates: minor bug fixes
+ * Last Modified: 2025-10-11
+ */
+
 package com.Assignment.shopping_carts.Service;
 
 import com.Assignment.shopping_carts.InterfaceMethods.ProductService;
@@ -5,6 +14,7 @@ import com.Assignment.shopping_carts.Model.Category;
 import com.Assignment.shopping_carts.Model.Product;
 import com.Assignment.shopping_carts.Model.Review;
 import com.Assignment.shopping_carts.Repository.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,25 +25,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * ProductServiceImpl Class
- * Author: Glenn Min
- * Date: 2025-10-06 12:00
- * Modifier by : Sheng Qi, Nithvin(Pagination), Updated for product details
- * Last Modified: 2025-10-09
- */
-
 @Service
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductRepository productRepository;
 
+    // Create
     @Override
     public Product createProduct(Product product) {
         return productRepository.save(product);
     }
 
+    // Read
     @Override
     public Optional<Product> getProductById(int productId) {
         return productRepository.findById(productId);
@@ -44,19 +48,30 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
 
+    // Update
     @Override
+    @Transactional
     public Product updateProduct(int productId, Product product) {
+        if (!productRepository.existsById(productId)) {
+            throw new IllegalArgumentException("Product not found with ID: " + productId);
+        }
+        product.setProductId(productId);
         return productRepository.save(product);
     }
 
+    // Delete
     @Override
     public void deleteProduct(int productId) {
         productRepository.deleteById(productId);
     }
 
+    // Searching
     @Override
     public List<Product> searchProductsByKeyword(String keyword) {
-        return productRepository.searchByKeyword(keyword);
+        if (keyword == null || keyword.trim().isEmpty()) {
+            return productRepository.findAll();
+        }
+        return productRepository.searchByKeyword(keyword.toLowerCase().trim());
     }
 
     @Override
@@ -66,9 +81,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> searchByCategoryAndKeyword(Integer categoryId, String keyword) {
-        return productRepository.findByCategoryAndKeyword(categoryId, keyword);
+        return productRepository.findByCategoryAndKeywordOrderByRating(categoryId, keyword);
     }
 
+    // Sorting
     @Override
     public List<Product> getAllProductsSortedByPriceAsc() {
         return productRepository.findAllByOrderByUnitPriceAsc();
@@ -89,15 +105,18 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findProductsByCategorySort(categoryId, keyword, sort);
     }
 
+    // Pagination
     @Override
     public Page<Product> getProductsPaginated(Integer categoryId, String keyword, Pageable pageable) {
         return productRepository.findByCategoryAndKeywordPaginated(categoryId, keyword, pageable);
     }
 
+    // Rating
     @Override
+    @Transactional
     public void updateProductAverageRating(int productId) {
         Product product = productRepository.findById(productId).orElse(null);
-        if (product != null && product.getReviews() != null) {
+        if (product != null && product.getReviews() != null && !product.getReviews().isEmpty()) {
             double avg = product.getReviews().stream()
                     .mapToInt(Review::getRating)
                     .average()
@@ -112,19 +131,16 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findByRatingDescCalculated();
     }
 
-    // Helper method for pagination with sorting
-    public Page<Product> getPage(Integer pageNumber, Integer pageSize, Integer categoryId, String keyword, String sort) {
-        Pageable pageRequest = PageRequest.of(pageNumber, pageSize, sortEnum(sort));
-        return productRepository.findByCategoryAndKeywordPaginated(categoryId, keyword, pageRequest);
-    }
-
-    // Simple sort converter
+    // Sort Enum
     public Sort sortEnum(String sort) {
         if (sort == null) {
-            return Sort.by(Sort.Direction.ASC, "productName"); // Default: alphabetical
+            return Sort.by(Sort.Direction.ASC, "productName");
         }
-
         switch (sort) {
+            case "nameAsc":
+                return Sort.by(Sort.Direction.ASC, "productName");
+            case "nameDesc":
+                return Sort.by(Sort.Direction.DESC, "productName");
             case "priceAsc":
                 return Sort.by(Sort.Direction.ASC, "unitPrice");
             case "priceDesc":

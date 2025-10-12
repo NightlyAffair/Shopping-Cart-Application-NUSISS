@@ -25,9 +25,10 @@ public interface FavouritesRepository extends JpaRepository<Favourites, Integer>
     List<Product> findFavouriteProductsByCustomerId(@Param("customerId") int customerId);
 
     //check if a product is already favourited by a customer
-    public boolean existsByCustomerIdAndProductId(int customerId, int productId);
+    @Query("SELECT CASE WHEN COUNT(f) > 0 THEN TRUE ELSE FALSE END FROM Favourites f WHERE f.customerId = :customerId AND f.productId = :productId ")
+    public boolean existsByCustomerIdAndProductId(@Param("customerId")int customerId, @Param("productId") int productId);
 
-    public void deleteByCustomerIdAndProductId(int customerId, int productId);
+    public void deleteByCustomerId(int customerId);
 
     //count how many customers favourited a product
     long countFavouritesByProductId(int productId);

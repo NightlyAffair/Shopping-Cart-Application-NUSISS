@@ -2,6 +2,7 @@ package com.Assignment.shopping_carts.Service;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.Assignment.shopping_carts.InterfaceMethods.FavouriteService;
@@ -25,11 +26,10 @@ import jakarta.transaction.Transactional;
 public class FavouriteServiceImpl implements FavouriteService {
 
     private final FavouritesRepository favRepository;
-    private final ProductRepository productRepository;
 
-    public FavouriteServiceImpl(FavouritesRepository favRepository, ProductRepository productRepository) {
+    @Autowired
+    public FavouriteServiceImpl(FavouritesRepository favRepository) {
         this.favRepository = favRepository;
-        this.productRepository = productRepository;
     }
 
     @Override
@@ -41,17 +41,18 @@ public class FavouriteServiceImpl implements FavouriteService {
     //when customer click button, check if its alrdy favourited. if yes, unfavourite. otherwise favourite it.
     @Override
     @Transactional
-    public boolean toggleFavourite(int customerId, int productId) {
+    public String saveFavourites(int customerId, int productId) {
         if(favRepository.existsByCustomerIdAndProductId(customerId, productId)) {
-            favRepository.deleteByCustomerIdAndProductId(customerId, productId);
-            return false;
-        } else {
-            Favourites favouriteSave = new Favourites();
-            favouriteSave.setCustomerId(customerId);
-            favouriteSave.setProductId(productId);
-            favRepository.save(favouriteSave);
-            return true;
+            favRepository.deleteByCustomerId(customerId);
+            System.out.println("Like remove from favourites ");
+            return "Removed from favourites";
         }
+        Favourites favouriteSave = new Favourites();
+        favouriteSave.setCustomerId(customerId);
+        favouriteSave.setProductId(productId);
+        favRepository.save(favouriteSave);
+        System.out.println("Added to favourites!");
+        return "Added to favourites!";
     }
 
     @Override
@@ -59,38 +60,17 @@ public class FavouriteServiceImpl implements FavouriteService {
         return favRepository.findFavouriteProductsByCustomerId(customerId);
     }
 
+    public void deleteByCustomerId(int customerId){
+        favRepository.deleteByCustomerId(customerId);
+    }
+
+    @Override
+    public boolean isProductFavourited(int customerId, int productId) {
+        return favRepository.existsByCustomerIdAndProductId(customerId, productId);
+    }
+
     @Override
     public long countFavouritesByProductId(int productId) {
         return favRepository.countFavouritesByProductId(productId);
     } //counts how many times product item is favourited already. optional extra feature.
 }
-
-
-
-    /*
-    //if you want to check if customer favourited which product.
-    @Override
-    public boolean existsByCustomerIdAndProductId(int customerId, int productId) {
-        return favRepository.existsByCustomerIdAndProductId(customerId, productId);
-    } //return true if exists.
-     */
-
-/*
-    @Transactional
-    //extra method done previously as back up to the toggle. add a favourite if it doesn’t exist.
-    public boolean addFavourite(int customerId, int productId) {
-        //checks if exist. save new fav if it doesnt exist.
-        if(!favRepository.existsByCustomerIdAndProductId(customerId, productId)) {
-            Favourites favouriteSave = new Favourites();
-            favouriteSave.setCustomerId(customerId);
-            favouriteSave.setProductId(productId);
-            favRepository.save(favouriteSave);
-            return true;
-        } return false;
-    }
-
-    @Transactional
-    public void deleteFavourite(int customerId, int productId) {
-        favRepository.deleteByCustomerIdAndProductId(customerId, productId);
-    }
-*/

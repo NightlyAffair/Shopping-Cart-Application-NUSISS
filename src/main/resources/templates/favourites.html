@@ -19,7 +19,7 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-md-3">
-        <div class="logo">
+        <div class="logo text-decoration-none" th:ref = "@{/displayProducts/page}">
           <h5>Shop @ISS</h5>
         </div>
       </div>
@@ -80,8 +80,9 @@
   <!-- NavBar -->
   <nav class="navbar navbar-expand-lg navbar-dark site-navbar">
     <div class="container">
-      <a class="navbar-brand" th:href="@{/products}">
+      <a class="navbar-brand" th:href="@{/displayProducts/page}">
         <i class="bi bi-grid-3x3-gap me-2"></i>Browse
+
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
@@ -89,7 +90,7 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/cart}">
+            <a class="nav-link" th:href="@{/shoppingCartDetail/view}">
               <i class="bi bi-cart3 me-1"></i>Cart
             </a>
           </li>
@@ -113,7 +114,7 @@
         <i class="bi bi-heart display-1 text-muted mb-3"></i>
         <h4 class="mb-3">No Favourites Yet</h4>
         <p class="text-muted mb-4">Start adding products to your favourites to see them here!</p>
-        <a th:href="@{/products}" class="btn btn-primary">
+        <a th:href="@{/displayProducts/page}" class="btn btn-primary">
           <i class="bi bi-grid-3x3-gap me-2"></i>Browse Products
         </a>
       </div>
@@ -186,7 +187,7 @@
               </td>
               <td>
                 <div class="d-flex gap-2 flex-wrap">
-                  <form th:action="@{/favourites/add-to-cart}" method="post" class="d-inline add-to-cart-form-submit">
+                  <form th:action="@{/shoppingCartDetail/add}" method="post" class="d-inline add-to-cart-form-submit">
                     <input type="hidden" name="productId" th:value="${product.productId}">
                       <!--Not needed  <input type="hidden" name="customerId" th:value="${customerId}"> -->
                        <input type="hidden" name="quantity" class="qty-value" value="1">
@@ -199,11 +200,8 @@
                        <i class="bi bi-eye me-1"></i>View
                      </a>
 
-                     <form th:action="@{/favourites/remove}" method="post" class="d-inline" onsubmit="return confirm('Remove from favorites?');">
-                       <input type="hidden" name="productId" th:value="${product.productId}">
-                         <!--Not needed  <input type="hidden" name="customerId" th:value="${customerId}"> -->
-                            <button type="submit" class="btn btn-outline-danger btn-sm btn-remove-favorite"
-                                data-product-id = "${product.productId}"> <!-- added this plus btn-remove-fav above -->
+                     <form th:action="@{/favourites/clear}" method="post" class="d-inline" onsubmit="return confirm('Remove from favorites?');">
+                            <button type="submit" class="btn btn-outline-danger btn-sm btn-remove-favorite">
                               <i class="bi bi-trash"></i>
                             </button>
                           </form>
