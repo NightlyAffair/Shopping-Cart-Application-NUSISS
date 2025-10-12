@@ -2,8 +2,8 @@
  * ProductController Class
  * Authors: Glenn Min, Sheng Qi, Nithvin
  * Date: 2025-10-02
- * Last Modified by: Glenn Min
- * New Updates: minor bug fixes
+ * Last Modified by: YH
+ * New Updates: fav button
  * Last Modified: 2025-10-11
  */
 
@@ -116,6 +116,7 @@ public class ProductController {
 
    // Add or Remove to Favourites
     @PostMapping("/favorite/{id}")
+    @ResponseBody
     public String toggleFavorite(@PathVariable int id, HttpSession session) {
         List<Integer> favorites = (List<Integer>) session.getAttribute("favorites");
         if (favorites == null) favorites = new java.util.ArrayList<>();
