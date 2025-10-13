@@ -1,4 +1,4 @@
-`<!doctype html>
+<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
@@ -19,32 +19,32 @@
   <div class="container">
     <div class="row align-items-center">
       <div class="col-md-3">
-        <div class="logo text-decoration-none" th:ref = "@{/displayProducts/page}">
+        <a class="logo text-decoration-none" th:href = "@{/displayProducts/page}">
           <h5>Shop @ISS</h5>
-        </div>
+        </a>
       </div>
-      
+
       <div class="col-md-6 text-center d-none d-md-block">
         <span class="promotional-text" th:if="${user == null}">
           Today's Deals: Free shipping over $80 | 10% off on new arrivals
         </span>
       </div>
-      
+
       <div class="col-md-3">
-        <div class="user-actions d-flex align-items-center justify-content-end gap-3" 
+        <div class="user-actions d-flex align-items-center justify-content-end gap-3"
              th:if="${user != null}">
-  
+
           <div class="dropdown user-dropdown">
-            <button class="btn btn-link text-decoration-none gap-0 p-0" 
-                    type="button" 
-                    data-bs-toggle="dropdown" 
+            <button class="btn btn-link text-decoration-none gap-0 p-0"
+                    type="button"
+                    data-bs-toggle="dropdown"
                     aria-expanded="false">
-        
+
               <div class="user-avatar" th:text="${user.firstName.substring(0,1) + user.lastName.substring(0,1)}">
                 JD
               </div>
             </button>
-            
+
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
               <li>
                 <div class="px-3 py-2 border-bottom">
@@ -87,22 +87,20 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
-        <div class="collapse navbar-collapse" id="navbarFav">
+        <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
                     <a class="nav-link" th:href="@{/favourites}">
                         <i class="bi bi-heart-fill me-1"></i>Favourites
                     </a>
                 </li>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link" th:href="@{/shoppingCartDetail/view}">
+            <a class="nav-link" th:href="@{/products/cart}">
               <i class="bi bi-cart3 me-1"></i>Cart
             </a>
           </li>
         </ul>
-      </div>
+        </div>
     </div>
   </nav>
 
@@ -152,9 +150,6 @@
                             src="/images/placeholder.png"
                          alt="Product"
                          class="product-thumb me-3">
-
-
-
                     <div>
                     <div class="fw-semibold product-name" th:text="${product.productName}">Product Name</div>
                   </div>
@@ -180,29 +175,22 @@
                 </div>
               </td>
               <td>
-                <form th:action="@{/favourites/add-to-cart}" method="post" class="add-to-cart-form">
+                <form th:action="@{/shoppingCartDetail/add}" method="post" class="add-to-cart-form">
                   <input type="hidden" name="productId" th:value="${product.productId}">
+                    <input type="hidden" name="customerId" th:value="${session.customerId}">
+                    <div class="d-flex align-items-center gap-3">
                   <div class="quantity-selector">
-                    <button type="button" class="btn-qty-decrease">
-                      <i class="bi bi-dash"></i>
-                    </button>
-                    <input type="number" name="quantity" value="1" min="1" max="99" class="qty-input" readonly>
-                    <button type="button" class="btn-qty-increase">
-                      <i class="bi bi-plus"></i>
-                    </button>
+                    <button type="button" class="btn-qty-decrease"><i class="bi bi-dash"></i> </button>
+                        <input type="number" name="quantity" value="1" min ="1" max="99" class="qty-input" readonly>
+                    <button type="button" class="btn-qty-increase"> <i class="bi bi-plus"></i></button>
                   </div>
+                        <button class="btn btn-primary btn-add-cart" type="submit">
+                            <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                        </button>
+                    </div>
                 </form>
               </td>
               <td>
-                <div class="d-flex gap-2 flex-wrap">
-                  <form th:action="@{/shoppingCartDetail/add}" method="post" class="d-inline add-to-cart-form-submit">
-                    <input type="hidden" name="productId" th:value="${product.productId}">
-                       <input type="hidden" name="quantity" class="qty-value" value="1">
-                       <button type="submit" class="btn btn-primary btn-sm">
-                         <i class="bi bi-cart-plus me-1"></i>Add to Cart
-                       </button>
-                     </form>
-
                      <a th:href="@{/products/details/{id}(id=${product.productId})}" class="btn btn-outline-secondary btn-sm"
                             target = "_blank">
                        <i class="bi bi-eye me-1"></i>View
@@ -216,7 +204,6 @@
                                   <i class="bi bi-trash"></i>
                             </button>
                           </form>
-                        </div>
                       </td>
                     </tr>
                   </tbody>
@@ -279,9 +266,9 @@
               statusMessage.innerText = "Deletion cancelled"
               } else {
                 // Create hidden form and submit form
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/favourites/remove-product'; //sends post request to remove product in fav controller
+                //const form = document.createElement('form');
+                //form.method = 'POST';
+                //form.action = '/favourites/remove-product'; //sends post request to remove product in fav controller
 
                 const productIdInput = document.createElement('input');
                 productIdInput.type = 'hidden';
@@ -297,11 +284,20 @@
       // Add to cart, reads quantity, product name,
       document.querySelectorAll('.add-to-cart-form').forEach(form => {
         form.addEventListener('submit', function(e) {
-          const qty = this.querySelector('.qty-input').value;
-          const productName = this.closest('tr').querySelector('.product-name').textContent;
-          
-          // log message to console
-          console.log(`Added ${qty} x ${productName} to cart`);
+            e.preventDefault();
+          const formData = new FormData(form);
+          fetch(form.action, {
+              method: 'POST',
+              body: formData
+          })
+              .then(reply=>{
+                  if (reply.redirected){
+                      window.location.href= reply.url;
+                  } else{
+                      const customerId = form.querySelector('input[name="customerId"]').value;
+                      window.location.href=`/products/cart?customerId=${customerId}`;
+                  }
+              })
         });
       });
     });

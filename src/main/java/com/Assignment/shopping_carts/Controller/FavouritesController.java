@@ -37,6 +37,7 @@ public class FavouritesController {
             //customerId = 1;
             // session.setAttribute("customerId", customerId);
         } model.addAttribute("favourites", favService.findFavouriteProductsByCustomerId(customerId));
+        model.addAttribute("customerId", customerId);
         return "favourites";
     }
 
