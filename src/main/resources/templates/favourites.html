@@ -1,4 +1,4 @@
-<!doctype html>
+`<!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
@@ -148,10 +148,11 @@
             <tr th:each="product : ${favourites}">
               <td>
                 <div class="d-flex align-items-center">
-                    <img th:src="@{/images/{img}(img=${product.imageUrl})}"
+                    <img th:src="${product.imageUrl}"
+                            src="/images/placeholder.png"
                          alt="Product"
-                         class="product-thumb me-3"
-                         onerror="this.onerror=null;this.src='https://via.placeholder.com/80';">
+                         class="product-thumb me-3">
+
 
 
                     <div>
@@ -306,4 +307,4 @@
     });
   </script>
 </body>
-</html>
+</html>`

@@ -1,4 +1,6 @@
 import "../css/global.css"
+import "../css/displayProducts.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
 /**
  * Header
  * Author: Nithvin Leelakrishnan
