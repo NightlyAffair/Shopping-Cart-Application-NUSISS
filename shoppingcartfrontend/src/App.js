@@ -12,12 +12,26 @@ import Register from "./pages/Register";
  * Last Modified: 2025-10-09 14:00
  */
 function App() {
+    function RedirectProducts() {
+        window.location.replace("http://localhost:8080/products");
+    }
+
+    function RedirectFavourites() {
+        window.location.replace("http://localhost:8080/favorites");
+    }
+
+    function RedirectCart() {
+        window.location.replace("http://localhost:8080/products/cart");
+    }
   return (
       <Router>
           <Routes>
               <Route path="/" element={<Navigate to="/accountinfo" />} />
               <Route path={"/accountinfo"} element={<AccountInfo />} />
               <Route path={"/purchaseHistory"} element={<PurchaseHistory />} />
+              <Route path={"/products"} element={<RedirectProducts />} />
+              <Route path={"/favourites"} element={<RedirectFavourites />} />
+              <Route path={"/cart"} element={<RedirectCart />} />
 
               <Route path="/signup" element={<Register />} />
           </Routes>
