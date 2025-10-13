@@ -53,6 +53,21 @@
 .rating-display {
   font-size: 1rem;
   line-height: 1.2;
+    display: flex;
+    align-items: center;
+}
+
+.rating-display small {
+    margin-left: 0.25rem;
+}
+
+.rating-display i {
+    margin-right: 2px;
+}
+
+
+.rating-display i:last-of-type {
+    margin-right: 0;
 }
 
 .quantity-selector {
