@@ -6,6 +6,16 @@ import '../css/style.css';
 import '../css/login.css';
 
 
+/**
+ * react of register
+ * Author: Zhou Jason
+ * Date: 2025-10-10
+ * Participants: Jason
+ * Modified by: Jason
+ * Last Modified: 2025-10-13 11:00
+ */
+
+
 function Register() {
     const [formData, setFormData] = useState({
         username: '',

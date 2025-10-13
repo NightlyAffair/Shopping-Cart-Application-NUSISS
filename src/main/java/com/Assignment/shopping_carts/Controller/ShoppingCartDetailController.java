@@ -18,9 +18,9 @@ import java.util.Set;
  * ShoppingCartDetail Controller
  * Author: Tony Song
  * Date: 2025-10-02
- * Modifier by : Tony Song
- * Last Modified by : Tony Song
- * Last Modified: 2025-10-07 23:00
+ * participants : Tony Song /  jason zhou
+ * Last Modified by : jason zhou
+ * Last Modified: 2025-10-13 21:00
  */
 
 

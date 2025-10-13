@@ -14,9 +14,9 @@ import java.util.List;
  * Favourites Controller Class
  * Author: yh
  * Date: 2025-10-04
- * Modifier by : yh
- * Last Modified by : yh
- * Last Modified: 2025-10-12 21:00
+ * participants : yh  /  jason zhou
+ * Last Modified by : jason zhou
+ * Last Modified: 2025-10-13 21:00
  */
 
 @Controller

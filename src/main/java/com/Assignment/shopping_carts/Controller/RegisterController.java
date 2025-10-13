@@ -11,6 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * register Controller
+ * Author: Zhou Jason
+ * Date: 2025-10-09
+ * Participants: Jason
+ * Modified by: Jason
+ * Last Modified: 2025-10-13 14:00
+ */
+
+
 @RestController
 @RequestMapping("/api/register")
 @CrossOrigin(origins = "http://localhost:3000")
