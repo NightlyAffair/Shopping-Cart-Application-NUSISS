@@ -4,14 +4,9 @@ package com.Assignment.shopping_carts.Model;
 import java.sql.Date;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -47,6 +42,7 @@ public class Orders {
     private double unitAmount;
     private String status;
 
+<<<<<<< HEAD
     @OneToMany(mappedBy="orders")
     private List<OrderDetail> orderDetails;
 
@@ -54,6 +50,22 @@ public class Orders {
     @JoinColumn(name = "customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
     private Customer customer;
     
+=======
+    @OneToMany
+    @JoinColumn(name="orderId")
+    private List<OrderDetail> orderDetails;
+
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name="customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
+    private Customer customer;
+
+>>>>>>> 1dffeac5862a62e51d2e33383a57bc07f828a1fd
     @OneToMany(mappedBy = "orders")
     private List<Review> reviews;
+
+    @Override
+    public String toString() {
+        return "Orders";
+    }
 }

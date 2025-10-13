@@ -2,6 +2,8 @@ package com.Assignment.shopping_carts.Model;
 
 
 import com.Assignment.shopping_carts.Model.compositeKey.FavouritesId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -12,8 +14,8 @@ import lombok.Setter;
  * Favourites Entity Class
  * Author: Zhou Jason
  * Date: 2025-10-02
- * Modifier by :
- * Last Modified by :
+ * Modifier by : yh
+ * Last Modified by : yh
  * Last Modified: 2025-10-02 14:00
  */
 
@@ -26,7 +28,6 @@ public class Favourites {
     - customerId: int (PK/FK)
      */
     @Id
-    @Getter(AccessLevel.NONE)
     private int productId;
 
     @Id
@@ -34,10 +35,12 @@ public class Favourites {
     private int customerId;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)
     private Product product;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
     private Customer customer;
 

@@ -5,5 +5,5 @@ import com.Assignment.shopping_carts.Model.Category;
 import java.util.List;
 
 public interface CategoryService {
-    List<Category> getCategories();
+    List<Category> getAllCategories();
 }

@@ -1,10 +1,13 @@
 package com.Assignment.shopping_carts.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -30,6 +33,15 @@ public class Category {
     private int categoryId;
     private String name;
 
+
     @OneToMany(mappedBy = "category")
     private List<Product> products;
+
+    public Category() {}
+
+    public Category(int categoryId, String name) {
+        this.categoryId = categoryId;
+        this.name = name;
+    }
+
 }

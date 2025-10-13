@@ -3,6 +3,8 @@ package com.Assignment.shopping_carts.Controller;
 import com.Assignment.shopping_carts.InterfaceMethods.FavouriteService;
 import com.Assignment.shopping_carts.Model.Favourites;
 import com.Assignment.shopping_carts.Model.Product;
+import com.Assignment.shopping_carts.Repository.FavouritesRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +15,7 @@ import java.util.List;
  * Date: 2025-10-04
  * Modifier by : yh
  * Last Modified by : yh
- * Last Modified: 2025-10-07 18:00
+ * Last Modified: 2025-10-12 21:00
  */
 
 @Controller
@@ -26,20 +28,87 @@ public class FavouritesController {
         this.favService = favService;
     }
 
-    @PostMapping("/toggle")
-    @ResponseBody
-    public Boolean toggleFavourite(@RequestParam int customerId,
-                                   @RequestParam int productId) {
-        return favService.toggleFavourite(customerId, productId);
-    }
-
-    //Get all favourite items for a customer
-    @GetMapping("/customer/{customerId}")
-    public String getFavourites(@PathVariable int customerId, Model model) {
-        List<Product> FavProducts = favService
-                .findFavouriteProductsByCustomerId(customerId);
-        model.addAttribute("FavProducts", FavProducts);
+    //gets customerid from sesssion. then get list of products, add list to model, return view fav
+    @GetMapping
+    public String showFavourites(Model model, HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if(customerId == null) {
+            return "redirect:/Log";
+            //customerId = 1;
+            // session.setAttribute("customerId", customerId);
+        } model.addAttribute("favourites", favService.findFavouriteProductsByCustomerId(customerId));
         return "favourites";
     }
 
+    //toggle button to update heart icon.
+    @PostMapping("/save")  //read productId from thymeleaf.
+    @ResponseBody //return string directly instead of view. (for the return portion below)
+    public String saveFavourite(@RequestParam int productId, HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) {
+            return "redirect:/Log";
+            //customerId = 1;
+            //session.setAttribute("customerId", customerId);
+        }
+        return favService.saveFavourites(customerId, productId); //toggles fav status
+        //return "redirect:/displayProducts/details/" + productId;
+    }
+
+    //Get all favourite items for a customer
+    @GetMapping("/customer")
+    public String getFavourites(Model model, HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+
+        if (customerId == null) {
+            //session.setAttribute("customerId", customerId);
+            return "redirect:/Log";
+        }
+        List<Product> FavProducts = favService
+                .findFavouriteProductsByCustomerId(customerId);
+        model.addAttribute("favourites", FavProducts);
+        return "favourites";
+    }
+
+    //for clear all products button, one shot delete all.
+    @PostMapping("/clear")
+    public String deleteAllFavourites(HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) {
+            //session.setAttribute("customerId", customerId);
+            return "redirect:/Log";
+        }
+        favService.deleteByCustomerId(customerId);
+        return "redirect:/favourites";
+    }
+
+    //this is for trash bin icon, deletes only 1 product
+    @PostMapping("/remove-product")
+    public String deleteSingleFavourites(@RequestParam int productId, HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) {
+            //session.setAttribute("customerId", customerId);
+            return "redirect:/Log";
+        }
+        favService.deleteByCustomerIdAndProductId(customerId, productId);
+        return "redirect:/favourites";
+    }
+
+    @GetMapping("/status/{productId}")
+    @ResponseBody //returns true or false
+    public boolean checkFavStatus(@PathVariable int productId, HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        if (customerId == null) {
+           // session.setAttribute("customerId", customerId);
+            return false;
+        }
+        return favService.isProductFavourited(customerId,productId);
+    }
 }
+
+
+/*
+    @GetMapping("/CustomerId/{customerId}")
+    public List<Favourites> findByCustomerId(@PathVariable("customerId")
+                                       int customerId, Model model) {
+        return favService.findByCustomerId(customerId);
+    } */

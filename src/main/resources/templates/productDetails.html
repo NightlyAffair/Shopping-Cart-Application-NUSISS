@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Product Details</title>
+</head>
+<body>
+
+<h2>Product Detail</h2>
+<form th:action="@{/shoppingCartDetail/view}" method="get" style="display:inline;">
+    <input type="hidden" name="customerId" th:value="${customerId}">
+    <button type="submit">View Shopping Cart</button>
+</form>
+
+<div>
+    <p><strong>Product ID:</strong> <span th:text="${product.productId}"></span></p>
+    <p><strong>Name:</strong> <span th:text="${product.productName}"></span></p>
+    <p><strong>Description:</strong> <span th:text="${product.description}"></span></p>
+    <p><strong>Price:</strong> $<span th:text="${#numbers.formatDecimal(product.unitPrice,1,2)}"></span></p>
+</div>
+
+<div th:if="${message}">
+    <p style="color: green;" th:text="${message}"></p>
+</div>
+
+<!-- 数量调整 -->
+<form th:action="@{/shoppingCartDetail/add}" method="post">
+    <input type="hidden" name="customerId" th:value="${customerId}">
+    <input type="hidden" name="productId" th:value="${product.productId}">
+
+    <div>
+        <button type="button" onclick="decrement()">-</button>
+        <input id="qtyInput" type="number" name="quantity" value="1" min="1" readonly>
+        <button type="button" onclick="increment()">+</button>
+    </div>
+
+    <br>
+    <button type="submit">Add to Cart</button>
+</form>
+
+<a th:href="@{/shoppingCartDetail/view(customerId=${customerId})}">Back to Cart</a>
+
+<script>
+    function increment() {
+        let qty = document.getElementById("qtyInput");
+        qty.value = parseInt(qty.value) + 1;
+    }
+
+    function decrement() {
+        let qty = document.getElementById("qtyInput");
+        let val = parseInt(qty.value);
+        if (val > 1) {
+            qty.value = val - 1;
+        }
+    }
+</script>
+</body>
+</html>
