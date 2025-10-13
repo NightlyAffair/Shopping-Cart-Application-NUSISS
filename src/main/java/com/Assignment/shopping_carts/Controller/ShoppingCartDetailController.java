@@ -115,7 +115,7 @@ public class ShoppingCartDetailController {
             }//因为checkout过了，cart就删掉对应的product了
             session.removeAttribute("selectedProducts");//删除session里的selectedProducts
         }
-        return "redirect:/shoppingCartDetail/checkoutSuccess?customerId=" + customerId;//跳转结算成功页面
+        return "redirect:/products/cart/checkoutSuccess?customerId=" + customerId;//跳转结算成功页面
     }
 
     @GetMapping("/checkoutSuccess")
