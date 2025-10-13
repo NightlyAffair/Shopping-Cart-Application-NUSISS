@@ -73,21 +73,20 @@ export default function AccountInfo() {
             <NavBar />
             <div style={{display:"flex", flexDirection:"row"}}>
                 <Sidebar/>
-                <div style={{display:"flex", flexDirection:"column", justifyContent:"space-between", height:"20vh"}}>
-                    <div style={{display: "flex", flexDirection: "row"}}>
-                        <p style={{margin: 10}}>Full Name</p>
+                <div style={{display:"flex", flexDirection:"column", justifyContent:"space-between", height:"20vh", marginTop:"10px"}}>
+                    <div style={{display: "flex", flexDirection: "column", marginLeft:"20px", marginBottom:"40px"}}>
+                        <p>Full Name</p>
                         <input value={customerInfo.fullName} onChange={(e) => changeName(e.target.value)}/>
                     </div>
-                    <div style={{display: "flex", flexDirection: "row"}}>
-                        <p style={{margin: 10}}>Username</p>
+                    <div style={{display: "flex", flexDirection: "column", marginLeft:"20px", marginBottom:"40px"}}>
+                        <p >Username</p>
                         <input value={customerInfo.userName} onChange={(e) => changeUserName(e.target.value)}/>
                     </div>
-                    <div style={{display: "flex", flexDirection: "row"}}>
-                        <p style={{margin: 10}}>Password</p>
+                    <div style={{display: "flex", flexDirection: "column", marginLeft:"20px", marginBottom:"40px"}}>
+                        <p>Password</p>
                         <input value={customerInfo.password} onChange={(e) => changePassword(e.target.value)}/>
                     </div>
-                    <button type={"submit"} onClick={saveCustomerInfo}>submit</button>
-
+                    <button type={"submit"} onClick={saveCustomerInfo} style={{marginLeft:"20px"}}>submit</button>
                 </div>
             </div>
 

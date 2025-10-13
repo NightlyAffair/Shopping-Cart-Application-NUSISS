@@ -6,7 +6,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 export default function Navbar() {
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-black">
+        <nav className="navbar navbar-expand-lg navbar-dark site-navbar">
             <div className="container">
                 <a className="navbar-brand" href="/products">
                     <i className="bi bi-grid-3x3-gap me-2"></i>Browse
