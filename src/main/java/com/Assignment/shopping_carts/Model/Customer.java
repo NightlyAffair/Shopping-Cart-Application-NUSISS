@@ -42,5 +42,9 @@ public class Customer {
     @OneToMany(mappedBy = "customer")
     private List<Orders> orders;
 
+    @Override
+    public String toString() {
+        return "Customer";
+    }
 
 }

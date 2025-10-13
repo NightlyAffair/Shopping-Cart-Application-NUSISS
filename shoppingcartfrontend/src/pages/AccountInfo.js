@@ -69,7 +69,7 @@ export default function AccountInfo() {
 
     return(
         <div style={{display:'flex', flexDirection:'column', width:'100vw', minHeight:'100vh'}}>
-            <Header />  
+            <Header />
             <NavBar />
             <div style={{display:"flex", flexDirection:"row", flex: 1}}>
                 <Sidebar/>
