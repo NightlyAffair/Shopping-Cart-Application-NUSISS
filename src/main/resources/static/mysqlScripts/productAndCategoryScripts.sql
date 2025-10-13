@@ -1,12 +1,11 @@
--- ============================================================
--- SHOP @ISS — CATEGORY & PRODUCT SEED DATA SCRIPT
--- Prepared for integration testing and demo population
--- ============================================================
-
--- ============================================================
--- STEP 1: CREATE & INSERT PRODUCT CATEGORIES
--- ============================================================
--- Assuming 'category_id' is AUTO_INCREMENT PRIMARY KEY.
+--
+-- * mySQL script
+-- * Authors: Glenn Min, Claude
+-- * Date: 2025-10-13
+-- * Last Modified by: -
+-- * New Updates: -
+-- * Last Modified: 2025-10-13
+--
 
 INSERT INTO category (name) VALUES
                                 ('Stationery'),
@@ -18,9 +17,6 @@ INSERT INTO category (name) VALUES
 -- Optional Verification
 -- SELECT * FROM category;
 
--- ============================================================
--- STEP 2: INSERT SAMPLE PRODUCTS (42 ENTRIES TOTAL)
--- ============================================================
 INSERT INTO product
 (product_name, description, image_url, discount, unit_price, average_rating, category_id)
 VALUES
