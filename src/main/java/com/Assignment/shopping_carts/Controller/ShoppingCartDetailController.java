@@ -24,7 +24,7 @@ import java.util.Set;
  */
 
 
-@RequestMapping("/shoppingCartDetail")
+@RequestMapping("/products/cart")
 @Controller
 public class ShoppingCartDetailController {
     @Autowired
@@ -59,8 +59,6 @@ public class ShoppingCartDetailController {
     /*    1a.用户刚进cart界面，是没有任何select product的，这时候new HashSet<>()
         1b.下次再来如果上次有勾选没买的，再勾选其他的就直接加进去了（页面保存上次勾选的记录）
         2.选择结束后，controller传给前端，用户就看到对应product被勾选了*/
-
-
     }
 
     @PostMapping("/select")//处理“/shoppingCartDetail/select”的Post请求
@@ -117,7 +115,7 @@ public class ShoppingCartDetailController {
             }//因为checkout过了，cart就删掉对应的product了
             session.removeAttribute("selectedProducts");//删除session里的selectedProducts
         }
-        return "redirect:/shoppingCartDetail/checkoutSuccess?customerId=" + customerId;//跳转结算成功页面
+        return "redirect:/products/cart/checkoutSuccess?customerId=" + customerId;//跳转结算成功页面
     }
 
     @GetMapping("/checkoutSuccess")

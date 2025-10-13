@@ -88,12 +88,71 @@
 <body>
 
 <!-- Header -->
-<header>
-    <div class="container d-flex justify-content-between align-items-center">
-        <h4 class="fw-bold mb-0">Shop @ISS</h4>
-        <span class="text-white-50 small">Free shipping over $80 | 10% off new arrivals</span>
+<header class="site-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-3">
+                <div class="logo">
+                    <h5>Shop @ISS</h5>
+                </div>
+            </div>
+            <div class="col-md-6 text-center d-none d-md-block">
+                <span class="promotional-text">Today's Deals: Free shipping over $80 | 10% off on new arrivals</span>
+            </div>
+            <div class="col-md-3">
+                <div class="dropdown text-end">
+                    <a
+                            href="#"
+                            class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                    >
+                        <img
+                                src="https://images.unsplash.com/photo-1750535135593-3a8e5def331d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1480"
+                                alt="mdo"
+                                width="32"
+                                height="32"
+                                class="rounded-circle"
+                        />
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        <li><a class="dropdown-item" th:href="@{localhost:3000/#/account-info}">Settings</a></li>
+                        <li><a class="dropdown-item" th:href="@{localhost:3000/#/purchaseHistory}">View Purchase History</a></li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li><a class="dropdown-item" th:href="@{/login}">Sign out</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </header>
+
+<!-- NavBar -->
+<nav class="navbar navbar-expand-lg navbar-dark site-navbar">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/products}">
+            <i class="bi bi-grid-3x3-gap me-2"></i>Browse
+        </a>
+        <button class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/favourites}">
+                        <i class="bi bi-heart-fill me-1"></i>Favourites
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/products/cart}">
+                        <i class="bi bi-cart3 me-1"></i>Cart
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
 
 <!-- Main content -->
 <main>
@@ -104,7 +163,7 @@
         <h2>Payment Successful!</h2>
         <p>Your order has been placed successfully.</p>
 
-        <a th:href="@{/shoppingCartDetail/view(customerId=${customerId})}" class="btn btn-primary">
+        <a th:href="@{/products/cart/view(customerId=${customerId})}" class="btn btn-primary">
             <i class="bi bi-cart3"></i> Continue Shopping
         </a>
     </div>

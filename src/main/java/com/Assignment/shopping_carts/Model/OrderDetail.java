@@ -2,9 +2,8 @@ package com.Assignment.shopping_carts.Model;
 
 
 import com.Assignment.shopping_carts.Model.compositeKey.OrderDetailId;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -42,7 +41,6 @@ public class OrderDetail {
     private Orders orders;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)
     private Product product;
 
