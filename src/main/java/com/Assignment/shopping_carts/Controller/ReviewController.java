@@ -9,6 +9,7 @@ import com.Assignment.shopping_carts.Service.ReviewServiceImpl;
 import com.Assignment.shopping_carts.Model.Review;
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/reviews")
 public class ReviewController {
