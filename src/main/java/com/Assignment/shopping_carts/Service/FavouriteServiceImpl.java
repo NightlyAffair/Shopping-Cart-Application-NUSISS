@@ -42,7 +42,7 @@ public class FavouriteServiceImpl implements FavouriteService {
     @Transactional
     public String saveFavourites(int customerId, int productId) {
         if(favRepository.existsByCustomerIdAndProductId(customerId, productId)) {
-            favRepository.deleteByCustomerId(customerId);
+            favRepository.deleteByCustomerIdAndProductId(customerId, productId);
             System.out.println("Like remove from favourites ");
             return "Removed from favourites";
         }
