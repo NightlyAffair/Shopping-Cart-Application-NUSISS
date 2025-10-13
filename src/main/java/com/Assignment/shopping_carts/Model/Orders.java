@@ -4,6 +4,8 @@ package com.Assignment.shopping_carts.Model;
 import java.sql.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -45,9 +47,15 @@ public class Orders {
     private List<OrderDetail> orderDetails;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name="customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
     private Customer customer;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "orders")
     private List<Review> reviews;
+
+    @Override
+    public String toString() {
+        return "Orders";
+    }
 }

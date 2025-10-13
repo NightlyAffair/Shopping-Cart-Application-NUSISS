@@ -2,6 +2,8 @@ package com.Assignment.shopping_carts.Model;
 
 import com.Assignment.shopping_carts.Model.compositeKey.ReviewId;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -47,12 +49,19 @@ public class Review {
     private String description;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "orderId", referencedColumnName = "orderId", insertable = false, updatable = false)
     private Orders orders;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)
     private Product product;
+
+    @Override
+    public String toString() {
+        return "1";
+    }
     
    
 }

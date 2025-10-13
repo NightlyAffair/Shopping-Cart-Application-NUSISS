@@ -3,6 +3,8 @@ package com.Assignment.shopping_carts.Model;
 
 import com.Assignment.shopping_carts.Model.compositeKey.ShoppingCartDetailId;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -35,6 +37,7 @@ public class ShoppingCartDetail {
     private int quantity;
 
     @ManyToOne
+    @JsonIgnore
     //分别写明：当前表的FK（customerId），对应customer表的PK（customerId），插入数据时不要重复插入，更新数据时不要重复更新数据
     //insertable=False意思是插入数据库时，只用customerId字段的值，不要再从customerEntity里取了
     //updatable=false意思是更新数据库时，也只用customerId字段的值，不要再从customerEntity里取了
@@ -42,6 +45,7 @@ public class ShoppingCartDetail {
     private Customer customer;
 
     @ManyToOne
+    @JsonIgnore
     //分别写明：当前表的FK（productId），对应customer表的PK（productId），插入数据时不要重复插入，更新数据时不要重复更新数据
     //insertable=False意思是插入数据库时，只用customerId字段的值，不要再从customerEntity里取了
     //updatable=false意思是更新数据库时，也只用customerId字段的值，不要再从customerEntity里取了

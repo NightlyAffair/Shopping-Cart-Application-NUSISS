@@ -9,6 +9,8 @@
 
 package com.Assignment.shopping_carts.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -44,10 +46,12 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     private Category category;
 
     @OneToMany(mappedBy = "product")
     private List<OrderDetail> orderDetails = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Review> reviews = new ArrayList<>();
@@ -78,5 +82,12 @@ public class Product {
 
     public void setProductId(int productId) {
         this.productId = productId;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return "1";
     }
 }
