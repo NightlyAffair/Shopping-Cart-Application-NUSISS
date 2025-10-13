@@ -1,4 +1,6 @@
 import "../css/global.css"
+import "../css/displayProducts.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
 /**
  * Header
  * Author: Nithvin Leelakrishnan
@@ -9,7 +11,7 @@ import "../css/global.css"
  */
 
 export default function Header() {
-    return (<header className="site-header">
+    return (<header className="site-header" style={{display:"flex", width:'100%',height:'100%'}}>
     <div className="container">
       <div className="row align-items-center">
         <div className="col-md-3">
