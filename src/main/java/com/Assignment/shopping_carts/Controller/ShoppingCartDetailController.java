@@ -31,10 +31,13 @@ public class ShoppingCartDetailController {
     private ShoppingCartDetailInterface cartService;//自动注入service interface中的method（mothodName应该是对应的）
 
     @PostMapping("/add")//处理“/shoppingCartDetail/add”的POST请求
-    public String addToCart(@RequestParam int customerId, @RequestParam int productId, @RequestParam int quantity, Model model) {
+    public String addToCart(@RequestParam int customerId, @RequestParam int productId, @RequestParam int quantity, @RequestParam(required=false) String redirectUrl, Model model) {
         cartService.addProductToCart(customerId, productId, quantity);//调用interface中addProductToCart方法
         model.addAttribute("productId", productId);//给页面传数据（当前操作的product的id）
         model.addAttribute("message", "Add to Cart Successfully!");//放提示语
+        if (redirectUrl != null && !redirectUrl.isBlank()) {
+            return "redirect:" + redirectUrl;
+        }
         return "redirect:/products/details/" + productId;
     }
 
