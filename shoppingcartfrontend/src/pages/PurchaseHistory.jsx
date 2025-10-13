@@ -150,8 +150,8 @@ const PurchaseHistory = () => {
                 <span style={{ color: "#666" }}>{order.status}</span>
               </h3>
               <p>
-                <strong>Purchase Date:</strong> {order.purchaseDate} <br />
-                <strong>Total:</strong> ${order.unitAmount?.toFixed(2)}
+                <strong>Purchase Date:</strong> {new Date(order.purchaseDate).toLocaleDateString()} <br />
+                {/* <strong>Total:</strong> ${order.unitAmount?.toFixed(2)} */}
               </p>
               <table
                 style={{
