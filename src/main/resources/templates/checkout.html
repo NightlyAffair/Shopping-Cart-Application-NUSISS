@@ -1,9 +1,18 @@
+<!--
+* checkOut HTML
+* Authors: Tony, Glenn Min
+* Date: 2025-10-05
+* Last Modified by: Glenn Min
+* New Updates: Header and NavBar updates
+* Last Modified: 2025-10-13
+-->
+
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shop @ISS – Payment Successful</title>
+    <title>Payment Successful</title>
 
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -99,28 +108,42 @@
             <div class="col-md-6 text-center d-none d-md-block">
                 <span class="promotional-text">Today's Deals: Free shipping over $80 | 10% off on new arrivals</span>
             </div>
-            <div class="col-md-3">
-                <div class="dropdown text-end">
-                    <a
-                            href="#"
-                            class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                    >
-                        <img
-                                src="https://images.unsplash.com/photo-1750535135593-3a8e5def331d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1480"
-                                alt="mdo"
-                                width="32"
-                                height="32"
-                                class="rounded-circle"
-                        />
-                    </a>
-                    <ul class="dropdown-menu text-small">
-                        <li><a class="dropdown-item" th:href="@{localhost:3000/#/account-info}">Settings</a></li>
-                        <li><a class="dropdown-item" th:href="@{localhost:3000/#/purchaseHistory}">View Purchase History</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" th:href="@{/login}">Sign out</a></li>
-                    </ul>
+            <div class="col-md-3 d-flex justify-content-end">
+                <!-- If Not Logged -->
+                <div th:if="${session.login_status == null || session.login_status == false}">
+                    <div class="user-actions d-flex align-items-center justify-content-end gap-2">
+                        <a href="#" class="text-white"><i class="bi bi-person-circle fs-4"></i></a>
+                        <a th:href="@{/login}" class="btn btn-outline-light btn-sm">Login</a>
+                        <a href="http://localhost:3000/signup" class="btn btn-warning btn-sm">Sign Up</a>
+                    </div>
+                </div>
+                <!-- Logged In -->
+                <div th:if="${session.login_status != null && session.login_status == true}">
+                    <div class="dropdown user-dropdown">
+                        <a href="#"
+                           class="d-flex align-items-center gap-2 text-decoration-none dropdown-toggle"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <img src="https://images.unsplash.com/photo-1750535135593-3a8e5def331d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1480"
+                                 alt="user profile"
+                                 width="40"
+                                 height="40"
+                                 class="rounded-circle" />
+                            <i class="bi bi-chevron-down text-white"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="http://localhost:3000/#/accountInfo">
+                                <i class="bi bi-gear me-2"></i>Settings
+                            </a></li>
+                            <li><a class="dropdown-item" href="http://localhost:3000/#/purchaseHistory">
+                                <i class="bi bi-clock-history me-2"></i>View Purchase History
+                            </a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" th:href="@{/login}">
+                                <i class="bi bi-box-arrow-right me-2"></i>Sign out
+                            </a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -144,7 +167,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/products/cart}">
+                    <a class="nav-link" th:href="@{/products/cart/view}">
                         <i class="bi bi-cart3 me-1"></i>Cart
                     </a>
                 </li>
@@ -152,7 +175,6 @@
         </div>
     </div>
 </nav>
-
 
 <!-- Main content -->
 <main>
@@ -163,7 +185,7 @@
         <h2>Payment Successful!</h2>
         <p>Your order has been placed successfully.</p>
 
-        <a th:href="@{/products/cart/view(customerId=${customerId})}" class="btn btn-primary">
+        <a th:href="@{/products}" class="btn btn-primary">
             <i class="bi bi-cart3"></i> Continue Shopping
         </a>
     </div>

@@ -1,11 +1,3 @@
-.product-image {
-  width: 100%;
-  height: auto;
-  max-height: 500px;
-  object-fit: cover;
-  border-radius: 0.5rem;
-}
-
 .product-details-section {
   background-color: white;
   padding: 2rem;
