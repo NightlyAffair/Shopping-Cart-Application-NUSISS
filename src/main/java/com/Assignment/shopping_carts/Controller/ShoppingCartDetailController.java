@@ -35,7 +35,7 @@ public class ShoppingCartDetailController {
         cartService.addProductToCart(customerId, productId, quantity);//调用interface中addProductToCart方法
         model.addAttribute("productId", productId);//给页面传数据（当前操作的product的id）
         model.addAttribute("message", "Add to Cart Successfully!");//放提示语
-        return "redirect:/displayProducts/details/" + productId;
+        return "redirect:/products/details/" + productId;
     }
 
     @GetMapping("/view")//处理“/shoppingCartDetail/view”的GET请求

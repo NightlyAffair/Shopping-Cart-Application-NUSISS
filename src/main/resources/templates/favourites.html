@@ -87,6 +87,13 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
+        <div class="collapse navbar-collapse" id="navbarFav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/favourites}">
+                        <i class="bi bi-heart-fill me-1"></i>Favourites
+                    </a>
+                </li>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
@@ -108,19 +115,22 @@
       <span class="text-muted" th:text="${favourites?.size() ?: 0} + ' items'">0 items</span>
     </div>
 
-    <!-- Empty State -->
+    <!-- Empty State. if no favourites, show empty state -->
     <div th:if="${favourites == null || favourites.isEmpty()}" class="empty-state">
       <div class="text-center py-5">
         <i class="bi bi-heart display-1 text-muted mb-3"></i>
         <h4 class="mb-3">No Favourites Yet</h4>
         <p class="text-muted mb-4">Start adding products to your favourites to see them here!</p>
-        <a th:href="@{/displayProducts/page}" class="btn btn-primary">
+        <a th:href="@{/products/page}" class="btn btn-primary">
           <i class="bi bi-grid-3x3-gap me-2"></i>Browse Products
         </a>
       </div>
     </div>
 
-    <!-- Favorites Table -->
+      <!-- Status message -->
+      <div id="statusMessage" class="text-muted mb-2"></div>
+
+    <!-- Favorites Table, shows all fav products -->
     <div th:unless="${favourites == null || favourites.isEmpty()}">
       <div class="table-responsive">
         <table class="table table-hover align-middle">
@@ -146,7 +156,6 @@
 
                     <div>
                     <div class="fw-semibold product-name" th:text="${product.productName}">Product Name</div>
-                    <!-- <small class="text-muted">ID: <span th:text="${product.productId}">001</span></small> -->
                   </div>
                 </div>
               </td>
@@ -172,8 +181,6 @@
               <td>
                 <form th:action="@{/favourites/add-to-cart}" method="post" class="add-to-cart-form">
                   <input type="hidden" name="productId" th:value="${product.productId}">
-                  <!--Not needed <input type="hidden" name="customerId" th:value="${customerId}">-->
-                  
                   <div class="quantity-selector">
                     <button type="button" class="btn-qty-decrease">
                       <i class="bi bi-dash"></i>
@@ -187,22 +194,25 @@
               </td>
               <td>
                 <div class="d-flex gap-2 flex-wrap">
-                  <form th:action="@{/favourites/add-to-cart}" method="post" class="d-inline add-to-cart-form-submit">
+                  <form th:action="@{/shoppingCartDetail/add}" method="post" class="d-inline add-to-cart-form-submit">
                     <input type="hidden" name="productId" th:value="${product.productId}">
-                      <!--Not needed  <input type="hidden" name="customerId" th:value="${customerId}"> -->
                        <input type="hidden" name="quantity" class="qty-value" value="1">
                        <button type="submit" class="btn btn-primary btn-sm">
                          <i class="bi bi-cart-plus me-1"></i>Add to Cart
                        </button>
                      </form>
 
-                     <a th:href="@{/products/{id}(id=${product.productId})}" class="btn btn-outline-secondary btn-sm">
+                     <a th:href="@{/products/details/{id}(id=${product.productId})}" class="btn btn-outline-secondary btn-sm"
+                            target = "_blank">
                        <i class="bi bi-eye me-1"></i>View
                      </a>
 
-                     <form th:action="@{/favourites/clear}" method="post" class="d-inline" onsubmit="return confirm('Remove from favorites?');">
-                            <button type="submit" class="btn btn-outline-danger btn-sm btn-remove-favorite">
-                              <i class="bi bi-trash"></i>
+                    <!-- Remove-product single function aka trash bin icon -->
+                     <form th:action="@{/favourites/remove-product}" method="post" class="d-inline">
+                            <input type="hidden" name="productId" th:value="${product.productId}">
+                            <button type="submit" class="btn btn-outline-danger btn-sm btn-remove-favorite"
+                                    data-product-id = "${product.productId}">
+                                  <i class="bi bi-trash"></i>
                             </button>
                           </form>
                         </div>
@@ -235,7 +245,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      // Quantity controls
+      // Quantity controls to ++/--
       document.querySelectorAll('.add-to-cart-form').forEach(form => {
         const qtyInput = form.querySelector('.qty-input');
         const decreaseBtn = form.querySelector('.btn-qty-decrease');
@@ -256,41 +266,40 @@
         });
       });
 
-      // Remove favorite
+      // Remove favorite, loops thru trash buttons to remv fav.
+        const statusMessage = document.getElementById('statusMessage');
       document.querySelectorAll('.btn-remove-favorite').forEach(btn => {
-        btn.addEventListener('click', function() {
-          const productId = this.getAttribute('data-product-id');
-          if (confirm('Remove this item from favourites?')) {
-            // Create and submit form
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/favourites/remove';
-            
-            const productIdInput = document.createElement('input');
-            productIdInput.type = 'hidden';
-            productIdInput.name = 'productId';
-            productIdInput.value = productId;
-            /*
-            const customerIdInput = document.createElement('input');
-            customerIdInput.type = 'hidden';
-            customerIdInput.name = 'customerId';
-            customerIdInput.value = document.querySelector('input[name="customerId"]').value;
-            */
-            form.appendChild(productIdInput);
-            //form.appendChild(customerIdInput);
-            document.body.appendChild(form);
-            form.submit();
+        btn.addEventListener('click', function(e) {
+            const productId = this.getAttribute('data-product-id'); //onclick get product id
+
+          if (!confirm('Remove this item from favourites?')) { //checks for confirmation
+              //stops form submission to it wont reload.
+              e.preventDefault();
+              statusMessage.innerText = "Deletion cancelled"
+              } else {
+                // Create hidden form and submit form
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/favourites/remove-product'; //sends post request to remove product in fav controller
+
+                const productIdInput = document.createElement('input');
+                productIdInput.type = 'hidden';
+                productIdInput.name = 'productId';
+                productIdInput.value = productId;
+                form.appendChild(productIdInput); //append form to body
+                document.body.appendChild(form);
+                form.submit();
           }
         });
       });
 
-      // Add to cart feedback
+      // Add to cart, reads quantity, product name,
       document.querySelectorAll('.add-to-cart-form').forEach(form => {
         form.addEventListener('submit', function(e) {
           const qty = this.querySelector('.qty-input').value;
-          const productName = this.closest('tr'/*'.card'*/).querySelector('.product-name').textContent;
+          const productName = this.closest('tr').querySelector('.product-name').textContent;
           
-          // Optional: Show toast notification
+          // log message to console
           console.log(`Added ${qty} x ${productName} to cart`);
         });
       });

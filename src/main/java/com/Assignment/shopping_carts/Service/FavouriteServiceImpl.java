@@ -9,7 +9,6 @@ import com.Assignment.shopping_carts.InterfaceMethods.FavouriteService;
 import com.Assignment.shopping_carts.Model.Favourites;
 import com.Assignment.shopping_carts.Model.Product;
 import com.Assignment.shopping_carts.Repository.FavouritesRepository;
-import com.Assignment.shopping_carts.Repository.ProductRepository;
 
 import jakarta.transaction.Transactional;
 /**
@@ -26,12 +25,10 @@ import jakarta.transaction.Transactional;
 public class FavouriteServiceImpl implements FavouriteService {
 
     private final FavouritesRepository favRepository;
-    private final ProductRepository productRepository;
 
     @Autowired
-    public FavouriteServiceImpl(FavouritesRepository favRepository, ProductRepository productRepository) {
+    public FavouriteServiceImpl(FavouritesRepository favRepository) {
         this.favRepository = favRepository;
-        this.productRepository = productRepository;
     }
 
     @Override
@@ -64,6 +61,17 @@ public class FavouriteServiceImpl implements FavouriteService {
 
     public void deleteByCustomerId(int customerId){
         favRepository.deleteByCustomerId(customerId);
+    }
+
+    @Override
+    public void deleteByCustomerIdAndProductId(int customerId, int productId) {
+        favRepository.deleteByCustomerIdAndProductId(customerId, productId);
+    }
+
+
+    @Override
+    public boolean isProductFavourited(int customerId, int productId) {
+        return favRepository.existsByCustomerIdAndProductId(customerId, productId);
     }
 
     @Override

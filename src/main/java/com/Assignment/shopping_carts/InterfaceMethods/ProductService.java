@@ -1,3 +1,12 @@
+/**
+ * ProductService Interface
+ * Authors: Glenn Min
+ * Date: 2025-10-06
+ * Last Modified by: Glenn Min
+ * New Updates: minor bug fixes
+ * Last Modified: 2025-10-11
+ */
+
 package com.Assignment.shopping_carts.InterfaceMethods;
 
 import com.Assignment.shopping_carts.Model.Category;
@@ -9,32 +18,24 @@ import org.springframework.data.domain.Sort;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * ProductService Interface
- * Author: Glenn Min
- * Date: 2025-10-06 12:00
- * Modifier by : Updated for product details
- * Last Modified: 2025-10-09
- */
-
 public interface ProductService {
 
-    // Basic CRUD Operations
+    // Basic CRUD
     Product createProduct(Product product);
     Optional<Product> getProductById(int productId);
     List<Product> getAllProducts();
     Product updateProduct(int productId, Product product);
     void deleteProduct(int productId);
 
-    // Search Operations
+    // Search
     List<Product> searchProductsByKeyword(String keyword);
     List<Product> getProductsByCategory(Category category);
     List<Product> searchByCategoryAndKeyword(Integer categoryId, String keyword);
 
-    // Sorting Operations
+    // Sorting
     List<Product> getAllProductsSortedByPriceAsc();
     List<Product> getAllProductsSortedByPriceDesc();
-    List<Product> getAllProductsSortedByRating();
+    List<Product> getAllProductsSortedByRating(); // Uses stored averageRating
     List<Product> getProductsByCategoryWithSort(Integer categoryId, String keyword, Sort sort);
 
     // Pagination
@@ -42,5 +43,5 @@ public interface ProductService {
 
     // Rating Management
     void updateProductAverageRating(int productId);
-    List<Product> getProductsSortedByRatingCalculated();
+    List<Product> getProductsSortedByRatingCalculated(); // Calculates from reviews
 }
