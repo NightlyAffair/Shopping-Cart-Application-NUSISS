@@ -24,7 +24,7 @@ import java.util.Set;
  */
 
 
-@RequestMapping("/shoppingCartDetail")
+@RequestMapping("/products/cart")
 @Controller
 public class ShoppingCartDetailController {
     @Autowired
