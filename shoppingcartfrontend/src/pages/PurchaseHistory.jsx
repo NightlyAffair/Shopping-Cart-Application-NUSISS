@@ -28,9 +28,9 @@ const PurchaseHistory = () => {
 
   return (
     <div style={{ display: "flex", width: "100vw" }}>
-      <Sidebar />
+      <Header />
       <div style={{ flex: 1 }}>
-        <Header />
+        <Sidebar />
 
         <div style={{ padding: "20px" }}>
           <h2 style={{ marginBottom: "20px" }}>Purchase History</h2>
