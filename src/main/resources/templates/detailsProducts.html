@@ -11,7 +11,7 @@
 
     <!-- Global Styles -->
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/displayProducts.css}">
+    <link rel="stylesheet" th:href="@{/css/detailsProducts.css}">
 </head>
 <body>
 
@@ -27,11 +27,42 @@
             <div class="col-md-6 text-center d-none d-md-block">
                 <span class="promotional-text">Today's Deals: Free shipping over $80 | 10% off on new arrivals</span>
             </div>
-            <div class="col-md-3">
-                <div class="user-actions d-flex align-items-center justify-content-end gap-2">
-                    <a href="#" class="text-white"><i class="bi bi-person-circle fs-4"></i></a>
-                    <a th:href="@{/login}" class="btn btn-outline-light btn-sm">Login</a>
-                    <a href="http://localhost:3000/signup" class="btn btn-warning btn-sm">Sign Up</a>
+            <div class="col-md-3 d-flex justify-content-end">
+                <!-- If Not Logged -->
+                <div th:if="${session.login_status == null || session.login_status == false}">
+                    <div class="user-actions d-flex align-items-center justify-content-end gap-2">
+                        <a href="#" class="text-white"><i class="bi bi-person-circle fs-4"></i></a>
+                        <a th:href="@{/login}" class="btn btn-outline-light btn-sm">Login</a>
+                        <a href="http://localhost:3000/signup" class="btn btn-warning btn-sm">Sign Up</a>
+                    </div>
+                </div>
+                <!-- Logged In -->
+                <div th:if="${session.login_status != null && session.login_status == true}">
+                    <div class="dropdown user-dropdown">
+                        <a href="#"
+                           class="d-flex align-items-center gap-2 text-decoration-none dropdown-toggle"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <img src="https://images.unsplash.com/photo-1750535135593-3a8e5def331d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1480"
+                                 alt="user profile"
+                                 width="40"
+                                 height="40"
+                                 class="rounded-circle" />
+                            <i class="bi bi-chevron-down text-white"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="http://localhost:3000/#/accountInfo">
+                                <i class="bi bi-gear me-2"></i>Settings
+                            </a></li>
+                            <li><a class="dropdown-item" href="http://localhost:3000/#/purchaseHistory">
+                                <i class="bi bi-clock-history me-2"></i>View Purchase History
+                            </a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" th:href="@{/login}">
+                                <i class="bi bi-box-arrow-right me-2"></i>Sign out
+                            </a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -78,10 +109,12 @@
     <div class="row g-4">
         <!-- Product Image -->
         <div class="col-lg-6">
-            <img alt="Product image"
-                 class="product-image shadow-sm"
-                 src="/images/placeholder.png"
-                 th:src="${product.imageUrl}">
+            <div class="product-image-container">
+                <img alt="Product image"
+                     class="product-image shadow-sm"
+                     src="/images/placeholder.png"
+                     th:src="${product.imageUrl}">
+            </div>
         </div>
 
         <!-- Product Info -->
