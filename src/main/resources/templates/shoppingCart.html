@@ -8,115 +8,133 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <link href="../static/css/style.css" rel="stylesheet">
-    <link href="../static/css/cart.css" rel="stylesheet">
+
+    <style>
+        /* 顶部黑色导航栏 */
+        .top-bar {
+            background-color: #1c1c1c;
+            color: #fff;
+            padding: 10px 0;
+            font-size: 14px;
+            line-height: 1.2;
+        }
+        .top-bar .logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: 0.5px;
+        }
+        .top-bar .promo {
+            font-size: 0.95rem;
+            color: #e0e0e0;
+        }
+        .auth-buttons {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .btn-login {
+            background: transparent;
+            border: 1px solid #ccc;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-login:hover {
+            background-color: #333;
+        }
+        .btn-signup {
+            background-color: #ffc107;
+            color: #000;
+            font-weight: 600;
+            border: none;
+            padding: 4px 14px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        .btn-signup:hover {
+            background-color: #e5ac00;
+        }
+
+        /* 紫色导航栏 */
+        .sub-bar {
+            background-color: #2b0066;
+            color: #fff;
+            padding: 11px 0;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        .sub-bar a {
+            color: #fff;
+            text-decoration: none;
+            margin-right: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .sub-bar a:hover {
+            color: #d5caff;
+        }
+        .sub-bar i {
+            font-size: 1.1rem;
+        }
+
+        /* 主体内容 */
+        main {
+            margin-top: 2rem;
+        }
+        .btn-group-sm .btn {
+            padding: 0.15rem 0.35rem;
+            font-size: 0.75rem;
+            line-height: 1;
+        }
+        .btn-group-sm .btn i {
+            font-size: 0.85rem;
+        }
+
+        .order-summary-box {
+            max-width: 320px;
+            margin-left: auto;
+            border-radius: 10px;
+        }
+        .order-summary-box .card-body {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        footer {
+            margin-top: 4rem;
+            background-color: #f8f9fa;
+        }
+    </style>
 </head>
+
 <body>
 
-<style>
-
-    .btn-group-sm .btn {
-        padding: 0.15rem 0.35rem;   /* 原来 0.25rem 0.45rem -> 缩小按钮 */
-        font-size: 0.75rem;         /* 字体略缩小 */
-        line-height: 1;             /* 保证按钮紧凑 */
-    }
-
-    .btn-group-sm .btn i {
-        font-size: 0.85rem;
-        vertical-align: middle;
-    }
-
-    .btn-group-sm {
-        white-space: nowrap;
-        gap: 2px;                  /* 按钮间距更紧凑 */
-    }
-    .order-summary-box {
-        max-width: 320px;       /* 固定最大宽度，防止过宽遮挡表格 */
-        margin-left: auto;      /* 靠右对齐 */
-        margin-top: 3rem;       /* ✅ 向下移动距离，从 0 或 1.5rem 改为 3rem */
-        border-radius: 10px;    /* 圆角让视觉更柔和 */
-    }
-
-    .order-summary-box .card-body {
-        font-size: 0.9rem;
-        line-height: 1.4;
-    }
-
-    @media (max-width: 992px) {
-        .order-summary-box {
-            max-width: 100%;
-            margin-top: 1rem;
-        }
-    }
-</style>
-
-<!-- Header -->
-<header class="site-header">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-3">
-                <div class="logo">
-                    <h5>Shop @ISS</h5>
-                </div>
-            </div>
-            <div class="col-md-6 text-center d-none d-md-block">
-                <span class="promotional-text">Today's Deals: Free shipping over $80 | 10% off on new arrivals</span>
-            </div>
-            <div class="col-md-3">
-                <div class="dropdown text-end">
-                    <a
-                            href="#"
-                            class="d-block link-body-emphasis text-decoration-none dropdown-toggle"
-                            data-bs-toggle="dropdown"
-                            aria-expanded="false"
-                    >
-                        <img
-                                src="https://images.unsplash.com/photo-1750535135593-3a8e5def331d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1480"
-                                alt="mdo"
-                                width="32"
-                                height="32"
-                                class="rounded-circle"
-                        />
-                    </a>
-                    <ul class="dropdown-menu text-small">
-                        <li><a class="dropdown-item" href="http://localhost:3000/#/accountinfo">Settings</a></li>
-                        <li><a class="dropdown-item" href="http://localhost:3000/#/purchaseHistory">View Purchase History</a></li>
-                        <li><hr class="dropdown-divider" /></li>
-                        <li><a class="dropdown-item" th:href="@{/login}">Sign out</a></li>
-                    </ul>
-                </div>
-            </div>
+<!-- ===== 顶部黑色导航栏 ===== -->
+<header class="top-bar">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="logo">Shop @ISS</div>
+        <div class="promo text-center flex-grow-1">Today's Deals: Free shipping over $80 | 10% off on new arrivals</div>
+        <div class="auth-buttons">
+            <button class="btn-login" th:onclick="'window.location.href=\'/login\''">Login</button>
+            <button class="btn-signup" th:onclick="'window.location.href=\'/signup\''">Sign Up</button>
         </div>
     </div>
 </header>
 
-<!-- NavBar -->
-<nav class="navbar navbar-expand-lg navbar-dark site-navbar">
-    <div class="container">
-        <a class="navbar-brand" th:href="@{/products}">
-            <i class="bi bi-grid-3x3-gap me-2"></i>Browse
-        </a>
-        <button class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/favourites}">
-                        <i class="bi bi-heart-fill me-1"></i>Favourites
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" th:href="@{/products/cart}">
-                        <i class="bi bi-cart3 me-1"></i>Cart
-                    </a>
-                </li>
-            </ul>
-        </div>
+<!-- ===== 紫色导航栏 ===== -->
+<nav class="sub-bar">
+    <div class="container d-flex align-items-center">
+        <a th:href="@{/products}"><i class="bi bi-grid-fill"></i>Browse</a>
+        <a th:href="@{/favourites}"><i class="bi bi-heart-fill"></i>Favourites</a>
+        <a th:href="@{/products/cart/view(customerId=${customerId})}"><i class="bi bi-cart-fill"></i>Cart</a>
     </div>
 </nav>
 
-<!-- Main -->
+<!-- ===== 主体内容 ===== -->
 <main class="container my-5">
     <div class="row">
         <!-- 左侧购物车表格 -->
@@ -153,17 +171,17 @@
                         <td>$<span class="subtotal" th:text="${#numbers.formatDecimal(item.quantity * item.product.unitPrice,1,2)}"></span></td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                <form th:action="@{/shoppingCartDetail/plus}" method="post" class="d-inline">
+                                <form th:action="@{/products/cart/plus}" method="post" class="d-inline">
                                     <input type="hidden" name="customerId" th:value="${customerId}">
                                     <input type="hidden" name="productId" th:value="${item.product.productId}">
                                     <button class="btn btn-outline-primary"><i class="bi bi-plus"></i></button>
                                 </form>
-                                <form th:action="@{/shoppingCartDetail/minus}" method="post" class="d-inline">
+                                <form th:action="@{/products/cart/minus}" method="post" class="d-inline">
                                     <input type="hidden" name="customerId" th:value="${customerId}">
                                     <input type="hidden" name="productId" th:value="${item.product.productId}">
                                     <button class="btn btn-outline-secondary"><i class="bi bi-dash"></i></button>
                                 </form>
-                                <form th:action="@{/shoppingCartDetail/remove}" method="post" class="d-inline">
+                                <form th:action="@{/products/cart/remove}" method="post" class="d-inline">
                                     <input type="hidden" name="customerId" th:value="${customerId}">
                                     <input type="hidden" name="productId" th:value="${item.product.productId}">
                                     <button class="btn btn-outline-danger"><i class="bi bi-trash"></i></button>
@@ -177,8 +195,8 @@
         </div>
 
         <!-- 右侧订单摘要 -->
-        <div class="col-lg-4 mt-5 mt-lg-5">
-            <div class="card p-4 shadow-sm">
+        <div class="col-lg-4">
+            <div class="card p-4 shadow-sm order-summary-box">
                 <h4 class="fw-bold mb-3">Order Summary</h4>
                 <div id="selectedList" class="mb-3 text-muted"><div class="text-center">No Selected Product</div></div>
                 <div class="d-flex justify-content-between mb-2">
@@ -187,14 +205,14 @@
                 </div>
 
                 <div class="d-grid gap-2 mt-4">
-                    <form th:action="@{/shoppingCartDetail/checkout}" method="post">
+                    <form th:action="@{/products/cart/checkout}" method="post">
                         <input type="hidden" name="customerId" th:value="${customerId}">
                         <button type="submit" class="btn btn-primary btn-lg">
                             <i class="bi bi-credit-card me-2"></i>Proceed to Checkout
                         </button>
                     </form>
 
-                    <form th:action="@{/shoppingCartDetail/clear}" method="post">
+                    <form th:action="@{/products/cart/clear}" method="post">
                         <input type="hidden" name="customerId" th:value="${customerId}">
                         <button type="submit" class="btn btn-outline-danger">
                             <i class="bi bi-x-circle me-2"></i>Clear Cart
@@ -206,11 +224,10 @@
     </div>
 </main>
 
-<footer class="text-center py-4 bg-light mt-5">
+<footer class="text-center py-4 bg-light">
     <p class="mb-0">&copy; 2025 TEAM_TWO. All rights reserved.</p>
 </footer>
 
-<!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -240,7 +257,7 @@
             cb.addEventListener("change", function () {
                 const productId = cb.value;
                 const checked = cb.checked;
-                fetch("/shoppingCartDetail/select", {
+                fetch("/products/cart/select", {
                     method: "POST",
                     headers: { "Content-Type": "application/x-www-form-urlencoded" },
                     body: `productId=${productId}&checked=${checked}`
@@ -254,7 +271,7 @@
             for (const cb of checkboxes) {
                 const productId = cb.value;
                 const checked = cb.checked;
-                await fetch("/shoppingCartDetail/select", {
+                await fetch("/products/cart/select", {
                     method: "POST",
                     headers: { "Content-Type": "application/x-www-form-urlencoded" },
                     body: `productId=${productId}&checked=${checked}`
