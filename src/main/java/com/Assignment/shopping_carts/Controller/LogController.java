@@ -71,7 +71,7 @@ public class LogController {
 
 
     @GetMapping("/forgetPassword")
-    public String forgetPassword(){
+    public String showForgetPassword(){
         return "forgetPassword";
     }
 
@@ -84,7 +84,7 @@ public class LogController {
             logService.updatePassword(customer.getUserName(),customer.getPassword());
             return  "redirect:/login";
         }
-        return "redirect:/forgetPassword?error=1";
+        return "redirect:forgetPassword?error=1";
 
     }
 
