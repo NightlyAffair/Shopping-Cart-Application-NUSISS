@@ -6,13 +6,14 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Favourites Entity Class
  * Author: Zhou Jason
  * Date: 2025-10-02
- * Modifier by :
- * Last Modified by :
+ * Modifier by : yh
+ * Last Modified by : yh
  * Last Modified: 2025-10-02 14:00
  */
 
@@ -25,7 +26,6 @@ public class Favourites {
     - customerId: int (PK/FK)
      */
     @Id
-    @Getter(AccessLevel.NONE)
     private int productId;
 
     @Id
@@ -41,5 +41,3 @@ public class Favourites {
     private Customer customer;
 
 }
-
-

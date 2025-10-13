@@ -1,13 +1,13 @@
 package com.Assignment.shopping_carts.Model;
 
 
+import java.sql.Date;
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
-
-import java.sql.Date;
-import java.util.List;
 
 /**
  * Order Entity Class
@@ -20,6 +20,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "orders")
 public class Orders {
     /*
     - id: int (PK)
@@ -38,11 +39,15 @@ public class Orders {
     private Date purchaseDate;
     private double unitAmount;
     private String status;
-    @OneToMany(mappedBy="order")
+
+    @OneToMany
+    @JoinColumn(name="orderId")
     private List<OrderDetail> orderDetails;
+
     @ManyToOne
-    @JoinColumn( referencedColumnName = "customerId", insertable = false, updatable = false)
+    @JoinColumn(name="customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
     private Customer customer;
+
     @OneToMany(mappedBy = "order")
     private List<Review> reviews;
 }

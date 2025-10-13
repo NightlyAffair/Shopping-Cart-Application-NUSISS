@@ -5,6 +5,7 @@ import com.Assignment.shopping_carts.Model.Customer;
 import com.Assignment.shopping_carts.Repository.CustomerRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
+import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import java.util.Optional;
  * Date: 2025-10-02
  * Participants: Jason
  * Modified by: Jason
- * Last Modified: 2025-10-07 11:00
+ * Last Modified: 2025-10-11 11:00
  */
 
 
@@ -41,6 +42,29 @@ public class LogImpl implements LogInterface {
 
         }
         return false;
+    }
+
+    @Override
+    @Transactional
+    public Boolean forgetPassword(String userName, String fullName,String email){
+        Optional<Customer> findByUserName = CusRep.findByUserName(userName);
+        if(findByUserName.isPresent()){
+            if(findByUserName.get().getFullName().equals(fullName)&&findByUserName.get().getEmail().equals(email)){
+                System.out.println("information correct");
+                return true;
+            }
+        }
+        return false;
+
+    }
+
+    @Override
+    @Transactional
+    public Customer updatePassword(String userName, String newPassword){
+        Customer target = CusRep.findByUserName(userName).get();
+        target.setPassword(newPassword);
+        CusRep.save(target);
+        return target;
     }
 
 
@@ -72,10 +96,18 @@ public class LogImpl implements LogInterface {
             CusRep.save(c2);
             CusRep.save(c3);
 
-            System.out.println("✅ [LogImpl] Inserted 3 default customer accounts into database.");
+            System.out.println("[LogImpl] Inserted 3 default customer accounts into database.");
         } else {
-            System.out.println("ℹ️ [LogImpl] Customer table already has data, skip initialization.");
+            System.out.println("[LogImpl] Customer table already has data, skip initialization.");
         }
+    }
+
+
+
+    @Override
+    @Transactional
+    public Customer findByUserName(String userName){
+        return CusRep.findByUserName(userName).get();
     }
 
 }

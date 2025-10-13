@@ -23,12 +23,7 @@ import lombok.Setter;
 @Data
 @IdClass(OrderDetailId.class)
 public class OrderDetail {
-    /*
-    - orderId: int (PK,FK)
-    - productId: int (FK,PK)
-    - quantity: int
-    - isRefunded: Boolean
-     */
+
     @Id
     @Setter(AccessLevel.NONE)
     private int orderId;

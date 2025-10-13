@@ -10,18 +10,22 @@ import java.util.List;
  * Date: 2025-10-05
  * Modifier by : YH
  * Last Modified by : YH
- * Last Modified: 2025-10-07 18:00
+ * Last Modified: 2025-10-10 18:00
  */
 
 public interface FavouriteService {
     public List<Favourites> findByCustomerId(int customerId);
-    public boolean toggleFavourite(int customerId, int productId);
+    //add to fav if its not already added. otherwise add it
+    public String saveFavourites(int customerId, int productId);
+    //fetch full product attributes, like name, descrpition, image url
     public List<Product> findFavouriteProductsByCustomerId(int customerId);
-    //public List<Product> getFavouriteProducts(int productId);
+    //removes all records of customer whole list removed.
+    public void deleteByCustomerId(int customerId);
+    //removes SINGLE product of customer, so need product ID.
+    public void deleteByCustomerIdAndProductId(int customerId, int productId);
+    //checks if its alryd favuourited, return true if yes, false if no.
+    public boolean isProductFavourited(int customerId, int productId);
 
     public long countFavouritesByProductId(int productId);
 
-    //public boolean existsByCustomerIdAndProductId(int customerId, int productId);
-    //private boolean addFavourite(int customerId, int productId);
-    //private void deleteFavourite(int customerId, int productId);
 }

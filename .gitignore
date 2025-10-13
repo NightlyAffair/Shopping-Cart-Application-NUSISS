@@ -32,4 +32,7 @@ build/
 ### VS Code ###
 .vscode/
 
-/shoppingcartfrontend
+/src/main/resources/application.properties
+/shoppingcartfrontend/node_modules
+/shoppingcartfrontend/package.json
+/shoppingcartfrontend/package-lock.json
