@@ -2,17 +2,20 @@ package com.Assignment.shopping_carts.Service;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.Assignment.shopping_carts.InterfaceMethods.OrdersService;
 import com.Assignment.shopping_carts.Model.Orders;
 import com.Assignment.shopping_carts.Repository.OrdersRepository;
 
-@Service
-public class OrdersServiceImpl extends OrdersService{
+import jakarta.annotation.Resource;
 
-  @Autowired
+@Service
+@Transactional(readOnly = true)
+public class OrdersServiceImpl implements  OrdersService{
+
+  @Resource
   private OrdersRepository ordersRepository;
 
   @Override
