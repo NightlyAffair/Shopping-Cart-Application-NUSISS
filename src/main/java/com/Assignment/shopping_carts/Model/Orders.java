@@ -42,15 +42,6 @@ public class Orders {
     private double unitAmount;
     private String status;
 
-<<<<<<< HEAD
-    @OneToMany(mappedBy="orders")
-    private List<OrderDetail> orderDetails;
-
-    @ManyToOne
-    @JoinColumn(name = "customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
-    private Customer customer;
-    
-=======
     @OneToMany
     @JoinColumn(name="orderId")
     private List<OrderDetail> orderDetails;
@@ -60,7 +51,6 @@ public class Orders {
     @JoinColumn(name="customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
     private Customer customer;
 
->>>>>>> 1dffeac5862a62e51d2e33383a57bc07f828a1fd
     @OneToMany(mappedBy = "orders")
     private List<Review> reviews;
 
