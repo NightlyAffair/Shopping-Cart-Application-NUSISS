@@ -58,4 +58,9 @@ public class ShoppingCartDetail {
         double priceAfterDiscount = product.getUnitPrice() * (1 - product.getDiscount());
         return priceAfterDiscount * quantity;//乘数量获得单种product的总价
     }
+
+    @Override
+    public String toString() {
+        return "Shopping Cart Detail";
+    }
 }

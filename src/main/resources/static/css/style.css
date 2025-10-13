@@ -1,4 +1,4 @@
-/* Global Variables */
+/* Global Color */
 :root {
   --primary-color: #24006b;
   --secondary-color: #6c757d;
@@ -12,9 +12,9 @@
   --text-muted: #6c757d;
 }
 
-/* Global Typography */
+/* Global Typo & Layout */
 body {
-  font-family: Arial, Helvetica, sans-serif ;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   background-color: var(--light-bg);
   color: #212529;
   min-height: 100vh;
@@ -67,7 +67,33 @@ main {
   background-color: #ffca2c;
 }
 
-/* NavBar*/
+/* User Dropdown */
+.user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #24006b 0%, #24006b 100%);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: 2px solid #e2e8f0;
+}
+
+.user-actions a {
+  position: relative;
+  color: #475569;
+  transition: color 0.2s ease;
+}
+
+.user-actions a:hover {
+  color: #24006b;
+}
+
+
+/* Nav Bar */
 .site-navbar {
   background-color: var(--primary-color) !important;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -112,7 +138,7 @@ main {
 /* Buttons */
 .btn {
   font-weight: 500;
-  border-radius: 20px;
+  border-radius: 0.375rem;
   transition: all 0.2s ease;
 }
 
@@ -122,8 +148,8 @@ main {
 }
 
 .btn-primary:hover {
-  background-color: #24006b;
-  border-color: #24006b;
+  background-color: #1a0050;
+  border-color: #1a0050;
 }
 
 .btn-outline-primary:hover {
@@ -139,7 +165,7 @@ main {
 /* Cards */
 .card {
   border: 1px solid var(--border-color);
-  border-radius: 55px;
+  border-radius: 0.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
 }
@@ -147,12 +173,6 @@ main {
 .card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
-}
-
-.card-img-top {
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
-  object-fit: cover;
 }
 
 /* Forms */
@@ -165,8 +185,8 @@ main {
 
 .form-control:focus,
 .form-select:focus {
-  border-color: #24006b;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.25rem rgba(36, 0, 107, 0.25);
 }
 
 .form-floating > label {
@@ -189,66 +209,7 @@ main {
   background-color: rgba(0, 0, 0, 0.02);
 }
 
-/* Footer */
-.site-footer {
-  background-color: var(--dark-bg);
-  color: rgba(255, 255, 255, 0.65);
-  padding: 2rem 0;
-  margin-top: auto;
-}
-
-.site-footer p {
-  margin: 0;
-}
-
-/* Utilities */
-.text-primary {
-  color: var(--primary-color) !important;
-}
-
-.bg-primary {
-  background-color: var(--primary-color) !important;
-}
-
-.shadow-sm {
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
-}
-
-.rounded {
-  border-radius: 0.5rem !important;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .site-header .promotional-text {
-    display: none;
-  }
-
-  .site-header .container {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-}
-
-/* User After Login */
-.user-dropdown .dropdown-toggle::after {
-  margin-left: 0.5rem;
-}
-
-.user-avatar {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #24006b 0%, #24006b 100%);
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 0.875rem;
-  border: 2px solid #e2e8f0;
-}
-
+/* Dropdowns */
 .dropdown-menu {
   border: 1px solid #e2e8f0;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
@@ -266,7 +227,7 @@ main {
 
 .dropdown-item:hover {
   background-color: #f8fafc;
-  color: #24006b;
+  color: var(--primary-color);
 }
 
 .dropdown-item i {
@@ -278,6 +239,53 @@ main {
   border-color: #e2e8f0;
 }
 
+
+.user-dropdown .dropdown-toggle {
+  display: flex;
+  align-items: center;
+  color: white;
+  padding: 0;
+}
+
+.user-dropdown .dropdown-toggle::after {
+  display: none;
+}
+
+.user-dropdown .dropdown-toggle:hover {
+  opacity: 0.9;
+}
+
+.user-dropdown .dropdown-toggle i {
+  font-size: 0.875rem;
+  transition: transform 0.2s ease;
+}
+
+.user-dropdown.show .dropdown-toggle i {
+  transform: rotate(180deg);
+}
+
+.user-dropdown img {
+  transition: transform 0.2s ease;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.user-dropdown img:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+/* Footer */
+.site-footer {
+  background-color: var(--dark-bg);
+  color: rgba(255, 255, 255, 0.65);
+  padding: 2rem 0;
+  margin-top: auto;
+}
+
+.site-footer p {
+  margin: 0;
+}
+
+/* Badges & Notis */
 .notification-badge {
   position: absolute;
   top: -5px;
@@ -295,21 +303,114 @@ main {
   border: 2px solid white;
 }
 
-.user-actions a {
-  position: relative;
-  color: #475569;
-  transition: color 0.2s ease;
+/* Global Image Handling */
+
+/* Base image styling */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-.user-actions a:hover {
-  color: #24006b;
+/* Product thumbnails in tables/lists (Favourites, Orders, Cart) */
+.product-thumb {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  object-fit: cover;
+  border-radius: 0.375rem;
+  border: 1px solid var(--border-color);
+  flex-shrink: 0;
 }
 
-.user-dropdown .btn-link {
-  text-decoration: none;
-  color: #ffffff;
+/* Product card images (Browse/Display Products page) */
+.product-card img,
+.card-img-top {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-top-left-radius: 0.5rem;
+  border-top-right-radius: 0.5rem;
 }
 
-.user-dropdown .btn-link:hover {
-  color: #ffffff;
+/* Main product image (Product Details page) */
+.product-image {
+  width: 300px;
+  max-width: 300px;
+  height: auto;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  margin: 0 auto;
+}
+
+/* Product image container */
+.product-image-container {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--light-bg);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  min-height: 400px;
+  overflow: hidden;
+}
+
+/* Table images */
+table img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 0.375rem;
+}
+
+/* Utility */
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary-color) !important;
+}
+
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075) !important;
+}
+
+.rounded {
+  border-radius: 0.5rem !important;
+}
+
+@media (max-width: 768px) {
+  .site-header .promotional-text {
+    display: none;
+  }
+
+  .site-header .container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .product-thumb {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    min-height: 60px;
+  }
+
+  .product-card img {
+    height: 150px;
+  }
+
+  .product-image {
+    max-height: 300px;
+  }
+
+  .product-image-container {
+    min-height: 250px;
+    padding: 1rem;
+  }
 }

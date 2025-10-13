@@ -31,7 +31,8 @@ public class ShoppingCartDetailController {
     private ShoppingCartDetailInterface cartService;//自动注入service interface中的method（mothodName应该是对应的）
 
     @PostMapping("/add")//处理“/shoppingCartDetail/add”的POST请求
-    public String addToCart(@RequestParam int customerId, @RequestParam int productId, @RequestParam int quantity, @RequestParam(required=false) String redirectUrl, Model model) {
+    public String addToCart(@RequestParam int productId, @RequestParam int quantity, Model model,@RequestParam(required=false) String redirectUrl, HttpSession session) {
+        int customerId = (int)session.getAttribute("customerId");
         cartService.addProductToCart(customerId, productId, quantity);//调用interface中addProductToCart方法
         model.addAttribute("productId", productId);//给页面传数据（当前操作的product的id）
         model.addAttribute("message", "Add to Cart Successfully!");//放提示语
@@ -83,25 +84,29 @@ public class ShoppingCartDetailController {
     }
 
     @PostMapping("/plus")
-    public String increment(@RequestParam int customerId, @RequestParam int productId, Model model, HttpSession session) {
+    public String increment(@RequestParam int productId, Model model, HttpSession session) {
+        int customerId = (int)session.getAttribute("customerId");
         cartService.addOne(customerId, productId);//调用interface中addOne方法
         return showCart(customerId, model, session);//更新后重新显示购物车页面
     }
 
     @PostMapping("/minus")
-    public String decrement(@RequestParam int customerId, @RequestParam int productId, Model model, HttpSession session) {
+    public String decrement(@RequestParam int productId, Model model, HttpSession session) {
+        int customerId = (int)session.getAttribute("customerId");
         cartService.deleteOne(customerId, productId);//调用interface中deleteOne方法
         return showCart(customerId, model, session);//更新后重新显示购物车页面
     }
 
     @PostMapping("/remove")
-    public String removeItem(@RequestParam int customerId, @RequestParam int productId, Model model, HttpSession session) {
+    public String removeItem(@RequestParam int productId, Model model, HttpSession session) {
+        int customerId = (int)session.getAttribute("customerId");
         cartService.removeProduct(customerId, productId);//调用interface中removeProduct方法
         return showCart(customerId, model, session);//更新后重新显示购物车页面
     }
 
     @PostMapping("/clear")
-    public String clearCart(@RequestParam int customerId, Model model, HttpSession session) {
+    public String clearCart(Model model, HttpSession session) {
+        int customerId = (int)session.getAttribute("customerId");
         cartService.clearCart(customerId);//调用interface中clearCart方法
         return showCart(customerId, model, session);//更新后重新显示购物车页面
     }
