@@ -33,9 +33,9 @@ public class FavouritesController {
     public String showFavourites(Model model, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if(customerId == null) {
-            //return "redirect:/Log";
-            customerId = 1;
-            session.setAttribute("customerId", customerId);
+            return "redirect:/Log";
+            //customerId = 1;
+            // session.setAttribute("customerId", customerId);
         } model.addAttribute("favourites", favService.findFavouriteProductsByCustomerId(customerId));
         return "favourites";
     }
@@ -46,10 +46,9 @@ public class FavouritesController {
     public String saveFavourite(@RequestParam int productId, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
-            //return "redirect:/Log";
-
-            customerId = 1;
-            session.setAttribute("customerId", customerId);
+            return "redirect:/Log";
+            //customerId = 1;
+            //session.setAttribute("customerId", customerId);
         }
         return favService.saveFavourites(customerId, productId); //toggles fav status
         //return "redirect:/displayProducts/details/" + productId;
@@ -61,9 +60,8 @@ public class FavouritesController {
         Integer customerId = (Integer) session.getAttribute("customerId");
 
         if (customerId == null) {
-            //return "redirect:/Log";
-            customerId = 1;
-            session.setAttribute("customerId", customerId);
+            //session.setAttribute("customerId", customerId);
+            return "redirect:/Log";
         }
         List<Product> FavProducts = favService
                 .findFavouriteProductsByCustomerId(customerId);
@@ -76,9 +74,8 @@ public class FavouritesController {
     public String deleteAllFavourites(HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
-            //return "redirect:/Log";
-            customerId = 1;
-            session.setAttribute("customerId", customerId);
+            //session.setAttribute("customerId", customerId);
+            return "redirect:/Log";
         }
         favService.deleteByCustomerId(customerId);
         return "redirect:/favourites";
@@ -89,9 +86,8 @@ public class FavouritesController {
     public String deleteSingleFavourites(@RequestParam int productId, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
-            //return "redirect:/Log";
-            customerId = 1;
-            session.setAttribute("customerId", customerId);
+            //session.setAttribute("customerId", customerId);
+            return "redirect:/Log";
         }
         favService.deleteByCustomerIdAndProductId(customerId, productId);
         return "redirect:/favourites";
@@ -102,9 +98,8 @@ public class FavouritesController {
     public boolean checkFavStatus(@PathVariable int productId, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
-            //return "redirect:/Log";
-            customerId = 1;
-            session.setAttribute("customerId", customerId);
+           // session.setAttribute("customerId", customerId);
+            return false;
         }
         return favService.isProductFavourited(customerId,productId);
     }
