@@ -1,5 +1,9 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import "../css/global.css"
+import "../css/displayProducts.css"
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import Header from '../components/Header';
+import Sidebar from "../components/Sidebar";
 
 const PurchaseHistory = () => {
   const [orders, setOrders] = useState([]);

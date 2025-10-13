@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import "../css/Global.css"
+import "../css/global.css"
 /**
  * Sidebar
  * Author: Nithvin Leelakrishnan
