@@ -3,30 +3,38 @@ package com.Assignment.shopping_carts.InterfaceMethods;
 import java.util.List;
 
 import com.Assignment.shopping_carts.Model.ShoppingCartDetail;
+/**
+ * ShoppingCartDetail Service Interface
+ * Author: Tony Song
+ * Date: 2025-10-02
+ * Modifier by : Tony Song
+ * Last Modified by : Tony Song
+ * Last Modified: 2025-10-07 23:00
+ */
 
 public interface ShoppingCartDetailInterface {
-	//add product to cart
-	void addProductToCart(int customerId, int productId, int quantity);
+    //method：往购物车中添加商品
+    void addProductToCart(int customerId, int productId, int quantity);
 
-    //show all cart products
+    //method：显示某个购物车的所有product
     List<ShoppingCartDetail> showCart(int customerId);
 
-    //input new quantity directly
+    //method：直接修改cart中某个product的数量
     void updateQuantity(int productId, int customerID, int newQuantity);
 
-    //Add one
+    //method：cart中的product数量+1
     void addOne(int customerId, int productId);
 
-    //delete one
+    //method：cart中的product数量-1
     void deleteOne(int customerId, int productId);
 
-    //remove the select products from cart
+    //method：无视数量，删除cart中某种product
     void removeProduct(int customerId, int productId);
 
-    //clear all product from cart
+    //method：删除cart中所有product
     void clearCart(int customerId);
 
-	//Calculate the total price for select product
-	double sumTotal(int customerId);
-	
+    //计算cart中的product总价
+    double sumTotal(int customerId);
+
 }

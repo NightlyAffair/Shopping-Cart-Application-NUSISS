@@ -33,24 +33,37 @@ public class LogInterceptor implements HandlerInterceptor {
         LOGGER.info("Request URL: {}", request.getRequestURL());
         HttpSession session = request.getSession(false);
 
-        if (session == null) {
-            LOGGER.warn("[LogInterceptor] No session found! Redirecting to /Log");
-            response.sendRedirect("/Log");
+        if
+        (session == null
+                || session.getAttribute("login_status") == null
+                || !(Boolean.TRUE.equals(session.getAttribute("login_status")))
+                || session.getAttribute("customerId") == null
+        )
+        {
+            //forward page save
+            String originalURL = request.getRequestURL().toString();
+            String queryString = request.getQueryString();
+            if (queryString != null) {
+                originalURL += "?" + queryString;
+            }
+
+            session = request.getSession(true);
+            session.setAttribute("redirectAfterLogin", originalURL);
+            LOGGER.info("[LogInterceptor] Saved redirectAfterLogin: {}", originalURL);
+            //not log in redirect to Log page.
+            response.sendRedirect("/login");
             return false;
         }
 
-        Boolean loginStatus = (Boolean) session.getAttribute("login_status");
-        Integer customerId = (Integer) session.getAttribute("customerId");
-        LOGGER.info("[LogInterceptor] login_status = {}", loginStatus);
-        session.setAttribute("login_status", loginStatus);
-        if (loginStatus == null || !loginStatus|| customerId == null) {
-            LOGGER.warn("[LogInterceptor] Invalid session: login_status={}, customerId={}. Redirecting to /Log", loginStatus, customerId);
-            response.sendRedirect("/Log");
-            return false;
-        }
-        LOGGER.info("[LogInterceptor] User logged in, session id: {}", session.getId());
+
+        LOGGER.info("[LogInterceptor] User is logged in. Session ID: {}", session.getId());
         return true;
-}
+
+
+
+    }
 
 }
+
+
 

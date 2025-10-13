@@ -4,14 +4,7 @@ package com.Assignment.shopping_carts.Model;
 import java.sql.Date;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -47,15 +40,14 @@ public class Orders {
     private double unitAmount;
     private String status;
 
-
     @OneToMany
-    @JoinColumn(name = "orderId")
+    @JoinColumn(name="orderId")
     private List<OrderDetail> orderDetails;
 
     @ManyToOne
-    @JoinColumn( name = "customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
+    @JoinColumn(name="customerId", referencedColumnName = "customerId", insertable = false, updatable = false)
     private Customer customer;
 
-    @OneToMany(mappedBy = "orders")
+    @OneToMany(mappedBy = "order")
     private List<Review> reviews;
 }

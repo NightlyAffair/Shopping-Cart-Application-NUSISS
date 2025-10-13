@@ -31,16 +31,6 @@ import lombok.Setter;
     uniqueConstraints = @UniqueConstraint(columnNames = {"productId", "customerId", "orderId"})
 )
 public class Review {
-    /*
-    - productId: int (PK/FK)
-    - customerId: int (PK/FK)
-    - orderId: int (FK)
-    - rating: int
-    - description: String
-     */
-
-
-
     @Id
     @Setter(AccessLevel.NONE)
     private int productId;
@@ -53,20 +43,12 @@ public class Review {
     @Setter(AccessLevel.NONE)
     private int orderId;
 
-
-
     private int rating;
     private String description;
-
-
 
     @ManyToOne
     @JoinColumn(name = "orderId", referencedColumnName = "orderId", insertable = false, updatable = false)
     private Orders orders;
-
-    
-
-
 
     @ManyToOne
     @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)

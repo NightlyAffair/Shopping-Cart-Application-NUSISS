@@ -1,4 +1,4 @@
-import "../css/Global.css"
+import "../css/global.css"
 /**
  * Header
  * Author: Nithvin Leelakrishnan
