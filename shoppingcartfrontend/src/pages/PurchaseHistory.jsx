@@ -21,6 +21,10 @@ export default function PurchaseHistory() {
   const [customerId, setCustomerId] = useState(1); // Replace with actual logged-in user ID 
   const [reviewContent, setReviewContent] = useState('');
   const [rating, setRating] = useState(5);
+  //state-based error message
+  const [errorMessage, setErrorMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
      // Use dummy data for testing Review button (no backend needed)
@@ -42,7 +46,7 @@ export default function PurchaseHistory() {
           {
             quantity: 1,
             product: {
-              productId: 3,
+              productId: 6,
               productName: "Sample Product B", 
               category: "Books"
             }
@@ -78,6 +82,10 @@ export default function PurchaseHistory() {
   const submitReview = async () => {
     if (!selectedOrderId || !selectedProductId) return;
 
+    setErrorMessage('');
+    setSuccessMessage('');
+    setIsSubmitting(true);
+
     const payload = {
       rating: Number(rating),
       description: reviewContent,
@@ -94,23 +102,44 @@ export default function PurchaseHistory() {
       });
 
       console.log('Review submitted successfully:', response.data);
-      alert('Review submitted successfully!');
+      setSuccessMessage('Review submitted successfully!');
       
-      // reset form
-      setShowForm(false);
+    setTimeout(() => { // reset form
+     setShowForm(false);
       setReviewContent('');
       setRating(5);
       setSelectedOrderId(null);
       setSelectedProductId(null);
-    } catch (err) {
+      setErrorMessage('');
+      setSuccessMessage('');
+    }, 2000);
+   } catch (err) {
       console.error('Error submitting review:', err.response?.data || err.message);
-      alert('Failed to submit review. Please try again.');
+      
+      //setErrorMessage
+       if (err.response?.status === 400) {
+       setErrorMessage('Review already exists for this product in this order.');
+      } else if (err.response?.status === 500) {
+       setErrorMessage('Server error. Please check if the product and order exist.');
+      } else if (err.request) {
+       setErrorMessage('Cannot connect to server. Please check if the backend is running.');
+      } else {
+       setErrorMessage('Failed to submit review: ' + err.message);
+      }
+    } finally {
+     setIsSubmitting(false);
     }
   };
 
   //add helper to close modal (thae)
   const closeModal = () => {
     setShowForm(false);
+    setErrorMessage('');
+    setSuccessMessage('');
+    setReviewContent('');
+    setRating(5);
+    setSelectedOrderId(null);
+    setSelectedProductId(null);
   };
 
   //inline styles for modal (thae)
@@ -222,6 +251,31 @@ export default function PurchaseHistory() {
                       <button aria-label="Close review" style={closeBtnStyle} onClick={closeModal}>×</button>
 
                       <h3 style={{ marginTop: 0 }}>Write Review</h3>
+                       {successMessage && (
+                       <div style={{ 
+                         backgroundColor: '#d4edda',
+                         color: '#155724', 
+                         padding: '10px', 
+                         borderRadius: '4px', 
+                         marginBottom: '12px',
+                         border: '1px solid #c3e6cb'
+                       }}>
+                         {successMessage}
+                       </div>
+                     )}                      
+                       {errorMessage && (
+                        <div style={{ 
+                          backgroundColor: '#f8d7da', 
+                          color: '#721c24', 
+                          padding: '10px', 
+                          borderRadius: '4px', 
+                          marginBottom: '12px',
+                          border: '1px solid #f5c6cb'
+                        }}>
+                          {errorMessage}
+                        </div>
+                      )}
+
 
                       <div style={{ marginBottom: 8 }}>
                         <label style={{ display: 'block', marginBottom: 6 }}>Your review</label>
@@ -230,11 +284,14 @@ export default function PurchaseHistory() {
                           onChange={(e) => setReviewContent(e.target.value)}
                           placeholder="Write your review..."
                           style={{ width: '100%', minHeight: 100, padding: 8, boxSizing: 'border-box' }}
+                          disabled={isSubmitting || successMessage}
                         />
                       </div>
                        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
                         <label style={{ minWidth: 60 }}>Rating</label>
-                        <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
+                        <select value={rating} onChange={(e) => setRating(Number(e.target.value))}
+                          disabled={isSubmitting || successMessage}
+                          >
                           <option value={5}>Very Good</option>
                           <option value={4}>Good</option>
                           <option value={3}>Normal</option>
@@ -247,7 +304,21 @@ export default function PurchaseHistory() {
                       </div>
 
                       <div style={{ display: 'flex', gap: 8, justifyContent: 'flex-end' }}>
-                        <button onClick={submitReview} style={{ padding: '8px 14px', background: '#007bff', color: '#fff', border: 'none', borderRadius: 4 }}>Submit</button>
+                        <button 
+                        onClick={submitReview}
+                        disabled={isSubmitting || successMessage}
+                         style={{ 
+                           padding: '8px 14px', 
+                           background: (isSubmitting || successMessage) ? '#6c757d' : '#007bff', 
+                           color: '#fff', 
+                           border: 'none', 
+                           borderRadius: 4, 
+                           cursor: (isSubmitting || successMessage) ? 'not-allowed' : 'pointer' 
+                         }}
+
+                           >
+                          {isSubmitting ? 'Submitting...' : successMessage ? 'Submitted!' : 'Submit'}
+                        </button>
                         <button onClick={closeModal} style={{ padding: '8px 14px', background: '#f0f0f0', border: 'none', borderRadius: 4 }}>Cancel</button>
                       </div>
                     </div>
