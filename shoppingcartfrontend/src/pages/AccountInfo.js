@@ -1,6 +1,8 @@
-import "../css/Global.css"
+import "../css/global.css"
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import NavBar from "../components/NavBar";
 import {useEffect, useState} from "react";
 import axios from "axios";
 /**
@@ -67,7 +69,8 @@ export default function AccountInfo() {
 
     return(
         <div>
-            <Header/>
+            <Header />
+            <NavBar />
             <div style={{display:"flex", flexDirection:"row"}}>
                 <Sidebar/>
                 <div style={{display:"flex", flexDirection:"column", justifyContent:"space-between", height:"20vh"}}>
