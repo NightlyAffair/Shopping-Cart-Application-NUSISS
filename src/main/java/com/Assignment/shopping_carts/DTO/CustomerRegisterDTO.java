@@ -5,6 +5,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+/**
+ * DTO to set validation
+ * Author: Zhou Jayson
+ * Date: 2025-10-06
+ * Participants:
+ * Modified by: Jayson
+ * Last Modified: 2025-10-07 13:00
+ */
+
+
 @Data
 public class CustomerRegisterDTO {
 
