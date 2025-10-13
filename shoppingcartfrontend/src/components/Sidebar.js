@@ -1,5 +1,5 @@
 import {useNavigate} from "react-router-dom";
-import "../css/global.css"
+import "../css/style.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 /**
  * Sidebar
