@@ -24,7 +24,7 @@
   flex-direction: column;
   background-color: white;
   border: 1px solid #dee2e6;
-  border-radius: 35px;
+  border-radius: 0.75rem;
   overflow: hidden;
   transition: all 0.3s ease;
 }
