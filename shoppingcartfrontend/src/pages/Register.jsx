@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import '../css/style.css';
 import '../css/login.css';
+
 
 function Register() {
     const [formData, setFormData] = useState({
@@ -15,6 +18,7 @@ function Register() {
     });
 
     const [message, setMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -24,13 +28,13 @@ function Register() {
         }));
     };
 
-    // form
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setMessage('');
+        setSuccessMessage('');
 
-        // validation
         if (formData.password !== formData.confirmPassword) {
-            setMessage('❌ Passwords do not match.');
+            setMessage('Passwords do not match.');
             return;
         }
 
@@ -50,23 +54,25 @@ function Register() {
             const data = await response.json();
 
             if (response.ok && data.success) {
-                setMessage('✅ ' + data.message);
-                alert('Registration successful!');
-                // 注册成功后跳转到登录页
-                window.location.href = '/login';
+                setSuccessMessage(data.message || 'Registration successful!');
+                setTimeout(() => {
+                    window.location.href = 'http://localhost:8080/login';
+                }, 2000);
             } else {
-                setMessage('⚠️ ' + (data.message || 'Registration failed.'));
+                setMessage(data.message || 'Registration failed.');
             }
         } catch (error) {
             console.error('Error:', error);
-            setMessage('🚨 Connection error, please check backend.');
+            setMessage('Connection error, please check backend.');
         }
     };
 
+
+
     return (
-        <main className="form-signin" style={{ maxWidth: 400, margin: 'auto', padding: '1rem' }}>
+        <main className="form-signin">
             <form onSubmit={handleSubmit}>
-                <img src="/static/images/shop-logo.png" alt="Shop @ISS Logo" width="auto" height={57} />
+                <img src="/images/shop-logo.png" alt="Shop @ISS Logo" width="auto" height="57" />
                 <h1 className="h3">Create Account</h1>
 
 
@@ -175,15 +181,22 @@ function Register() {
                     <i className="bi bi-person-plus me-2"></i>Create Account
                 </button>
 
+
                 {message && (
                     <div className="alert alert-info mt-3" role="alert">
                         {message}
                     </div>
                 )}
 
+                {successMessage && (
+                    <div className="alert alert-success mt-3" role="alert">
+                        {successMessage}
+                    </div>
+                )}
+
                 <div className="text-center mt-3">
                     <p className="mb-0">
-                        Already have an account? <Link to="/login">Sign in</Link>
+                        Already have an account? <a href="http://localhost:8080/login">Sign in</a>
                     </p>
                 </div>
             </form>

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import Navbar from "../components/NavBar";
 
 const PurchaseHistory = () => {
   const [orders, setOrders] = useState([]);
@@ -27,9 +28,10 @@ const PurchaseHistory = () => {
   if (!orders.length) return <p>Loading purchase history...</p>;
 
   return (
-    <div style={{ display: "flex", width: "100vw" }}>
+    <div style={{ display: "flex", width: "100vw", flexDirection: "column" }}>
       <Header />
-      <div style={{ flex: 1 }}>
+        <Navbar />
+      <div style={{ display:"flex", flexDirection:"row", flex: 1 }}>
         <Sidebar />
 
         <div style={{ padding: "20px" }}>

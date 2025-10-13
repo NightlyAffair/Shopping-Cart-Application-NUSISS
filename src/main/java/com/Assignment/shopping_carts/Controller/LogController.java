@@ -25,6 +25,7 @@ import java.util.List;
 
 @RequestMapping("/login")
 @Controller
+@CrossOrigin(origins = "http://localhost:3000")
 public class LogController {
     @Autowired
     private LogInterface logService;
@@ -65,8 +66,13 @@ public class LogController {
         }
 
 
-        //
 
+    }
+
+
+    @GetMapping("/forgetPassword")
+    public String showForgetPassword(){
+        return "forgetPassword";
     }
 
 
@@ -78,7 +84,7 @@ public class LogController {
             logService.updatePassword(customer.getUserName(),customer.getPassword());
             return  "redirect:/login";
         }
-        return "redirect:/forgetPassword?error=1";
+        return "redirect:forgetPassword?error=1";
 
     }
 
