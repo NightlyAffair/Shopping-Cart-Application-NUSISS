@@ -56,7 +56,7 @@ public class LogController {
                 session.removeAttribute("redirectAfterLogin");
                 return "redirect:"+redirectUrl;
             }else {
-                return "redirect:/displayProducts/page";
+                return "redirect:/products/page";
             }
 
         }else {
