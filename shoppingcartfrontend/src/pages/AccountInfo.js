@@ -1,4 +1,4 @@
-import "../css/global.css"
+import "../css/style.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
@@ -69,8 +69,15 @@ export default function AccountInfo() {
 
     return(
         <div style={{display:'flex', flexDirection:'column', width:'100vw', minHeight:'100vh'}}>
-            <Header />
-            <NavBar />
+            <div>
+                <Header />
+            </div>
+            <div>
+                <NavBar />
+            </div>
+
+
+
             <div style={{display:"flex", flexDirection:"row", flex: 1}}>
                 <Sidebar/>
                 <div style={{display:"flex", flexDirection:"column", justifyContent:"flex-start", flex: 1, marginTop:"10px", padding:"20px"}}>

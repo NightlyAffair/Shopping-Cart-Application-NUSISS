@@ -99,6 +99,17 @@
   -moz-appearance: textfield;
 }
 
+.bt-add-cart{
+    font-size: 0.85rem;
+    padding: 0.35rem 0.5rem;
+    height: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+
+
 .empty-state {
   background-color: white;
   border-radius: 0.5rem;
