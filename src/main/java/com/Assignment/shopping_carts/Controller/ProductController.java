@@ -47,7 +47,7 @@ public class ProductController {
         // Determine sort order from UI parameter
         Sort sortOrder = productService.sortEnum(sort);
 
-        // Create pageable request (8 products per page)
+        // Create pageable request (10 products per page)
         Pageable pageable = PageRequest.of(pageNumber, 10, sortOrder);
 
         // Fetch paginated, filtered, and sorted products

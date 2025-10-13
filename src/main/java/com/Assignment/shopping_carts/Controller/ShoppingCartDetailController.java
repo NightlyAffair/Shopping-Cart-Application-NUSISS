@@ -112,6 +112,13 @@ public class ShoppingCartDetailController {
         return showCart(model, session);//更新后重新显示购物车页面
     }
 
+    @PostMapping("/payment")
+    public String payment(Model model, HttpSession session) {
+        int customerId = (int)session.getAttribute("customerId");
+        model.addAttribute("customerId", customerId);
+        return "creditCardDetails";
+    }
+
     @PostMapping("/checkout")
     public String checkout(@RequestParam int customerId, HttpSession session) {
         //取出名为"selectedProducts"的HashSet<Integer>中的productId

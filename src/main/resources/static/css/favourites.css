@@ -3,6 +3,8 @@
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  table-layout: auto;
+  width: 100%;
 }
 
 .table thead.table-dark th {
@@ -12,6 +14,14 @@
   border: none;
   padding: 1rem;
 }
+
+/* Define column widths for better control */
+.table thead th:nth-child(1) { width: 100px; } /* Product image */
+.table thead th:nth-child(2) { width: auto; min-width: 150px; } /* Description */
+.table thead th:nth-child(3) { width: 90px; } /* Price */
+.table thead th:nth-child(4) { width: 100px; } /* Rating */
+.table thead th:nth-child(5) { width: 140px; } /* Quantity */
+.table thead th:nth-child(6) { width: 200px; } /* Actions */
 
 .table tbody tr {
   transition: background-color 0.2s ease;
@@ -99,16 +109,15 @@
   -moz-appearance: textfield;
 }
 
-.bt-add-cart{
-    font-size: 0.85rem;
-    padding: 0.35rem 0.5rem;
-    height: auto;
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
+.btn-add-cart {
+  font-size: 0.875rem;
+  padding: 0.5rem 0.75rem;
+  height: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
 }
-
-
 
 .empty-state {
   background-color: white;
@@ -130,10 +139,15 @@
   font-size: 1rem;
 }
 
+
+/* --- Large Tablets --- */
 @media (max-width: 992px) {
   .table {
     font-size: 0.875rem;
   }
+
+  .table thead th:nth-child(5) { width: 120px; } /* Quantity */
+  .table thead th:nth-child(6) { width: 180px; } /* Actions */
 
   .product-thumb {
     width: 60px;
@@ -143,13 +157,24 @@
   .table td {
     padding: 0.75rem 0.5rem;
   }
+
+  .d-flex.gap-3 {
+    gap: 0.75rem !important;
+  }
 }
 
+/* --- Tablets / Small Laptops --- */
 @media (max-width: 768px) {
   .table thead th {
     font-size: 0.75rem;
     padding: 0.75rem 0.5rem;
   }
+
+  .table thead th:nth-child(1) { width: 70px; } /* Product image */
+  .table thead th:nth-child(3) { width: 70px; } /* Price */
+  .table thead th:nth-child(4) { width: 80px; } /* Rating */
+  .table thead th:nth-child(5) { width: 110px; } /* Quantity */
+  .table thead th:nth-child(6) { width: 150px; } /* Actions */
 
   .product-thumb {
     width: 50px;
@@ -177,6 +202,15 @@
     padding: 0.25rem 0.5rem;
   }
 
+  .btn-add-cart {
+    font-size: 0.75rem;
+    padding: 0.375rem 0.5rem;
+  }
+
+  .d-flex.gap-3 {
+    gap: 0.5rem !important;
+  }
+
   .empty-state {
     padding: 2rem 1rem;
   }
@@ -186,22 +220,98 @@
   }
 }
 
+/* --- Mobile Phones --- */
 @media (max-width: 576px) {
   .table-responsive {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
+
+  .table td,
+  .table thead th {
+    padding: 0.5rem 0.25rem;
+  }
+
+  .table thead th:nth-child(1) { width: 50px; } /* Product image */
+  .table thead th:nth-child(3) { width: 60px; } /* Price */
+  .table thead th:nth-child(4) { display: none; } /* Hide Rating */
+  .table thead th:nth-child(5) { width: auto; } /* Quantity - flexible */
+  .table thead th:nth-child(6) { width: auto; } /* Actions - flexible */
+
+  .table tbody td:nth-child(4) { display: none; } /* Hide Rating */
 
   .product-thumb {
     width: 40px;
     height: 40px;
   }
 
-  .d-flex.gap-2 {
-    flex-direction: column;
-    gap: 0.5rem !important;
+  .product-name {
+    font-size: 0.75rem;
   }
 
-  .d-flex.gap-2 .btn {
-    width: 100%;
+  .quantity-selector .qty-input {
+    width: 35px;
+    font-size: 0.75rem;
+    padding: 0.4rem 0.15rem;
+  }
+
+  .quantity-selector button {
+    padding: 0.3rem 0.4rem;
+    font-size: 0.75rem;
+  }
+
+  .btn-add-cart {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.4rem;
+  }
+
+  .btn-add-cart .me-2 {
+    margin-right: 0.25rem !important;
+  }
+
+  .d-flex.gap-3 {
+    gap: 0.25rem !important;
+    flex-wrap: nowrap;
+  }
+
+  .empty-state {
+    padding: 1.5rem 1rem;
+  }
+
+  .empty-state i.display-1 {
+    font-size: 3rem;
+  }
+
+  .empty-state h4 {
+    font-size: 1.25rem;
+  }
+
+  .empty-state p {
+    font-size: 0.875rem;
+  }
+}
+
+/* Extra small devices - very narrow screens */
+@media (max-width: 400px) {
+  .table td,
+  .table thead th {
+    padding: 0.4rem 0.15rem;
+  }
+
+  .quantity-selector .qty-input {
+    width: 30px;
+    padding: 0.3rem 0.1rem;
+  }
+
+  .quantity-selector button {
+    padding: 0.25rem 0.3rem;
+  }
+
+  .btn-add-cart {
+    font-size: 0.65rem;
+    padding: 0.3rem 0.35rem;
+  }
+
+  .d-flex.gap-3 {
+    gap: 0.2rem !important;
   }
 }
