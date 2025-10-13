@@ -19,11 +19,11 @@ import java.util.List;
  * Date: 2025-10-02
  * Participants: Jason
  * Modified by: Jason
- * Last Modified: 2025-10-07 11:00
+ * Last Modified: 2025-10-11 11:00
  */
 
 
-@RequestMapping("/Log")
+@RequestMapping("/login")
 @Controller
 public class LogController {
     @Autowired
@@ -41,23 +41,51 @@ public class LogController {
 
 
     @PostMapping("/try")
-    public String tryLogin(@RequestParam(name = "userName") String userName,@RequestParam(name = "password") String password,HttpSession session){
+    public String tryLogin(@RequestParam(name = "userName") String userName,
+                           @RequestParam(name = "password") String password,HttpSession session)
+    {
         if(logService.LoginTry(userName,password)){
             Customer customer = logService.findByUserName(userName);
 
             session.setAttribute("customerId",customer.getCustomerId());
             session.setAttribute("login_status",true);
             session.setAttribute("user_name",userName);
+
+            String redirectUrl = (String)session.getAttribute("redirectAfterLogin");
+            if(redirectUrl!=null){
+                session.removeAttribute("redirectAfterLogin");
+                return "redirect:"+redirectUrl;
+            }else {
+                return "redirect:/displayProducts/page";
+            }
+
         }else {
             session.setAttribute("login_status",false);
+            return "redirect:/login?error=1";
         }
-        return "redirect:/Log/homepage";
+
+
+        //
+
     }
 
 
-    @GetMapping("/homepage")
-    public String homepage(){
-        return "homepage";
+    @PostMapping("/forgetPassword")
+    public String forgetPassword(@RequestParam(name = "userName") String userName,@RequestParam(name = "fullName") String fullName,String email,@RequestParam(name = "newPassword") String newPassword,HttpSession session){
+        if(logService.forgetPassword(userName,fullName,email)){
+            Customer customer = logService.findByUserName(userName);
+            customer.setPassword(newPassword);
+            logService.updatePassword(customer.getUserName(),customer.getPassword());
+            return  "redirect:/login";
+        }
+        return "redirect:/forgetPassword?error=1";
+
+    }
+
+
+    @PostMapping("/loginError")
+    public String loginError(){
+        return "login_error";
     }
 
 
