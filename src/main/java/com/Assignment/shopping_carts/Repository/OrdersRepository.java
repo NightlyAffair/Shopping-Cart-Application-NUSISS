@@ -11,6 +11,5 @@ import com.Assignment.shopping_carts.Model.Orders;
 
 @Repository
 public interface OrdersRepository extends JpaRepository<Orders, Integer>{
-  @Query("SELECT o FROM Orders o WHERE o.customerId = :customerId")
   List<Orders> findByCustomerId(@Param("customerId") Integer customerId);
 }
