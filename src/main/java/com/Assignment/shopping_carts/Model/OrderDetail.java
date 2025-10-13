@@ -2,6 +2,7 @@ package com.Assignment.shopping_carts.Model;
 
 
 import com.Assignment.shopping_carts.Model.compositeKey.OrderDetailId;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.IdClass;
@@ -34,7 +35,7 @@ public class OrderDetail {
     private boolean isRefunded;
 
     @ManyToOne
-    private Orders order;
+    private Orders orders;
 
     @ManyToOne
     private Product product;
