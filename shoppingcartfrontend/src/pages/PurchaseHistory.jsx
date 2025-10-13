@@ -45,7 +45,7 @@ const PurchaseHistory = () => {
               </h3>
               <p>
                 <strong>Purchase Date:</strong> {order.purchaseDate} <br />
-                <strong>Total:</strong> ${order.unitAmount?.toFixed(2)}
+                
               </p>
 
               <table
