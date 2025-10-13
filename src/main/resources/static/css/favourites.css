@@ -100,12 +100,11 @@
 }
 
 .bt-add-cart{
-    font-size: 0.85rem;
-    padding: 0.35rem 0.5rem;
+    font-size: 1rem;
+    padding: 0.5rem 0.5rem;
     height: auto;
     display: flex;
     align-items: center;
-    gap: 0.25rem;
 }
 
 
@@ -205,3 +204,13 @@
     width: 100%;
   }
 }
+
+.action-btn {
+    font-size: 0.875rem;
+    padding: 0.35rem 0.5rem; /* vertical & horizontal padding */
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+

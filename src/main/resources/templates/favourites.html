@@ -1,233 +1,242 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Shop @ISS – My Favourites</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Shop @ISS – My Favourites</title>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
 
-  <!-- Custom Styles -->
-    <link th:href="@{/css/style.css}" rel="stylesheet">
-  <link th:href="@{/css/favourites.css}" rel="stylesheet">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/favourites.css}">
 </head>
 <body>
 <!-- Header -->
 <header class="site-header">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-md-3">
-        <div class="logo">
-          <h5>Shop @ISS</h5>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-3">
+                <div class="logo">
+                    <h5>Shop @ISS</h5>
+                </div>
+            </div>
+            <div class="col-md-6 text-center d-none d-md-block">
+                <span class="promotional-text">Today's Deals: Free shipping over $80 | 10% off on new arrivals</span>
+            </div>
+            <div class="col-md-3 d-flex justify-content-end">
+                <!-- If Not Logged -->
+                <div th:if="${session.login_status == null || session.login_status == false}">
+                    <div class="user-actions d-flex align-items-center justify-content-end gap-2">
+                        <a class="text-white" href="#"><i class="bi bi-person-circle fs-4"></i></a>
+                        <a class="btn btn-outline-light btn-sm" th:href="@{/login}">Login</a>
+                        <a class="btn btn-warning btn-sm" href="http://localhost:3000/signup">Sign Up</a>
+                    </div>
+                </div>
+                <!-- Logged In -->
+                <div th:if="${session.login_status != null && session.login_status == true}">
+                    <div class="dropdown user-dropdown">
+                        <a aria-expanded="false"
+                           class="d-flex align-items-center gap-2 text-decoration-none dropdown-toggle"
+                           data-bs-toggle="dropdown"
+                           href="#">
+                            <img alt="user profile"
+                                 class="rounded-circle"
+                                 height="40"
+                                 src="https://images.unsplash.com/photo-1750535135593-3a8e5def331d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1480"
+                                 width="40"/>
+                            <i class="bi bi-chevron-down text-white"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="http://localhost:3000/#/accountInfo">
+                                <i class="bi bi-gear me-2"></i>Settings
+                            </a></li>
+                            <li><a class="dropdown-item" href="http://localhost:3000/#/purchaseHistory">
+                                <i class="bi bi-clock-history me-2"></i>View Purchase History
+                            </a></li>
+                            <li>
+                                <hr class="dropdown-divider"/>
+                            </li>
+                            <li><a class="dropdown-item" th:href="@{/login/logout}">
+                                <i class="bi bi-box-arrow-right me-2"></i>Sign out
+                            </a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-6 text-center d-none d-md-block">
-        <span class="promotional-text">Today's Deals: Free shipping over $80 | 10% off on new arrivals</span>
-      </div>
-      <div class="col-md-3 d-flex justify-content-end">
-        <!-- If Not Logged -->
-        <div th:if="${session.login_status == null || session.login_status == false}">
-          <div class="user-actions d-flex align-items-center justify-content-end gap-2">
-            <a href="#" class="text-white"><i class="bi bi-person-circle fs-4"></i></a>
-            <a th:href="@{/login}" class="btn btn-outline-light btn-sm">Login</a>
-            <a href="http://localhost:3000/signup" class="btn btn-warning btn-sm">Sign Up</a>
-          </div>
-        </div>
-        <!-- Logged In -->
-        <div th:if="${session.login_status != null && session.login_status == true}">
-          <div class="dropdown user-dropdown">
-            <a href="#"
-               class="d-flex align-items-center gap-2 text-decoration-none dropdown-toggle"
-               data-bs-toggle="dropdown"
-               aria-expanded="false">
-              <img src="https://images.unsplash.com/photo-1750535135593-3a8e5def331d?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1480"
-                   alt="user profile"
-                   width="40"
-                   height="40"
-                   class="rounded-circle" />
-              <i class="bi bi-chevron-down text-white"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li><a class="dropdown-item" href="http://localhost:3000/#/accountInfo">
-                <i class="bi bi-gear me-2"></i>Settings
-              </a></li>
-              <li><a class="dropdown-item" href="http://localhost:3000/#/purchaseHistory">
-                <i class="bi bi-clock-history me-2"></i>View Purchase History
-              </a></li>
-              <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" th:href="@{/login/logout}">
-                <i class="bi bi-box-arrow-right me-2"></i>Sign out
-              </a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </header>
 
 <!-- NavBar -->
 <nav class="navbar navbar-expand-lg navbar-dark site-navbar">
-  <div class="container">
-    <a class="navbar-brand" th:href="@{/products}">
-      <i class="bi bi-grid-3x3-gap me-2"></i>Browse
-    </a>
-    <button class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/favourites}">
-            <i class="bi bi-heart-fill me-1"></i>Favourites
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/products/cart/view}">
-            <i class="bi bi-cart3 me-1"></i>Cart
-          </a>
-        </li>
-      </ul>
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/products}">
+            <i class="bi bi-grid-3x3-gap me-2"></i>Browse
+        </a>
+        <button class="navbar-toggler" data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/favourites}">
+                        <i class="bi bi-heart-fill me-1"></i>Favourites
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/products/cart/view}">
+                        <i class="bi bi-cart3 me-1"></i>Cart
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-  </div>
 </nav>
-  <!-- Main -->
-  <main class="container my-5">
+<!-- Main -->
+<main class="container my-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="fw-bold">
-        <i class="bi bi-heart-fill text-danger me-2"></i>My favourites
-      </h2>
-      <span class="text-muted" th:text="${favourites?.size() ?: 0} + ' items'">0 items</span>
+        <h2 class="fw-bold">
+            <i class="bi bi-heart-fill text-danger me-2"></i>My favourites
+        </h2>
+        <span class="text-muted" th:text="${favourites?.size() ?: 0} + ' items'">0 items</span>
     </div>
 
     <!-- Empty State. if no favourites, show empty state -->
-    <div th:if="${favourites == null || favourites.isEmpty()}" class="empty-state">
-      <div class="text-center py-5">
-        <i class="bi bi-heart display-1 text-muted mb-3"></i>
-        <h4 class="mb-3">No Favourites Yet</h4>
-        <p class="text-muted mb-4">Start adding products to your favourites to see them here!</p>
-        <a th:href="@{/products/page}" class="btn btn-primary">
-          <i class="bi bi-grid-3x3-gap me-2"></i>Browse Products
-        </a>
-      </div>
+    <div class="empty-state" th:if="${favourites == null || favourites.isEmpty()}">
+        <div class="text-center py-5">
+            <i class="bi bi-heart display-1 text-muted mb-3"></i>
+            <h4 class="mb-3">No Favourites Yet</h4>
+            <p class="text-muted mb-4">Start adding products to your favourites to see them here!</p>
+            <a class="btn btn-primary" th:href="@{/products/page}">
+                <i class="bi bi-grid-3x3-gap me-2"></i>Browse Products
+            </a>
+        </div>
     </div>
 
-      <!-- Status message -->
-      <div id="statusMessage" class="text-muted mb-2"></div>
+    <!-- Status message -->
+    <div class="text-muted mb-2" id="statusMessage"></div>
 
     <!-- Favorites Table, shows all fav products -->
     <div th:unless="${favourites == null || favourites.isEmpty()}">
-      <div class="table-responsive">
-        <table class="table table-hover align-middle">
-          <thead class="table-dark">
-            <tr>
-              <th>Product</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>Rating</th>
-              <th>Quantity</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr th:each="product : ${favourites}">
-              <td>
-                <div class="d-flex align-items-center">
-                    <img th:src="${product.imageUrl}"
-                            src="/images/placeholder.png"
-                         alt="Product"
-                         class="product-thumb me-3">
+        <div class="table-responsive mx-auto">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                <tr>
+                    <th>Product</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Rating</th>
+                    <th class = "text-center">Quantity</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${favourites}">
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <img alt="Product"
+                                 class="product-thumb me-3"
+                                 src="/images/placeholder.png"
+                                 th:src="${product.imageUrl}">
 
 
+                            <div>
+                                <div class="fw-semibold product-name" th:text="${product.productName}">Product Name
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <small class="text-muted" th:text="${product.description}">
+                            Product description goes here
+                        </small>
+                    </td>
+                    <td>
+                        <span class="fw-bold text-primary fs-5">$<span
+                                th:text="${#numbers.formatDecimal(product.unitPrice, 1, 2)}">24.99</span></span>
+                    </td>
+                    <td>
+                        <div class="rating-display">
+                            <i class="bi bi-star-fill text-warning"></i>
+                            <i class="bi bi-star-fill text-warning"></i>
+                            <i class="bi bi-star-fill text-warning"></i>
+                            <i class="bi bi-star-fill text-warning"></i>
+                            <i class="bi bi-star text-warning"></i>
+                            <small class="text-muted">(4.0)</small>
+                        </div>
+                    </td>
 
-                    <div>
-                    <div class="fw-semibold product-name" th:text="${product.productName}">Product Name</div>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <small class="text-muted" th:text="${product.description}">
-                  Product description goes here
-                </small>
-              </td>
-              <td>
-                <span class="fw-bold text-primary fs-5">$<span th:text="${#numbers.formatDecimal(product.unitPrice, 1, 2)}">24.99</span></span>
-              </td>
-              <td>
-                <div class="rating-display">
-                  <i class="bi bi-star-fill text-warning"></i>
-                  <i class="bi bi-star-fill text-warning"></i>
-                  <i class="bi bi-star-fill text-warning"></i>
-                  <i class="bi bi-star-fill text-warning"></i>
-                  <i class="bi bi-star text-warning"></i>
-                  <br>
-                  <small class="text-muted">(4.0)</small>
-                </div>
-              </td>
-              <td>
-                <form th:action="@{/products/cart/add}" method="post" class="add-to-cart-form">
-                  <input type="hidden" name="productId" th:value="${product.productId}">
-                    <input type="hidden" name="customerId" th:value="${session.customerId}">
-                    <input type = "hidden" name="redirectUrl" th:value="@{/favourites}">
-                    <div class="d-flex align-items-center gap-3">
-                  <div class="quantity-selector">
-                    <button type="button" class="btn-qty-decrease"><i class="bi bi-dash"></i> </button>
-                      <label>
-                          <input type="number" name="quantity" value="1" min ="1" max="99" class="qty-input" readonly>
-                      </label>
-                      <button type="button" class="btn-qty-increase"> <i class="bi bi-plus"></i></button>
-                  </div>
-                        <button class="btn btn-primary btn-add-cart" type="submit">
-                            <i class="bi bi-cart-plus me-2"></i>Add to Cart
-                        </button>
-                    </div>
-                </form>
-              </td>
-              <td>
-                     <a th:href="@{/products/details/{id}(id=${product.productId})}" class="btn btn-outline-secondary btn-sm"
-                            target = "_blank">
-                       <i class="bi bi-eye me-1"></i>View
-                     </a>
+                    <td>
+                        <div class="d-flex justify-content-center align-items-center gap-2">
+                            <form class="add-to-cart-form d-flex justify-content-center align-items-center gap-2"
+                                  method="post"
+                                  th:action="@{/products/cart/add}">
+                                <input name="productId" th:value="${product.productId}" type="hidden">
+                                <input name="customerId" th:value="${session.customerId}" type="hidden">
+                                <input name="redirectUrl" th:value="@{/favourites}" type="hidden">
 
-                    <!-- Remove-product single function aka trash bin icon -->
-                     <form th:action="@{/favourites/remove-product}" method="post" class="d-inline">
-                            <input type="hidden" name="productId" th:value="${product.productId}">
-                            <button type="submit" class="btn btn-outline-danger btn-sm btn-remove-favorite"
-                                    data-product-id = "${product.productId}">
-                                  <i class="bi bi-trash"></i>
-                            </button>
-                          </form>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                                <div class="quantity-selector">
+                                    <button class="btn-qty-decrease" type="button"><i class="bi bi-dash"></i></button>
+                                    <input class="qty-input text-center" max="99" min="1" name="quantity" readonly
+                                           style="width: 40px;" type="number" value="1">
+                                    <button class="btn-qty-increase" type="button"><i class="bi bi-plus"></i></button>
+                                </div>
 
-              <!-- Clear All Button -->
-      <div class="mt-4 text-center">
-        <form th:action="@{/favourites/clear}" method="post" class="d-inline" onsubmit="return confirm('Are you sure you want to remove all favorites?');">
-            <!--Not needed   <input type="hidden" name="customerId" th:value="${customerId}"> -->
-              <button type="submit" class="btn btn-outline-danger">
-                <i class="bi bi-trash me-2"></i>Clear All Favourites
-              </button>
-            </form>
-          </div>
+                                <button class="btn btn-primary action-btn" type="submit">
+                                    <i class="bi bi-cart-plus"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+
+                    <td class="text-end">
+                        <div class="d-flex justify-content-end align-items-center gap-2">
+                            <a class="btn btn-outline-secondary action-btn"
+                               target="_blank" th:href="@{/products/details/{id}(id=${product.productId})}">
+                                <i class="bi bi-eye"></i>
+                            </a>
+
+                            <form class="d-inline" method="post" th:action="@{/favourites/remove-product}">
+                                <input name="productId" th:value="${product.productId}" type="hidden">
+                                <button class="btn btn-outline-danger action-btn btn-remove-favorite" type="submit">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-      </main>
 
-      <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="container text-center">
-      <p>&copy; 2025 TEAM_TWO. All rights reserved.</p>
+        <!-- Clear All Button -->
+        <div class="mt-4 text-center">
+            <form class="d-inline" method="post"
+                  onsubmit="return confirm('Are you sure you want to remove all favorites?');"
+                  th:action="@{/favourites/clear}">
+                <!--Not needed   <input type="hidden" name="customerId" th:value="${customerId}"> -->
+                <button class="btn btn-outline-danger" type="submit">
+                    <i class="bi bi-trash me-2"></i>Clear All Favourites
+                </button>
+            </form>
+        </div>
     </div>
-  </footer>
+</main>
 
-  <!-- SCRIPTS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
+<!-- FOOTER -->
+<footer class="site-footer">
+    <div class="container text-center">
+        <p>&copy; 2025 TEAM_TWO. All rights reserved.</p>
+    </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
         // Quantity controls to ++/--
         document.querySelectorAll('.add-to-cart-form').forEach(form => {
             const qtyInput = form.querySelector('.qty-input');
@@ -277,6 +286,6 @@
         });
     });
 
-  </script>
+</script>
 </body>
 </html>`
