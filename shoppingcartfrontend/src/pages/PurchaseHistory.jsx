@@ -1,8 +1,8 @@
-import "../css/global.css"
-import "../css/displayProducts.css"
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import Header from '../components/Header';
+import "../css/global.css";
+import "../css/displayProducts.css";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 
 const PurchaseHistory = () => {
@@ -27,79 +27,106 @@ const PurchaseHistory = () => {
   if (!orders.length) return <p>Loading purchase history...</p>;
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2 style={{ marginBottom: "20px" }}>Purchase History</h2>
+    <div style={{ display: "flex", width: "100vw" }}>
+      <Header />
+      <div style={{ flex: 1 }}>
+        <Sidebar />
 
-      {orders.map((order) => (
-        <div key={order.orderId} style={{ marginBottom: "40px" }}>
-          <h3>
-            Order #{order.orderId} —{" "}
-            <span style={{ color: "#666" }}>{order.status}</span>
-          </h3>
-          <p>
-            <strong>Purchase Date:</strong> {order.purchaseDate} <br />
-            <strong>Total:</strong> ${order.unitAmount?.toFixed(2)}
-          </p>
+        <div style={{ padding: "20px" }}>
+          <h2 style={{ marginBottom: "20px" }}>Purchase History</h2>
 
-          <table
-            style={{
-              width: "100%",
-              borderCollapse: "collapse",
-              marginTop: "10px",
-            }}
-          >
-            <thead>
-              <tr style={{ background: "#f2f2f2", textAlign: "left" }}>
-                <th style={{ padding: "8px", border: "1px solid #ddd" }}>Photo</th>
-                <th style={{ padding: "8px", border: "1px solid #ddd" }}>Product</th>
-                <th style={{ padding: "8px", border: "1px solid #ddd" }}>Price</th>
-                <th style={{ padding: "8px", border: "1px solid #ddd" }}>Quantity</th>
-                <th style={{ padding: "8px", border: "1px solid #ddd" }}>Subtotal</th>
-              </tr>
-            </thead>
-            <tbody>
-              {order.orderDetails?.map((detail) => {
-                const product = detail.product || {};
-                const subtotal = product.unitPrice
-                  ? product.unitPrice * detail.quantity
-                  : 0;
-                return (
-                  <tr key={`${order.orderId}-${detail.productId}`}>
-                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                      {product.imageUrl ? (
-                        <img
-                          src={product.imageUrl}
-                          alt={product.productName}
-                          style={{
-                            width: "60px",
-                            height: "60px",
-                            objectFit: "cover",
-                            borderRadius: "8px",
-                          }}
-                        />
-                      ) : (
-                        <span>No image</span>
-                      )}
-                    </td>
-                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                      {product.productName || "Unknown Product"}
-                    </td>
-                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                      ${product.unitPrice?.toFixed(2) || "0.00"}
-                    </td>
-                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                      {detail.quantity}
-                    </td>
-                    <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                      ${subtotal.toFixed(2)}
-                    </td>
+          {orders.map((order) => (
+            <div key={order.orderId} style={{ marginBottom: "40px" }}>
+              <h3>
+                Order #{order.orderId} —{" "}
+                <span style={{ color: "#666" }}>{order.status}</span>
+              </h3>
+              <p>
+                <strong>Purchase Date:</strong> {order.purchaseDate} <br />
+                <strong>Total:</strong> ${order.unitAmount?.toFixed(2)}
+              </p>
+
+              <table
+                style={{
+                  width: "100%",
+                  borderCollapse: "collapse",
+                  marginTop: "10px",
+                }}
+              >
+                <thead>
+                  <tr style={{ background: "#f2f2f2", textAlign: "left" }}>
+                    <th style={{ padding: "8px", border: "1px solid #ddd" }}>
+                      Photo
+                    </th>
+                    <th style={{ padding: "8px", border: "1px solid #ddd" }}>
+                      Product
+                    </th>
+                    <th style={{ padding: "8px", border: "1px solid #ddd" }}>
+                      Price
+                    </th>
+                    <th style={{ padding: "8px", border: "1px solid #ddd" }}>
+                      Quantity
+                    </th>
+                    <th style={{ padding: "8px", border: "1px solid #ddd" }}>
+                      Subtotal
+                    </th>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                </thead>
+                <tbody>
+                  {order.orderDetails?.map((detail) => {
+                    const product = detail.product || {};
+                    const subtotal = product.unitPrice
+                      ? product.unitPrice * detail.quantity
+                      : 0;
+                    return (
+                      <tr key={`${order.orderId}-${detail.productId}`}>
+                        <td
+                          style={{ border: "1px solid #ddd", padding: "8px" }}
+                        >
+                          {product.imageUrl ? (
+                            <img
+                              src={product.imageUrl}
+                              alt={product.productName}
+                              style={{
+                                width: "60px",
+                                height: "60px",
+                                objectFit: "cover",
+                                borderRadius: "8px",
+                              }}
+                            />
+                          ) : (
+                            <span>No image</span>
+                          )}
+                        </td>
+                        <td
+                          style={{ border: "1px solid #ddd", padding: "8px" }}
+                        >
+                          {product.productName}
+                        </td>
+                        <td
+                          style={{ border: "1px solid #ddd", padding: "8px" }}
+                        >
+                          ${product.unitPrice?.toFixed(2) || "0.00"}
+                        </td>
+                        <td
+                          style={{ border: "1px solid #ddd", padding: "8px" }}
+                        >
+                          {detail.quantity}
+                        </td>
+                        <td
+                          style={{ border: "1px solid #ddd", padding: "8px" }}
+                        >
+                          ${subtotal.toFixed(2)}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
     </div>
   );
 };
@@ -185,14 +212,14 @@ export default PurchaseHistory;
 //                           </button>
 //                         </td>
 //                         <td>
-                          
+
 //                         </td>
 //                       </tr>
 //                     ))
 //                   )}
 //                 </tbody>
 //               </table>
-                  
+
 //             </div>
 //           </div>
 //         </div>

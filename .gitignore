@@ -33,6 +33,13 @@ build/
 .vscode/
 
 ./src/main/resources/application.properties
-/shoppingcartfrontend/node_modules
+node_modules
 /shoppingcartfrontend/package.json
 /shoppingcartfrontend/package-lock.json
+package.json
+package-lock.json
+shoppingcartfrontend/package-lock.json
+.gitignore
+shoppingcartfrontend/package-lock.json
+src/main/resources/application.properties
+shoppingcartfrontend/package.json
