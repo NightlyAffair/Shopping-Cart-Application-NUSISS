@@ -31,7 +31,8 @@ public class ShoppingCartDetailController {
     private ShoppingCartDetailInterface cartService;//自动注入service interface中的method（mothodName应该是对应的）
 
     @PostMapping("/add")//处理“/shoppingCartDetail/add”的POST请求
-    public String addToCart(@RequestParam int customerId, @RequestParam int productId, @RequestParam int quantity, Model model) {
+    public String addToCart(@RequestParam int productId, @RequestParam int quantity, Model model, HttpSession session) {
+        int customerId = (int)session.getAttribute("customerId");
         cartService.addProductToCart(customerId, productId, quantity);//调用interface中addProductToCart方法
         model.addAttribute("productId", productId);//给页面传数据（当前操作的product的id）
         model.addAttribute("message", "Add to Cart Successfully!");//放提示语
@@ -59,8 +60,6 @@ public class ShoppingCartDetailController {
     /*    1a.用户刚进cart界面，是没有任何select product的，这时候new HashSet<>()
         1b.下次再来如果上次有勾选没买的，再勾选其他的就直接加进去了（页面保存上次勾选的记录）
         2.选择结束后，controller传给前端，用户就看到对应product被勾选了*/
-
-
     }
 
     @PostMapping("/select")//处理“/shoppingCartDetail/select”的Post请求
@@ -82,25 +81,29 @@ public class ShoppingCartDetailController {
     }
 
     @PostMapping("/plus")
-    public String increment(@RequestParam int customerId, @RequestParam int productId, Model model, HttpSession session) {
+    public String increment(@RequestParam int productId, Model model, HttpSession session) {
+        int customerId = (int)session.getAttribute("customerId");
         cartService.addOne(customerId, productId);//调用interface中addOne方法
         return showCart(customerId, model, session);//更新后重新显示购物车页面
     }
 
     @PostMapping("/minus")
-    public String decrement(@RequestParam int customerId, @RequestParam int productId, Model model, HttpSession session) {
+    public String decrement(@RequestParam int productId, Model model, HttpSession session) {
+        int customerId = (int)session.getAttribute("customerId");
         cartService.deleteOne(customerId, productId);//调用interface中deleteOne方法
         return showCart(customerId, model, session);//更新后重新显示购物车页面
     }
 
     @PostMapping("/remove")
-    public String removeItem(@RequestParam int customerId, @RequestParam int productId, Model model, HttpSession session) {
+    public String removeItem(@RequestParam int productId, Model model, HttpSession session) {
+        int customerId = (int)session.getAttribute("customerId");
         cartService.removeProduct(customerId, productId);//调用interface中removeProduct方法
         return showCart(customerId, model, session);//更新后重新显示购物车页面
     }
 
     @PostMapping("/clear")
-    public String clearCart(@RequestParam int customerId, Model model, HttpSession session) {
+    public String clearCart(Model model, HttpSession session) {
+        int customerId = (int)session.getAttribute("customerId");
         cartService.clearCart(customerId);//调用interface中clearCart方法
         return showCart(customerId, model, session);//更新后重新显示购物车页面
     }
@@ -117,7 +120,7 @@ public class ShoppingCartDetailController {
             }//因为checkout过了，cart就删掉对应的product了
             session.removeAttribute("selectedProducts");//删除session里的selectedProducts
         }
-        return "redirect:/shoppingCartDetail/checkoutSuccess?customerId=" + customerId;//跳转结算成功页面
+        return "redirect:/products/cart/checkoutSuccess?customerId=" + customerId;//跳转结算成功页面
     }
 
     @GetMapping("/checkoutSuccess")

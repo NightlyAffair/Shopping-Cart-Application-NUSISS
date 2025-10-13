@@ -68,25 +68,25 @@ export default function AccountInfo() {
     }
 
     return(
-        <div>
+        <div style={{display:'flex', flexDirection:'column', width:'100vw', minHeight:'100vh'}}>
             <Header />
             <NavBar />
-            <div style={{display:"flex", flexDirection:"row"}}>
+            <div style={{display:"flex", flexDirection:"row", flex: 1}}>
                 <Sidebar/>
-                <div style={{display:"flex", flexDirection:"column", justifyContent:"space-between", height:"20vh", marginTop:"10px"}}>
-                    <div style={{display: "flex", flexDirection: "column", marginLeft:"20px", marginBottom:"40px"}}>
+                <div style={{display:"flex", flexDirection:"column", justifyContent:"flex-start", flex: 1, marginTop:"10px", padding:"20px"}}>
+                    <div style={{display: "flex", flexDirection: "column", marginLeft:"20px", marginBottom:"40px", maxWidth:"400px"}}>
                         <p>Full Name</p>
-                        <input value={customerInfo.fullName} onChange={(e) => changeName(e.target.value)}/>
+                        <input value={customerInfo.fullName} onChange={(e) => changeName(e.target.value)} style={{width:"100%"}}/>
                     </div>
-                    <div style={{display: "flex", flexDirection: "column", marginLeft:"20px", marginBottom:"40px"}}>
+                    <div style={{display: "flex", flexDirection: "column", marginLeft:"20px", marginBottom:"40px", maxWidth:"400px"}}>
                         <p >Username</p>
-                        <input value={customerInfo.userName} onChange={(e) => changeUserName(e.target.value)}/>
+                        <input value={customerInfo.userName} onChange={(e) => changeUserName(e.target.value)} style={{width:"100%"}}/>
                     </div>
-                    <div style={{display: "flex", flexDirection: "column", marginLeft:"20px", marginBottom:"40px"}}>
+                    <div style={{display: "flex", flexDirection: "column", marginLeft:"20px", marginBottom:"40px", maxWidth:"400px"}}>
                         <p>Password</p>
-                        <input value={customerInfo.password} onChange={(e) => changePassword(e.target.value)}/>
+                        <input value={customerInfo.password} onChange={(e) => changePassword(e.target.value)} style={{width:"100%"}}/>
                     </div>
-                    <button type={"submit"} onClick={saveCustomerInfo} style={{marginLeft:"20px"}}>submit</button>
+                    <button type={"submit"} onClick={saveCustomerInfo} style={{marginLeft:"20px", maxWidth:"400px", padding:"10px 20px"}}>submit</button>
                 </div>
             </div>
 
