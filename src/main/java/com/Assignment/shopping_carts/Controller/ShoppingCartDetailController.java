@@ -132,4 +132,27 @@ public class ShoppingCartDetailController {
         model.addAttribute("customerId", customerId);//给页面传customerId
         return "checkout"; // 渲染 checkout.html
     }
+
+
+    //resume add to cart action
+    @GetMapping("/resume")
+    public String resumeCart(HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        String productIdStr = (String) session.getAttribute("pendingProductId");
+        String quantityStr = (String) session.getAttribute("pendingQuantity");
+
+        if (customerId != null && productIdStr != null) {
+            int productId = Integer.parseInt(productIdStr);
+            int quantity = quantityStr != null ? Integer.parseInt(quantityStr) : 1;
+
+            cartService.addProductToCart(customerId, productId, quantity);
+            session.removeAttribute("pendingProductId");
+            session.removeAttribute("pendingQuantity");
+            session.removeAttribute("redirectAfterLogin");
+            session.removeAttribute("pendingProductId");
+            return "redirect:/products/details/" + productId;
+        }
+        return "redirect:/products/page";
+    }
+
 }

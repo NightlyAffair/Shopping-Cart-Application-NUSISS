@@ -52,6 +52,20 @@ public class LogController {
             session.setAttribute("login_status",true);
             session.setAttribute("user_name",userName);
 
+            String pendingActionType = (String) session.getAttribute("pendingActionType");
+
+            // special judgement on carts and favourites
+            if (pendingActionType != null) {
+                switch (pendingActionType) {
+                    case "cart":
+                        return "redirect:/products/cart/resume";
+                    case "favourite":
+                        return "redirect:/products/favourite/resume";
+                    default:
+                        break;
+                }
+            }
+
             String redirectUrl = (String)session.getAttribute("redirectAfterLogin");
             if(redirectUrl!=null){
                 session.removeAttribute("redirectAfterLogin");
