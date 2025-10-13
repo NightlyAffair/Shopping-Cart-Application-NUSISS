@@ -185,8 +185,10 @@
                     <div class="d-flex align-items-center gap-3">
                   <div class="quantity-selector">
                     <button type="button" class="btn-qty-decrease"><i class="bi bi-dash"></i> </button>
-                        <input type="number" name="quantity" value="1" min ="1" max="99" class="qty-input" readonly>
-                    <button type="button" class="btn-qty-increase"> <i class="bi bi-plus"></i></button>
+                      <label>
+                          <input type="number" name="quantity" value="1" min ="1" max="99" class="qty-input" readonly>
+                      </label>
+                      <button type="button" class="btn-qty-increase"> <i class="bi bi-plus"></i></button>
                   </div>
                         <button class="btn btn-primary btn-add-cart" type="submit">
                             <i class="bi bi-cart-plus me-2"></i>Add to Cart
@@ -285,26 +287,6 @@
         });
       });
 
-      // Add to cart, reads quantity, product name,
-      document.querySelectorAll('.add-to-cart-form').forEach(form => {
-        form.addEventListener('submit', function(e) {
-            e.preventDefault();
-          const formData = new FormData(form);
-          fetch(form.action, {
-              method: 'POST',
-              body: formData
-          })
-              .then(reply=>{
-                  if (reply.redirected){
-                      window.location.href= reply.url;
-                  } else{
-                      const customerId = form.querySelector('input[name="customerId"]').value;
-                      window.location.href=`/products/cart?customerId=${customerId}`;
-                  }
-              })
-        });
-      });
-    });
   </script>
 </body>
 </html>`
