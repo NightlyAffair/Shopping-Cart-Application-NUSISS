@@ -40,7 +40,8 @@ public class ShoppingCartDetailController {
     }
 
     @GetMapping("/view")//处理“/shoppingCartDetail/view”的GET请求
-    public String showCart(@RequestParam int customerId, Model model, HttpSession session) {
+    public String showCart(Model model, HttpSession session) {
+        int customerId = (int)session.getAttribute("customerId");
         //因为这里view到的大部分不止一个product，所以用list
         List<ShoppingCartDetail> products = cartService.showCart(customerId);//调用interface中addProductToCart方法
         double totalPrice = cartService.sumTotal(customerId);//调用interface中sumTotal方法
@@ -84,28 +85,28 @@ public class ShoppingCartDetailController {
     public String increment(@RequestParam int productId, Model model, HttpSession session) {
         int customerId = (int)session.getAttribute("customerId");
         cartService.addOne(customerId, productId);//调用interface中addOne方法
-        return showCart(customerId, model, session);//更新后重新显示购物车页面
+        return showCart(model, session);//更新后重新显示购物车页面
     }
 
     @PostMapping("/minus")
     public String decrement(@RequestParam int productId, Model model, HttpSession session) {
         int customerId = (int)session.getAttribute("customerId");
         cartService.deleteOne(customerId, productId);//调用interface中deleteOne方法
-        return showCart(customerId, model, session);//更新后重新显示购物车页面
+        return showCart(model, session);//更新后重新显示购物车页面
     }
 
     @PostMapping("/remove")
     public String removeItem(@RequestParam int productId, Model model, HttpSession session) {
         int customerId = (int)session.getAttribute("customerId");
         cartService.removeProduct(customerId, productId);//调用interface中removeProduct方法
-        return showCart(customerId, model, session);//更新后重新显示购物车页面
+        return showCart(model, session);//更新后重新显示购物车页面
     }
 
     @PostMapping("/clear")
     public String clearCart(Model model, HttpSession session) {
         int customerId = (int)session.getAttribute("customerId");
         cartService.clearCart(customerId);//调用interface中clearCart方法
-        return showCart(customerId, model, session);//更新后重新显示购物车页面
+        return showCart(model, session);//更新后重新显示购物车页面
     }
 
     @PostMapping("/checkout")
