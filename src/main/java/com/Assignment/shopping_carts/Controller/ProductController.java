@@ -48,7 +48,7 @@ public class ProductController {
         Sort sortOrder = productService.sortEnum(sort);
 
         // Create pageable request (8 products per page)
-        Pageable pageable = PageRequest.of(pageNumber, 8, sortOrder);
+        Pageable pageable = PageRequest.of(pageNumber, 10, sortOrder);
 
         // Fetch paginated, filtered, and sorted products
         Page<Product> page = productService.getProductsPaginated(categoryId, keyword, pageable);
