@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/products")
+@RequestMapping(value = {"/", "/products"})
 public class ProductController {
 
     @Autowired
