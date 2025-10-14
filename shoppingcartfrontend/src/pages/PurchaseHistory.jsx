@@ -9,7 +9,7 @@ import Navbar from "../components/NavBar";
 const PurchaseHistory = () => {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
-  
+  const [showExistingReview, setShowExistingReview] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedProductId, setSelectedProductId] = useState(null);
@@ -34,16 +34,35 @@ const PurchaseHistory = () => {
       });
   }, []);
 
-  const openReviewForm = (orderId, productId, custId) => {
+  const openReviewForm = async (orderId, productId, custId) => {
     setSelectedOrderId(orderId);
     setSelectedProductId(productId);
     
     if (custId !== undefined && custId !== null) {
       setCustomerId(custId);
     }
-    setShowForm(true);
-  };
 
+    try {
+      const response = await axios.get(`http://localhost:8080/api/reviews/product/${productId}`);
+      const existingReviews = response.data.find((review) => review.customerId === customerId && review.orderId === orderId);
+      
+      if (existingReviews) {
+        // show existing review
+        setReviewContent(existingReviews.description);
+        setRating(existingReviews.rating);
+        setShowExistingReview(true);
+        setShowForm(false);
+      } else {
+        // show form for new review
+        setShowExistingReview(false);
+        setShowForm(true);
+      }
+    } catch (err) {
+      console.error('Error fetching existing review: ', err);
+      setShowExistingReview(false);
+      setShowForm(true);
+    }
+  };
   const handleRefund = (orderId, productId) => {
     console.log("Refund requested for order:", orderId, "product:", productId);
     // Add your refund logic here
@@ -97,8 +116,17 @@ const PurchaseHistory = () => {
 
   const closeModal = () => {
     setShowForm(false);
+    setShowExistingReview(false);
     setErrorMessage('');
     setSuccessMessage('');
+    setReviewContent('');
+    setRating(5);
+    setSelectedOrderId(null);
+    setSelectedProductId(null);
+  };
+
+  const closeExistingReviewModal = () => {
+    setShowExistingReview(false);
     setReviewContent('');
     setRating(5);
     setSelectedOrderId(null);
@@ -266,9 +294,26 @@ const PurchaseHistory = () => {
                   </div>
                 </div>
               )}
-            </div>
-          ))}
+
+              { showExistingReview && (
+                <div style={modalOverlayStyle} onClick={closeExistingReviewModal}>
+                  <div style={modalStyle} onClick={(e) => e.stopPropagation()}>
+                    <button aria-label="Close" style={closeBtnStyle} onClick={closeExistingReviewModal}>×</button>
+                    <h3 style={{marginTop: 0}}>Your Existing Review</h3>
+                    <div style={{marginBottom: 12}}>
+                      <label><strong>Rating: </strong>{rating}/5</label>
+                      <p style={{marginTop: 8, padding: '10px', backgroundColor: '#f8f9fa', borderRadius: '4px', border: '1px solid #dee2e6'}}>{reviewContent}</p>
+                    </div>
+                    <div style={{marginButtom:12, fontSize: 14, color: '#666'}}>
+                      Order: {selectedOrderId} • Product: {selectedProductId}
+                      </div>
+                    <button onClick={closeExistingReviewModal} style={{ padding: '8px 14px', background: '#007bff', color: 'white', border: 'none', borderRadius: 4}}>Close</button>
+                  </div>
+                 </div>
+             )}
         </div>
+          ))}
+          </div>
       </div>
     </div>
   );
