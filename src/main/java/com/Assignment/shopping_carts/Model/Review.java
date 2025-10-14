@@ -62,6 +62,16 @@ public class Review {
     public String toString() {
         return "1";
     }
-    
+    public void setProductId(int productId) {
+    this.productId = productId;
+    }
+
+    public void setCustomerId(int customerId) {
+    this.customerId = customerId;
+    }
+
+    public void setOrderId(int orderId) {
+    this.orderId = orderId;
+    }
    
 }
