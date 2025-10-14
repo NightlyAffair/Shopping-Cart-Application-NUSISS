@@ -9,6 +9,8 @@
 
 package com.Assignment.shopping_carts.Controller;
 
+import com.Assignment.shopping_carts.InterfaceMethods.ReviewService;
+import com.Assignment.shopping_carts.Model.Review;
 import com.Assignment.shopping_carts.Service.ProductServiceImpl;
 import com.Assignment.shopping_carts.Model.Category;
 import com.Assignment.shopping_carts.Model.Product;
@@ -34,6 +36,8 @@ public class ProductController {
 
     @Autowired
     private CategoryServiceImpl categoryService;
+    @Autowired
+    private ReviewService reviewService;
 
     // Displays the main product page aka HOME page
     @GetMapping
@@ -81,11 +85,19 @@ public class ProductController {
         return viewAllProducts(pageNumber, categoryId, keyword, sort, model);
     }
 
-    // View Product Details
+    // View Product Details + Reviews
     @GetMapping("/details/{id}")
     public String viewProductDetails(@PathVariable int id, Model model) {
         Product product = productService.getProductById(id).orElse(null);
+
+        List<Review> reviews = reviewService.getReviewsForProduct(product.getProductId());
+        product.setReviews(reviews);
+
+        Double averageRating = reviewService.getAverageRatingForProduct(product.getProductId());
+        product.setAverageRating(averageRating);
+
         model.addAttribute("product", product);
+
         return "detailsProducts";
     }
 

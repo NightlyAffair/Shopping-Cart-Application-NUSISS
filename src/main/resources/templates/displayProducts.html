@@ -175,8 +175,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <small class="text-warning">
                             <i class="bi bi-star-fill"></i>
-                            <span th:text="${product.averageRating != null ?
-                     #numbers.formatDecimal(product.averageRating, 1, 1) : '0.0'}">0.0</span>
+                            <span th:text="${product.averageRating != null ? #numbers.formatDecimal(product.averageRating, 1, 1) : '0.0'}">0.0</span>
                         </small>
                     </div>
                 </div>
