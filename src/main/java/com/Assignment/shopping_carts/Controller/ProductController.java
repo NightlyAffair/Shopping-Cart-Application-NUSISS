@@ -154,7 +154,7 @@ public class ProductController {
                 .toList()
                 : List.of();
         model.addAttribute("favorites", favoriteProducts);
-        return "favorites";
+        return "favourites";
     }
 
     // View Purchase History
