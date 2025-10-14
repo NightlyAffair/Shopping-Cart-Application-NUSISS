@@ -30,9 +30,9 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository.findByProductId(productId);
     }
 
-    // @Override
-    // public Double getAverageRatingForProduct(int productId) {
-    //     return reviewRepository.findAverageRatingByProductId(productId);
-    // }
+    @Override
+    public Double getAverageRatingForProduct(int productId) {
+    return reviewRepository.findAverageRatingByProductId(productId);
+    }
 
 }

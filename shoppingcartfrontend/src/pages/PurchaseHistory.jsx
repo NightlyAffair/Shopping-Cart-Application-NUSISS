@@ -1,4 +1,4 @@
-import "../css/global.css";
+import "../css/style.css";
 import "../css/displayProducts.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -261,7 +261,7 @@ const PurchaseHistory = () => {
                     {errorMessage && (<div style={{backgroundColor: '#f8d7da', color: '#721c24', padding: '10px', borderRadius: '4px', marginBottom: '12px', border: '1px solid #f5c6cb'}}>{errorMessage}</div>)}
                     <div style={{marginBottom: 8}}>
                       <label style={{display: 'block', marginBottom: 6}}>Your review</label>
-                      <textarea value={reviewContent} onChange={(e) => setReviewContent(e.target.value)} placeholder="Write your review..." style={{width: '100%', minHeight: 100, padding: 8, boxSizing: 'border-box'}} disabled={isSubmitting || successMessage} />
+                      <textarea value={reviewContent} onChange={(e) => setReviewContent(e.target.value)} placeholder="Write your review..." style={{width: '100%', minHeight: 100, padding: 8, boxSizing: 'border-box', fontFamily: 'Arial, Helvetica, sans-serif'}} disabled={isSubmitting || successMessage} />
                     </div>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
                       <label style={{ minWidth: 60 }}>Rating</label>
