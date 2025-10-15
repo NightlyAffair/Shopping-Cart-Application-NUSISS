@@ -19,9 +19,9 @@ import lombok.Setter;
  * Review Entity Class
  * Author: Zhou Jason
  * Date: 2025-10-02
- * Modifier by :
- * Last Modified by :
- * Last Modified: 2025-10-02 14:00
+ * Modifier by : Thae Thae Hsu
+ * Last Modified by : Thae Thae Hsu
+ * Last Modified: 2025-10-14 14:00
  */
 
 
