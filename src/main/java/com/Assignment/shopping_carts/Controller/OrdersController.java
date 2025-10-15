@@ -31,8 +31,9 @@ public class OrdersController {
   OrdersServiceImpl ordersService;
 
 
-  @GetMapping("/customer/{customerId}")
-  public ResponseEntity<List<Orders>> getCustomerById(@PathVariable("customerId") int customerId, HttpSession session) {
+  @GetMapping("/customer")
+  public ResponseEntity<List<Orders>> getCustomerById(HttpSession session) {
+    int customerId = (int)session.getAttribute("customerId");
     try {
       List<Orders> orders = ordersService.getOrdersByCustomerId(customerId);
       if (!orders.isEmpty()) {

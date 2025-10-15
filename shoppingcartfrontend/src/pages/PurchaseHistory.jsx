@@ -30,7 +30,7 @@ const PurchaseHistory = () => {
   // Load purchase history
   const loadOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/api/purchaseHistory/customer/1");
+      const res = await axios.get("http://localhost:8080/api/purchaseHistory/customer", {withCredentials: true});
       const data = Array.isArray(res.data) ? res.data : [res.data];
       setOrders(data);
     } catch (err) {
