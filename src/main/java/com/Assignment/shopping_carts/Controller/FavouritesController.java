@@ -48,7 +48,9 @@ public class FavouritesController {
     public String saveFavourite(@RequestParam int productId, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
-            return "redirect:/login";
+            session.setAttribute("pendingAction", "favourite");
+            session.setAttribute("pendingProductId", String.valueOf(productId));
+            return "Login_required";
             //customerId = 1;
             //session.setAttribute("customerId", customerId);
         }
@@ -106,13 +108,12 @@ public class FavouritesController {
         return favService.isProductFavourited(customerId,productId);
     }
 
-
-
+    //resuming an action that was attempted before login
     @GetMapping("/resume")
     public String resumeFavourite(HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         String productIdStr = (String) session.getAttribute("pendingProductId");
-
+//if custid is null, means user not logged in, no pending product action stored (the user didn’t try to favourite anything before login).
         if (customerId != null && productIdStr != null) {
             int productId = Integer.parseInt(productIdStr);
             favService.saveFavourites(customerId, productId);
@@ -125,12 +126,3 @@ public class FavouritesController {
         return "redirect:/products/page";
     }
 }
-
-
-
-/*
-    @GetMapping("/CustomerId/{customerId}")
-    public List<Favourites> findByCustomerId(@PathVariable("customerId")
-                                       int customerId, Model model) {
-        return favService.findByCustomerId(customerId);
-    } */

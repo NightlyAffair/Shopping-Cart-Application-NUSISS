@@ -68,7 +68,6 @@ public class FavouriteServiceImpl implements FavouriteService {
         favRepository.deleteByCustomerIdAndProductId(customerId, productId);
     }
 
-
     @Override
     public boolean isProductFavourited(int customerId, int productId) {
         return favRepository.existsByCustomerIdAndProductId(customerId, productId);
