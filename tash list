@@ -1,0 +1,69 @@
+*   [33mf344fb8[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mYongHui[m[33m)[m Merge branch 'Combination_Windows' of https://github.com/NightlyAffair/Shopping-Cart-Application-NUSISS into YongHui
+[31m|[m[32m\[m  
+[31m|[m *   [33me99e7fd[m[33m ([m[1;31morigin/Combination_Windows[m[33m)[m Merge branch 'Combination_Windows' of https://github.com/NightlyAffair/Shopping-Cart-Application-NUSISS into ShengQi
+[31m|[m [33m|[m[34m\[m  
+[31m|[m * [34m|[m [33m55152ce[m[33m ([m[1;31morigin/ShengQi[m[33m)[m Delete src/main/java/com/Assignment/shopping_carts/Model/Favourites
+[31m|[m * [34m|[m [33mb405436[m did mappings for buttons
+[31m|[m * [34m|[m   [33m25e2d30[m Merge branch 'Combination_Windows' of https://github.com/NightlyAffair/Shopping-Cart-Application-NUSISS into ShengQi
+[31m|[m [35m|[m[36m\[m [34m\[m  
+[31m|[m * [36m\[m [34m\[m   [33mabe865c[m Merge branch 'ShengQi' of https://github.com/NightlyAffair/Shopping-Cart-Application-NUSISS into ShengQi
+[31m|[m [1;31m|[m[1;32m\[m [36m\[m [34m\[m  
+[31m|[m [1;31m|[m * [36m|[m [34m|[m [33md02ec15[m Create Favourites
+[31m|[m [1;31m|[m * [36m|[m [34m|[m [33mbf1b272[m Delete src/main/java/com/Assignment/shopping_carts/model directory
+* [1;31m|[m [1;32m|[m [36m|[m [34m|[m   [33m41b30e8[m Merge remote-tracking branch 'origin/YongHui' into YongHui
+[34m|[m[1;34m\[m [1;31m\[m [1;32m\[m [36m\[m [34m\[m  
+[34m|[m [1;34m|[m[34m_[m[1;31m|[m[34m_[m[1;32m|[m[34m_[m[36m|[m[34m/[m  
+[34m|[m[34m/[m[1;34m|[m [1;31m|[m [1;32m|[m [36m|[m   
+[34m|[m * [1;31m|[m [1;32m|[m [36m|[m [33m2d73041[m[33m ([m[1;31morigin/YongHui[m[33m)[m Create Favourites
+[34m|[m * [1;31m|[m [1;32m|[m [36m|[m [33m05e1686[m Delete src/main/java/com/Assignment/shopping_carts/model directory
+* [1;34m|[m [1;31m|[m [1;32m|[m [36m|[m [33m164e623[m minor fixes
+* [1;34m|[m [1;31m|[m [1;32m|[m [36m|[m [33m0ddc6dd[m fix - minor clean up
+[36m|[m [1;34m|[m[36m_[m[1;31m|[m[36m_[m[1;32m|[m[36m/[m  
+[36m|[m[36m/[m[1;34m|[m [1;31m|[m [1;32m|[m   
+* [1;34m|[m [1;31m|[m [1;32m|[m [33m0f9bdc4[m Create Favourites
+[1;31m|[m [1;34m|[m[1;31m/[m [1;32m/[m  
+[1;31m|[m[1;31m/[m[1;34m|[m [1;32m|[m   
+* [1;34m|[m [1;32m|[m   [33m83faf6c[m Merge branch 'Combination_Windows' of https://github.com/NightlyAffair/Shopping-Cart-Application-NUSISS into YongHui
+[1;35m|[m[1;36m\[m [1;34m\[m [1;32m\[m  
+[1;35m|[m * [1;34m|[m [1;32m|[m [33m6c8078f[m Delete src/main/java/com/Assignment/shopping_carts/model directory
+* [1;36m|[m [1;34m|[m [1;32m|[m [33m5cc930a[m changes to the fav and loginterceptor and removed problem dependancy . should be ok. should not have login redirect now.
+[1;36m|[m[1;36m/[m [1;34m/[m [1;32m/[m  
+* [1;34m|[m [1;32m|[m [33m564ddb5[m changes to the fav and loginterceptor and removed problem dependancy . should be ok
+* [1;34m|[m [1;32m|[m   [33m7cda133[m Merge remote-tracking branch 'origin/Combination_Windows' into YongHui
+[31m|[m[32m\[m [1;34m\[m [1;32m\[m  
+[31m|[m * [1;34m\[m [1;32m\[m   [33m32a348b[m Merge branch 'Combination_Windows' of https://github.com/NightlyAffair/Shopping-Cart-Application-NUSISS into ShengQi
+[31m|[m [33m|[m[34m\[m [1;34m\[m [1;32m\[m  
+[31m|[m [33m|[m * [1;34m\[m [1;32m\[m   [33m6caea28[m Merge remote-tracking branch 'origin/Tony-V2' into Combination_Windows
+[31m|[m [33m|[m [35m|[m[36m\[m [1;34m\[m [1;32m\[m  
+[31m|[m [33m|[m [35m|[m * [1;34m|[m [1;32m|[m [33m918f870[m[33m ([m[1;31morigin/Tony-V2[m[33m)[m shoppingCart.html update
+[31m|[m [33m|[m [35m|[m * [1;34m|[m [1;32m|[m [33m8c9ddb2[m shoppingCart.html update
+[31m|[m [33m|[m [35m|[m * [1;34m|[m [1;32m|[m [33m86e6f4a[m shoppingCart.html update
+[31m|[m [33m|[m [35m|[m * [1;34m|[m [1;32m|[m   [33mf60ef2e[m Merge branch 'refs/heads/Temporary_Combination' into Tony-V2
+[31m|[m [33m|[m [35m|[m [1;31m|[m[1;32m\[m [1;34m\[m [1;32m\[m  
+[31m|[m [33m|[m [35m|[m * [1;32m|[m [1;34m|[m [1;32m|[m [33m50e44bb[m fav html update
+[31m|[m * [35m|[m [1;32m|[m [1;32m|[m [1;34m|[m [1;32m|[m [33mab856f0[m html changes
+[31m|[m * [35m|[m [1;32m|[m [1;32m|[m [1;34m|[m [1;32m|[m [33mfdb2c2d[m updated WebAppConfig
+[31m|[m * [35m|[m [1;32m|[m [1;32m|[m [1;34m|[m [1;32m|[m   [33m307384d[m Merge remote-tracking branch 'origin/Combination_Windows' into ShengQi
+[31m|[m [1;33m|[m[1;34m\[m [35m\[m [1;32m\[m [1;32m\[m [1;34m\[m [1;32m\[m  
+[31m|[m * [1;34m\[m [35m\[m [1;32m\[m [1;32m\[m [1;34m\[m [1;32m\[m   [33m7fd0383[m Merge remote-tracking branch 'origin/Combination_Windows' into ShengQi
+[31m|[m [1;35m|[m[1;36m\[m [1;34m\[m [35m\[m [1;32m\[m [1;32m\[m [1;34m\[m [1;32m\[m  
+[31m|[m * [1;36m\[m [1;34m\[m [35m\[m [1;32m\[m [1;32m\[m [1;34m\[m [1;32m\[m   [33m147961b[m Merge branch 'Temporary_Combination' of https://github.com/NightlyAffair/Shopping-Cart-Application-NUSISS into ShengQi
+[31m|[m [31m|[m[32m\[m [1;36m\[m [1;34m\[m [35m\[m [1;32m\[m [1;32m\[m [1;34m\[m [1;32m\[m  
+[31m|[m * [32m|[m [1;36m|[m [1;34m|[m [35m|[m [1;32m|[m [1;32m|[m [1;34m|[m [1;32m|[m [33m4429b88[m updated Orders class
+[31m|[m * [32m|[m [1;36m|[m [1;34m|[m [35m|[m [1;32m|[m [1;32m|[m [1;34m|[m [1;32m|[m   [33m7d60070[m Merge remote-tracking branch 'origin/Temporary_Combination' into ShengQi
+[31m|[m [33m|[m[1;32m\[m [32m\[m [1;36m\[m [1;34m\[m [35m\[m [1;32m\[m [1;32m\[m [1;34m\[m [1;32m\[m  
+[31m|[m [33m|[m [1;32m|[m [32m|[m[1;32m_[m[1;36m|[m[1;32m_[m[1;34m|[m[1;32m_[m[35m|[m[1;32m_[m[1;32m|[m[1;32m/[m [1;34m/[m [1;32m/[m  
+[31m|[m [33m|[m [1;32m|[m[1;32m/[m[32m|[m [1;36m|[m [1;34m|[m [35m|[m [1;32m|[m [1;34m|[m [1;32m|[m   
+[31m|[m * [1;32m|[m [32m|[m [1;36m|[m [1;34m|[m [35m|[m [1;32m|[m [1;34m|[m [1;32m|[m   [33m2bf3fc0[m Merge remote-tracking branch 'origin/Temporary_Combination' into ShengQi
+[31m|[m [35m|[m[36m\[m [1;32m\[m [32m\[m [1;36m\[m [1;34m\[m [35m\[m [1;32m\[m [1;34m\[m [1;32m\[m  
+[31m|[m * [36m\[m [1;32m\[m [32m\[m [1;36m\[m [1;34m\[m [35m\[m [1;32m\[m [1;34m\[m [1;32m\[m   [33m7bd73f2[m Merge remote-tracking branch 'origin/Temporary_Combination' into ShengQi
+[31m|[m [1;31m|[m[1;32m\[m [36m\[m [1;32m\[m [32m\[m [1;36m\[m [1;34m\[m [35m\[m [1;32m\[m [1;34m\[m [1;32m\[m  
+[31m|[m * [1;32m|[m [36m|[m [1;32m|[m [32m|[m [1;36m|[m [1;34m|[m [35m|[m [1;32m|[m [1;34m|[m [1;32m|[m [33me20ffd5[m added changes to list.html and Product Controller
+[31m|[m [1;32m|[m [1;32m|[m[1;32m_[m[36m|[m[1;32m_[m[1;32m|[m[1;32m_[m[32m|[m[1;32m_[m[1;36m|[m[1;32m_[m[1;34m|[m[1;32m_[m[35m|[m[1;32m_[m[1;32m|[m[1;32m_[m[1;34m|[m[1;32m/[m  
+[31m|[m [1;32m|[m[1;32m/[m[1;32m|[m [36m|[m [1;32m|[m [32m|[m [1;36m|[m [1;34m|[m [35m|[m [1;32m|[m [1;34m|[m   
+* [1;32m|[m [1;32m|[m [36m|[m [1;32m|[m [32m|[m [1;36m|[m [1;34m|[m [35m|[m [1;32m|[m [1;34m|[m   [33mcdffcce[m Merge remote-tracking branch 'origin/Combination_Windows' into YongHui
+[1;33m|[m[35m\[m [1;32m\[m [1;32m\[m [36m\[m [1;32m\[m [32m\[m [1;36m\[m [1;34m\[m [35m\[m [1;32m\[m [1;34m\[m  
+[1;33m|[m [35m|[m [1;32m|[m[35m_[m[1;32m|[m[35m_[m[36m|[m[35m_[m[1;32m|[m[35m_[m[32m|[m[35m_[m[1;36m|[m[35m_[m[1;34m|[m[35m/[m [1;32m/[m [1;34m/[m  
+[1;33m|[m [35m|[m[35m/[m[1;32m|[m [1;32m|[m [36m|[m [1;32m|[m [32m|[m [1;36m|[m [1;34m|[m [1;32m|[m [1;34m|[m   
+[1;33m|[m * [1;32m|[m [1;32m|[m [36m|[m [1;32m|[m [32m|[m [1;36m|[m [1;34m|[m [1;32m|[m [1;34m|[m [33m3f8ea5d[m delete - extra
+* [1;34m|[m [1;32m|[m [1;32m|[m [36m|[m [1;32m|[m [32m|[m [1;36m|[m [1;34m|

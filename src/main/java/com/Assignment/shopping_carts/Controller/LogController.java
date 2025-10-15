@@ -60,7 +60,7 @@ public class LogController {
                     case "cart":
                         return "redirect:/products/cart/resume";
                     case "favourite":
-                        return "redirect:/products/favourite/resume";
+                        return "redirect:/favourite/resume";
                     default:
                         break;
                 }
