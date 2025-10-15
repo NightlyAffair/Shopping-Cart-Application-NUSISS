@@ -33,9 +33,9 @@ public class OrdersController {
 
   @GetMapping("/customer/{customerId}")
   public ResponseEntity<List<Orders>> getCustomerById(@PathVariable("customerId") int customerId, HttpSession session) {
-    try{
+    try {
       List<Orders> orders = ordersService.getOrdersByCustomerId(customerId);
-      if(!orders.isEmpty()){
+      if (!orders.isEmpty()) {
         return new ResponseEntity<>(orders, HttpStatus.OK);
       } else {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -44,6 +44,7 @@ public class OrdersController {
       System.out.println(e.getMessage());
       return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+  }
 
   //Add refund
   @PostMapping("/refund/{order_id}/{product_id}")
