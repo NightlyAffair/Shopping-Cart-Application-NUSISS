@@ -44,13 +44,20 @@ public class FavouritesController {
 
     //toggle button to update heart icon.
     @PostMapping("/save")  //read productId from thymeleaf.
-    @ResponseBody //return string directly instead of view. (for the return portion below)
+    //@ResponseBody //return string directly instead of view. (for the return portion below)
     public String saveFavourite(@RequestParam int productId,@RequestParam(required=false) String redirectUrl, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
+            session.setAttribute("pendingProductId", productId);
+            session.setAttribute("pendingActionType", "favourites");
+
+            session.setAttribute("redirectAfterLogin", "/favourites/resume");
             return "redirect:/login";
         }
-        return favService.saveFavourites(customerId, productId); //toggles fav status
+        favService.saveFavourites(customerId, productId); //toggles fav status
+        if (redirectUrl != null && !redirectUrl.isEmpty()) {
+            return "redirect:" + redirectUrl;
+        } return "redirect:/favourites";
     }
 
     //Get all favourite items for a customer
