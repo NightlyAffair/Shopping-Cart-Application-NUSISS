@@ -226,7 +226,7 @@
                 <div class="review-card" th:each="review : ${product.reviews}">
                     <div class="d-flex justify-content-between align-items-start mb-2">
                         <div>
-                            <h6 class="review-author mb-0" th:text="${review.customerId}">Customer Name</h6>
+                            <h6 class="review-author mb-0" th:text="${review.customerName}">Customer Name</h6>
                         </div>
                         <div class="review-rating text-warning">
                             <i th:class="${i <= review.rating} ? 'bi bi-star-fill' : 'bi bi-star'"

@@ -30,16 +30,15 @@ public class OrdersController {
 
   @Autowired
   OrdersServiceImpl ordersService;
-  
+
 
   @GetMapping("/customer/{customerId}")
   public ResponseEntity<List<Orders>> getCustomerById(@PathVariable("customerId") int customerId){
     List<Orders> orders = ordersService.getOrdersByCustomerId(customerId);
-      if(!orders.isEmpty()){
-        return new ResponseEntity<>(orders, HttpStatus.OK);
-      } else {
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    if(!orders.isEmpty()){
+      return new ResponseEntity<>(orders, HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
   }
 }

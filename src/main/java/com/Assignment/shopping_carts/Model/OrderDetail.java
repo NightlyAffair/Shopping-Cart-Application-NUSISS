@@ -4,11 +4,7 @@ package com.Assignment.shopping_carts.Model;
 import com.Assignment.shopping_carts.Model.compositeKey.OrderDetailId;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -37,13 +33,13 @@ public class OrderDetail {
     private boolean isRefunded;
 
     @ManyToOne
+    @JoinColumn(name = "orderId", insertable = false, updatable = false)
     @JsonIgnore
     private Orders orders;
 
-    @ManyToOne
-    @JoinColumn(name = "productId", referencedColumnName = "productId", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "productId", insertable = false, updatable = false)
     private Product product;
-
 
     @Override
     public String toString() {
