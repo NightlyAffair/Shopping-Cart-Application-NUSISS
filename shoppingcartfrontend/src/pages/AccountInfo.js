@@ -22,17 +22,18 @@ export default function AccountInfo() {
 
     const loadAccountInfo = async () => {
         try{
-            const response = await axios.get("http://localhost:8080/api/account-info", {withCredentials:true}) // Replace with actual user ID
-            console.log(response.data)
+            const response = await axios.get("http://localhost:8080/api/account-info", {withCredentials:true})
+            console.log(response)
             setCustomerInfo(response.data)
             setLoading(false);
+
         } catch (e) {
             console.error("Error fetching customer info:", e);
+            navigate("/login")
         }
     }
     useEffect(() => {
         loadAccountInfo();
-
     }, []);
 
     const LoadingPage = () => {
