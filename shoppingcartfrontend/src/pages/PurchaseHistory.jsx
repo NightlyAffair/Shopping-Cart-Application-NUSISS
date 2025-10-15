@@ -1,5 +1,5 @@
 import "../css/style.css";
-import "../css/displayProducts.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Header from "../components/Header";
@@ -144,9 +144,13 @@ const PurchaseHistory = () => {
   if (loading) return <p className="text-center mt-4">Loading purchase history...</p>;
 
   return (
-      <div style={{ display: "flex", width: "100vw", flexDirection: "column"}}>
-        <Header />
-        <NavBar />
+      <div style={{display: 'flex', flexDirection: 'column', width: '100vw', minHeight: '100vh'}}>
+        <div>
+          <Header />
+        </div>
+        <div className="navbar navbar-expand-lg navbar-dark site-navbar" style={{paddingTop:'150px'}}>
+          <NavBar />
+        </div>
         <div className="d-flex flex-grow-1">
           <Sidebar />
           <main className="flex-grow-1 p-4">
