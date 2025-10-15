@@ -106,13 +106,12 @@ public class FavouritesController {
         return favService.isProductFavourited(customerId,productId);
     }
 
-
-
+    //resuming an action that was attempted before login
     @GetMapping("/resume")
     public String resumeFavourite(HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         String productIdStr = (String) session.getAttribute("pendingProductId");
-
+//if custid is null, means user not logged in, no pending product action stored (the user didn’t try to favourite anything before login).
         if (customerId != null && productIdStr != null) {
             int productId = Integer.parseInt(productIdStr);
             favService.saveFavourites(customerId, productId);
