@@ -5,10 +5,19 @@ import axios from "axios";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/NavBar";
-
+/**
+ * Purchase History Class
+ * Author: Aung Kyaw Kyaw
+ * Date: 2025-10-02
+ * Modifier by : Thae Thae Hsu (review feature)
+ * Last Modified by :
+ * Last Modified: 2025-10-15 10:00
+ */
 const PurchaseHistory = () => {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   const [showExistingReview, setShowExistingReview] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -29,10 +38,15 @@ const PurchaseHistory = () => {
         setOrders(data);
       })
       .catch((error) => {
-        console.error("Error fetching orders:", error);
-        setError("Failed to load purchase history.");
+        console.error("Error:", error);
+        
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
+  if (loading) return <p>Loading purchase history...</p>;
+  if (error) return <p>(error)</p>;
 
   const openReviewForm = async (orderId, productId, custId) => {
     setSelectedOrderId(orderId);
@@ -179,7 +193,7 @@ const PurchaseHistory = () => {
               </h3>
               <p>
                 <strong>Purchase Date:</strong> {new Date(order.purchaseDate).toLocaleDateString()} <br />
-                {/* <strong>Total:</strong> ${order.unitAmount?.toFixed(2)} */}
+                
               </p>
               <table
                 style={{
@@ -204,6 +218,11 @@ const PurchaseHistory = () => {
                     const subtotal = product.unitPrice
                       ? product.unitPrice * detail.quantity
                       : 0;
+                      //Go to product detail page (thymeleaf)
+                      const handleProductClick = (productId) => {
+                        window.location.href = 
+                        "http://localhost:8080/products/details/" + productId;
+                      };
                     return (
                       <tr key={`${order.orderId}-${detail.productId}`}>
                         <td style={{ border: "1px solid #ddd", padding: "8px" }}>
@@ -211,11 +230,15 @@ const PurchaseHistory = () => {
                             <img
                               src={product.imageUrl}
                               alt={product.productName}
+                              onClick={() =>
+                                handleProductClick(product.productId)
+                              }
                               style={{
                                 width: "60px",
                                 height: "60px",
                                 objectFit: "cover",
                                 borderRadius: "8px",
+                                cursor: "pointer"
                               }}
                             />
                           ) : (
@@ -314,6 +337,10 @@ const PurchaseHistory = () => {
         </div>
           ))}
           </div>
+          {/* No orders found but no error */}
+          {!loading && !error && orders.length === 0 && (
+            <p>No purchase history found</p>
+          )}
       </div>
     </div>
   );

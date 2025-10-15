@@ -17,9 +17,9 @@ import lombok.Setter;
  * OrderDetail Entity Class
  * Author: Zhou Jason
  * Date: 2025-10-02
- * Modifier by :
+ * Modifier by : Aung Kyaw Kyaw
  * Last Modified by :
- * Last Modified: 2025-10-02 14:00
+ * Last Modified: 2025-10-14 10:00
  */
 
 @Entity
