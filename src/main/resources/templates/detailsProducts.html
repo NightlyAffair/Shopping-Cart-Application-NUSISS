@@ -127,7 +127,7 @@
                            th:each="i : ${#numbers.sequence(1, 5)}"></i>
                     </div>
                     <span class="rating-count"
-                          th:text="'(' + ${#numbers.formatDecimal(product.averageRating, 1, 1)} + ' out of 5)'">(4.0 out of 5)</span>
+                          th:text="'(' + ${#numbers.formatDecimal(product.averageRating, 1, 0)} + ' out of 5)'">(4.0 out of 5)</span>
                 </div>
 
                 <p class="product-discount" th:if="${product.discount != null && product.discount > 0}">

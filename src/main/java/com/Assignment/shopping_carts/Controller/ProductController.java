@@ -101,7 +101,8 @@ public class ProductController {
         product.setReviews(reviews);
 
         Double averageRating = reviewService.getAverageRatingForProduct(product.getProductId());
-        product.setAverageRating(averageRating);
+        double roundedRating = averageRating != null ? Math.floor(averageRating) : 0.0;
+        product.setAverageRating(roundedRating);
 
         model.addAttribute("product", product);
 
