@@ -5,6 +5,7 @@ import axios from "axios";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/NavBar";
+import {useNavigate} from 'react-router-dom'
 /**
  * Purchase History Class
  * Author: Aung Kyaw Kyaw
@@ -29,9 +30,11 @@ const PurchaseHistory = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     axios
-      .get("http://localhost:8080/api/purchaseHistory/customer/1")
+      .get("http://localhost:8080/api/purchaseHistory/customer" , { withCredentials: true })
       .then((res) => {
         console.log(res.data);
         const data = Array.isArray(res.data) ? res.data : [res.data];
@@ -39,7 +42,7 @@ const PurchaseHistory = () => {
       })
       .catch((error) => {
         console.error("Error:", error);
-        
+        navigate("/login");
       })
       .finally(() => {
         setLoading(false);
