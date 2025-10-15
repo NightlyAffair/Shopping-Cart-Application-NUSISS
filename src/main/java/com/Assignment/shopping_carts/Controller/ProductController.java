@@ -164,10 +164,4 @@ public class ProductController {
         model.addAttribute("favorites", favoriteProducts);
         return "favourites";
     }
-
-    // View Purchase History
-    @GetMapping("/history")
-    public String viewPurchaseHistory(Model model, HttpSession session) {
-        return "orderHistory";
-    }
 }

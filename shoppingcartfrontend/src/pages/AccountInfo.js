@@ -78,15 +78,13 @@ export default function AccountInfo() {
     }
 
     return (
-        <div style={{display: 'flex', flexDirection: 'column', width: '100vw', minHeight: '100vh'}}>
+        <div style={{display: 'flex', flexDirection: 'column', width: '100vw', height: '100vh'}}>
             <div>
                 <Header/>
             </div>
             <div>
                 <NavBar/>
             </div>
-
-
             <div style={{display: "flex", flexDirection: "row", flex: 1}}>
                 <Sidebar/>
                 {
@@ -161,7 +159,6 @@ export default function AccountInfo() {
                     )
                 }
             </div>
-
         </div>
     )
 }

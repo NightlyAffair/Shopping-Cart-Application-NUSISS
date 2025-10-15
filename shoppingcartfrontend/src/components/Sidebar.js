@@ -26,7 +26,7 @@ export default function Sidebar() {
     }
 
     return (
-        <div style={{height: "100vh", width: "250px", backgroundColor: "white", borderRight: '1px solid black'}} className="px-3">
+        <div style={{height: "auto", width: "250px", backgroundColor: "white", borderRight: '1px solid black'}} className="px-3">
             <h4 className="font-weight-bold py-3 mb-4">
                 Account settings
             </h4>

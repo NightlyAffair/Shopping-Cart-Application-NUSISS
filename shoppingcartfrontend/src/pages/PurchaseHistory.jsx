@@ -144,16 +144,16 @@ const PurchaseHistory = () => {
   if (loading) return <p className="text-center mt-4">Loading purchase history...</p>;
 
   return (
-      <div style={{display: 'flex', flexDirection: 'column', width: '100vw', minHeight: '100vh'}}>
+      <div style={{display: 'flex', flexDirection: 'column', width:'100vw', height:'100vh'}}>
         <div>
-          <Header />
+          <Header/>
         </div>
-        <div className="navbar navbar-expand-lg navbar-dark site-navbar" style={{paddingTop:'150px'}}>
-          <NavBar />
+        <div>
+          <NavBar/>
         </div>
-        <div className="d-flex flex-grow-1">
-          <Sidebar />
-          <main className="flex-grow-1 p-4">
+        <div style={{display: "flex", flexDirection: "row", flex: 1}}>
+          <Sidebar/>
+          <main className='flex-grow-1'>
             <div className="container-fluid">
               <h2 className="mb-4 text-primary">Purchase History</h2>
 

@@ -17,7 +17,7 @@ export default function Navbar() {
 
     const navigate = useNavigate();
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark site-navbar" style={{paddingTop:'190px'}}>
+        <nav className="navbar navbar-expand-lg navbar-dark site-navbar" style={{paddingTop:'70px'}}>
             <div className="container">
                 <a className="navbar-brand" href="localhost:8080/products" onClick={e => navigate('/products')}>
                     <i className="bi bi-grid-3x3-gap me-2"></i>Browse
