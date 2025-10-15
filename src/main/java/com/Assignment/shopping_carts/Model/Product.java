@@ -3,8 +3,8 @@
  * Authors: Zhou Jason, Glenn Min, Sheng Qi
  * Date: 2025-10-02
  * Last Modified by: Glenn Min
- * New Updates: +imageUrl, averageRating, Annotations, Cascades
- * Last Modified: 2025-10-09
+ * New Updates: OrderDetails mapping fixed
+ * Last Modified: 2025-10-15
  */
 
 package com.Assignment.shopping_carts.Model;
@@ -49,7 +49,8 @@ public class Product {
     @JsonIgnore
     private Category category;
 
-    @OneToMany
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
 
