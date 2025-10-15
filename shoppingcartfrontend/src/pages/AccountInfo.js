@@ -5,6 +5,7 @@ import Sidebar from "../components/Sidebar";
 import NavBar from "../components/NavBar";
 import {useEffect, useState} from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 /**
  * AccountInfoPage
  * Author: Nithvin Leelakrishnan
@@ -17,23 +18,25 @@ export default function AccountInfo() {
     const [customerInfo, setCustomerInfo] = useState
     ()
     const [loading,setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const loadAccountInfo = async () => {
         try{
-            const response = await axios.get("http://localhost:8080/api/account-info/1") // Replace with actual user ID
-            console.log(response.data)
+            const response = await axios.get("http://localhost:8080/api/account-info", {withCredentials:true})
+            console.log(response)
             setCustomerInfo(response.data)
             setLoading(false);
+
         } catch (e) {
             console.error("Error fetching customer info:", e);
+            navigate("/login")
         }
     }
     useEffect(() => {
         loadAccountInfo();
-
     }, []);
 
-    if(loading) {
+    const LoadingPage = () => {
         return(
             <div>
                 <p>Loading...</p>
@@ -67,34 +70,71 @@ export default function AccountInfo() {
         }
     }
 
-    return(
-        <div style={{display:'flex', flexDirection:'column', width:'100vw', minHeight:'100vh'}}>
+    const AccountInformation = () => {
+        return(
+        <div style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            flex: 1,
+            marginTop: "10px",
+            padding: "20px"
+        }}>
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                marginLeft: "20px",
+                marginBottom: "40px",
+                maxWidth: "400px"
+            }}>
+                <p>Full Name</p>
+                <input value={customerInfo.fullName} onChange={(e) => changeName(e.target.value)}
+                       style={{width: "100%"}}/>
+            </div>
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                marginLeft: "20px",
+                marginBottom: "40px",
+                maxWidth: "400px"
+            }}>
+                <p>Username</p>
+                <input value={customerInfo.userName} onChange={(e) => changeUserName(e.target.value)}
+                       style={{width: "100%"}}/>
+            </div>
+            <div style={{
+                display: "flex",
+                flexDirection: "column",
+                marginLeft: "20px",
+                marginBottom: "40px",
+                maxWidth: "400px"
+            }}>
+                <p>Password</p>
+                <input value={customerInfo.password} onChange={(e) => changePassword(e.target.value)}
+                       style={{width: "100%"}}/>
+            </div>
+            <button type={"submit"} onClick={saveCustomerInfo}
+                    style={{marginLeft: "20px", maxWidth: "400px", padding: "10px 20px"}}>submit
+            </button>
+        </div>
+        )
+    }
+
+    return (
+        <div style={{display: 'flex', flexDirection: 'column', width: '100vw', minHeight: '100vh'}}>
             <div>
-                <Header />
+                <Header/>
             </div>
             <div>
-                <NavBar />
+                <NavBar/>
             </div>
 
 
-
-            <div style={{display:"flex", flexDirection:"row", flex: 1}}>
+            <div style={{display: "flex", flexDirection: "row", flex: 1}}>
                 <Sidebar/>
-                <div style={{display:"flex", flexDirection:"column", justifyContent:"flex-start", flex: 1, marginTop:"10px", padding:"20px"}}>
-                    <div style={{display: "flex", flexDirection: "column", marginLeft:"20px", marginBottom:"40px", maxWidth:"400px"}}>
-                        <p>Full Name</p>
-                        <input value={customerInfo.fullName} onChange={(e) => changeName(e.target.value)} style={{width:"100%"}}/>
-                    </div>
-                    <div style={{display: "flex", flexDirection: "column", marginLeft:"20px", marginBottom:"40px", maxWidth:"400px"}}>
-                        <p >Username</p>
-                        <input value={customerInfo.userName} onChange={(e) => changeUserName(e.target.value)} style={{width:"100%"}}/>
-                    </div>
-                    <div style={{display: "flex", flexDirection: "column", marginLeft:"20px", marginBottom:"40px", maxWidth:"400px"}}>
-                        <p>Password</p>
-                        <input value={customerInfo.password} onChange={(e) => changePassword(e.target.value)} style={{width:"100%"}}/>
-                    </div>
-                    <button type={"submit"} onClick={saveCustomerInfo} style={{marginLeft:"20px", maxWidth:"400px", padding:"10px 20px"}}>submit</button>
-                </div>
+                {
+                    loading ? <LoadingPage /> : < AccountInformation />
+                }
             </div>
 
         </div>

@@ -81,6 +81,11 @@ function Register() {
 
     return (
         <main className="form-signin">
+            <div className="text-center mb-3">
+                <a href="http://localhost:8080/products" className="back-btn">
+                    <i className="bi bi-arrow-left"></i> Back to Homepage
+                </a>
+            </div>
             <form onSubmit={handleSubmit}>
                 <img src="/images/shop-logo.png" alt="Shop @ISS Logo" width="100" height="auto"/>
                 <h1 className="h3">Create Account</h1>

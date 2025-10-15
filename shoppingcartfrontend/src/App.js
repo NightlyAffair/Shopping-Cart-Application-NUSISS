@@ -3,6 +3,9 @@ import AccountInfo from "./pages/AccountInfo"
 import PurchaseHistory from "./pages/PurchaseHistory";
 import './App.css';
 import Register from "./pages/Register";
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 /**
  * App.js
  * Author: Nithvin Leelakrishnan
@@ -23,6 +26,15 @@ function App() {
     function RedirectCart() {
         window.location.replace("http://localhost:8080/products/cart");
     }
+
+    function RedirectLogout() {
+        window.location.replace("http://localhost:8080/login/logout");
+    }
+
+    function RedirectLogin() {
+        window.location.replace("http://localhost:8080/login");
+    }
+
   return (
       <Router>
           <Routes>
@@ -32,7 +44,8 @@ function App() {
               <Route path={"/products"} element={<RedirectProducts />} />
               <Route path={"/favourites"} element={<RedirectFavourites />} />
               <Route path={"/cart"} element={<RedirectCart />} />
-
+              <Route path={"/login"} element={<RedirectLogin />} />
+              <Route path={"/logout"} element={<RedirectLogout />} />
               <Route path="/signup" element={<Register />} />
           </Routes>
       </Router>
