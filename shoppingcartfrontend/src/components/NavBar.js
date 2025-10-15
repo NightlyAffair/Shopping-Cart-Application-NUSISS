@@ -3,6 +3,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import {useNavigate} from "react-router-dom";
 
+/**
+ * NavBar
+ * Author: Nithvin Leelakrishnan
+ * Date: 2025-10-13
+ * Modifier by :
+ * Last Modified by :
+ * Last Modified: 2025-10-13 14:00
+ */
 
 
 export default function Navbar() {
