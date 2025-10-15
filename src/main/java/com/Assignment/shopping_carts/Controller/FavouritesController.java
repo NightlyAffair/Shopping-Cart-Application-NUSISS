@@ -48,7 +48,9 @@ public class FavouritesController {
     public String saveFavourite(@RequestParam int productId, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
-            return "redirect:/login";
+            session.setAttribute("pendingAction", "favourite");
+            session.setAttribute("pendingProductId", String.valueOf(productId));
+            return "Login_required";
             //customerId = 1;
             //session.setAttribute("customerId", customerId);
         }
@@ -124,12 +126,3 @@ public class FavouritesController {
         return "redirect:/products/page";
     }
 }
-
-
-
-/*
-    @GetMapping("/CustomerId/{customerId}")
-    public List<Favourites> findByCustomerId(@PathVariable("customerId")
-                                       int customerId, Model model) {
-        return favService.findByCustomerId(customerId);
-    } */
