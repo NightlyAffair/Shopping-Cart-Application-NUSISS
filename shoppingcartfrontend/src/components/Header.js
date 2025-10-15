@@ -48,7 +48,7 @@ export default function Header() {
                 <li>
                   <hr className="dropdown-divider"/>
                 </li>
-                <li><a className="dropdown-item" href="#">
+                <li><a className="dropdown-item" href="http://localhost:3000/#/logout">
                   <i className="bi bi-box-arrow-right me-2"></i>Sign out
                 </a></li>
               </ul>
