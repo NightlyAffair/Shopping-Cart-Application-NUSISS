@@ -84,11 +84,14 @@ const PurchaseHistory = () => {
       setShowForm(true);
     }
   };
-  const handleRefund = async (orderId, productId) => {
+  const handleRefund = async (orderId, productId, refunded) => {
+    if(refunded) {
+      alert(`Review in progress for: Order #${orderId}, Product #${productId}`);
+    }
     try {
       const response = await axios.post(`http://localhost:8080/api/purchaseHistory/refund/${orderId}/${productId}`, {withCredentials: true})
       if (response.status === 200) {
-        alert(`Refund successful for Order #${orderId}, Product #${productId}`);
+
         console.log("Refund requested for order:", orderId, "product:", productId);
       } else {
         alert(`Refund failed for Order #${orderId}, Product #${productId}`);
@@ -283,7 +286,7 @@ const PurchaseHistory = () => {
                           </button>
                           <button 
                             type="button"
-                            onClick={() => handleRefund(order.orderId, detail.productId)}
+                            onClick={() => handleRefund(order.orderId, detail.productId, detail.refunded)}
                             style={{ padding: "5px 10px", background: detail.refunded ? "green" : "red", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
                           >
                             {detail.refunded ? "Refunded" : "Refund"}
