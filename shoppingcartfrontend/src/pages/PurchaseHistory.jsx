@@ -29,24 +29,31 @@ const PurchaseHistory = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
 
+  const loadProducts = async () => {
+    await axios
+        .get("http://localhost:8080/api/purchaseHistory/customer/1")
+        .then((res) => {
+          console.log(res.data);
+          const data = Array.isArray(res.data) ? res.data : [res.data];
+          setOrders(data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+  }
+
+
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/purchaseHistory/customer/1")
-      .then((res) => {
-        console.log(res.data);
-        const data = Array.isArray(res.data) ? res.data : [res.data];
-        setOrders(data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    loadProducts()
   }, []);
   if (loading) return <p>Loading purchase history...</p>;
   if (error) return <p>({error})</p>;
+
+
 
   const openReviewForm = async (orderId, productId, custId) => {
     setSelectedOrderId(orderId);
@@ -77,10 +84,22 @@ const PurchaseHistory = () => {
       setShowForm(true);
     }
   };
-  const handleRefund = (orderId, productId) => {
-    console.log("Refund requested for order:", orderId, "product:", productId);
-    // Add your refund logic here
-    alert(`Refund requested for Order #${orderId}, Product #${productId}`);
+  const handleRefund = async (orderId, productId, refunded) => {
+    if(refunded) {
+      alert(`Review in progress for: Order #${orderId}, Product #${productId}`);
+    }
+    try {
+      const response = await axios.post(`http://localhost:8080/api/purchaseHistory/refund/${orderId}/${productId}`, {withCredentials: true})
+      if (response.status === 200) {
+
+        console.log("Refund requested for order:", orderId, "product:", productId);
+      } else {
+        alert(`Refund failed for Order #${orderId}, Product #${productId}`);
+      }
+    } catch (err) {
+      console.error('Error fetching refund requested for order: ', err);
+    }
+
   };
 
   const submitReview = async () => {
@@ -267,10 +286,10 @@ const PurchaseHistory = () => {
                           </button>
                           <button 
                             type="button"
-                            onClick={() => handleRefund(order.orderId, detail.productId)}
-                            style={{ padding: "5px 10px", background: "#dc3545", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
+                            onClick={() => handleRefund(order.orderId, detail.productId, detail.refunded)}
+                            style={{ padding: "5px 10px", background: detail.refunded ? "green" : "red", color: "white", border: "none", borderRadius: "4px", cursor: "pointer" }}
                           >
-                            Refund
+                            {detail.refunded ? "Refunded" : "Refund"}
                           </button>
                         </td>
                       </tr>

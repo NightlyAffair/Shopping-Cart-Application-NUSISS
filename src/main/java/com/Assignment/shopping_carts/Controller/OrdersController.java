@@ -4,7 +4,7 @@ package com.Assignment.shopping_carts.Controller;
  * Orders Controller Class
  * Author: Aung Kyaw Kyaw
  * Date: 2025-10-02
- * Modifier by :
+ * Modifier by : Nithvin(Refund)
  * Last Modified by :
  * Last Modified: 2025-10-14 10:00
  */
@@ -14,11 +14,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.Assignment.shopping_carts.Model.Orders;
 import com.Assignment.shopping_carts.Service.OrdersServiceImpl;
@@ -39,6 +35,17 @@ public class OrdersController {
       return new ResponseEntity<>(orders, HttpStatus.OK);
     } else {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+  }
+
+  @PostMapping("/refund/{order_id}/{product_id}")
+  public ResponseEntity<String> refund(@PathVariable("order_id") int order_id, @PathVariable("product_id") int product_id){
+    boolean response = ordersService.refund(order_id, product_id);
+
+    if(response){
+      return new ResponseEntity<>("Refunded", HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>("Failed", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
