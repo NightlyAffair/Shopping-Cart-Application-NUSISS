@@ -23,7 +23,7 @@ import com.Assignment.shopping_carts.Model.Orders;
 public interface OrdersRepository extends JpaRepository<Orders, Integer>{
   List<Orders> findByCustomerId(@Param("customerId") Integer customerId);
 
-  @EntityGraph(attributePaths = {"orderDetails", "orderDetails.product"})
-  @Query("SELECT o FROM Orders o WHERE o.customerId = :customerId ORDER BY o.purchaseDate DESC")
-  List<Orders> findByCustomerIdWithDetails(@Param("customerId") int customerId);
+//  @EntityGraph(attributePaths = {"orderDetails", "orderDetails.product"})
+//  @Query("SELECT o FROM Orders o WHERE o.customerId = :customerId ORDER BY o.orderId DESC")
+//  List<Orders> findByCustomerIdWithDetails(@Param("customerId") int customerId);
 }

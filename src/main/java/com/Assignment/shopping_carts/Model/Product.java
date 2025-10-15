@@ -18,9 +18,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Setter;
 
 @Data
 @Entity
@@ -28,7 +26,6 @@ public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Setter(AccessLevel.NONE)
     private int productId;
 
     @NotBlank(message = "Product name is required")
@@ -75,14 +72,6 @@ public class Product {
         this.discount = discount;
         this.unitPrice = unitPrice;
         this.averageRating = 0.0;
-    }
-
-    public int getProductId() {
-        return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
     }
 
 

@@ -414,20 +414,11 @@ table img {
     padding: 1rem;
   }
 
-
-    .back-btn {
-        border: 1px solid #6c757d;
-        color: #6c757d;
-        text-decoration: none !important;
-        padding: 6px 16px;
-        border-radius: 4px;
-        transition: all 0.2s ease;
-        display: inline-block;
-    }
-
-    .back-btn:hover {
-        background-color: #6c757d;
-        color: #fff !important;
-        text-decoration: none !important;
-    }
+  .back-btn {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+  }
 }

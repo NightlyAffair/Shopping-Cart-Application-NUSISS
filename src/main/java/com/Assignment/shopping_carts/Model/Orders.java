@@ -51,7 +51,7 @@ public class Orders {
     private double unitAmount;
     private String status;
 
-    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "orders")
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @ManyToOne
