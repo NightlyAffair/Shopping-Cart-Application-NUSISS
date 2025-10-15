@@ -87,10 +87,7 @@ public class LogController {
 
     @GetMapping("/logout")
     public String logout(HttpSession session){
-        session.setAttribute("login_status",false);
-        session.removeAttribute("user_name");
-        session.removeAttribute("redirectAfterLogin");
-        session.removeAttribute("customerId");
+        session.invalidate();
         return "login";
     }
 
