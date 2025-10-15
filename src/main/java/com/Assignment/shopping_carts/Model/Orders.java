@@ -62,6 +62,17 @@ public class Orders {
     @OneToMany(mappedBy = "orders")
     private List<Review> reviews;
 
+    public Orders() {
+
+    }
+
+    public Orders(int customerId, Date purchaseDate, double unitAmount, String status) {
+        this.customerId = customerId;
+        this.purchaseDate = purchaseDate;
+        this.unitAmount = Math.round(unitAmount * 100.0) / 100.0;
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         return "Orders";

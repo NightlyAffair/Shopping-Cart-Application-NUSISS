@@ -41,6 +41,16 @@ public class OrderDetail {
     @JoinColumn(name = "productId", insertable = false, updatable = false)
     private Product product;
 
+    public OrderDetail() {
+
+    }
+    public OrderDetail(int orderId, int productId, int quantity, boolean isRefunded) {
+        this.orderId = orderId;
+        this.productId = productId;
+        this.quantity = quantity;
+        this.isRefunded = isRefunded;
+    }
+
     @Override
     public String toString() {
         return "OrderDetail";

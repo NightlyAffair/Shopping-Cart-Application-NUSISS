@@ -126,6 +126,7 @@ public class ShoppingCartDetailController {
         if (selected != null && !selected.isEmpty()) {//selected如果存在且不为空
             //只要点进cart，selected就创建了，但可能Empty
             //如果这里用户进cart先勾选了又取消了，就是(selected != null && selected.isEmpty())，因此要避免
+            cartService.recordOrder(customerId,selected);
             for (Integer productId : selected) {//遍历所有被勾选的product
                 cartService.removeProduct(customerId, productId);//调用interface中removeProduct方法
             }//因为checkout过了，cart就删掉对应的product了

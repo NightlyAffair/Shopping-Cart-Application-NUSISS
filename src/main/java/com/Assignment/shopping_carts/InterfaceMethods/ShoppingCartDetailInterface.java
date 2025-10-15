@@ -1,6 +1,7 @@
 package com.Assignment.shopping_carts.InterfaceMethods;
 
 import java.util.List;
+import java.util.Set;
 
 import com.Assignment.shopping_carts.Model.ShoppingCartDetail;
 /**
@@ -37,4 +38,5 @@ public interface ShoppingCartDetailInterface {
     //计算cart中的product总价
     double sumTotal(int customerId);
 
+    void recordOrder(int customerId, Set<Integer> selected);
 }

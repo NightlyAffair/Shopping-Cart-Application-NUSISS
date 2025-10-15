@@ -1,9 +1,14 @@
 package com.Assignment.shopping_carts.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import com.Assignment.shopping_carts.InterfaceMethods.ShoppingCartDetailInterface;
+import com.Assignment.shopping_carts.Model.*;
+import com.Assignment.shopping_carts.Repository.OrderDetailRepository;
+import com.Assignment.shopping_carts.Repository.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +31,10 @@ import jakarta.transaction.Transactional;
 public class   ShoppingCartDetailImplementation implements ShoppingCartDetailInterface {
     @Autowired
     private ShoppingCartDetailRepository cartRepo;//注入购物车的repository，不需要手动new
+    @Autowired
+    private OrdersRepository orderRepo;
+    @Autowired
+    private OrderDetailRepository orderDetailRepo;
 
     @Override
     //从产品界面添加product进购物车
@@ -114,5 +123,24 @@ public class   ShoppingCartDetailImplementation implements ShoppingCartDetailInt
             }
         }
         return totalPrice;//if-else结束，输出总价
+    }
+
+    public void recordOrder(int customerId, Set<Integer> selected) {
+        double totalAmount = 0.0;
+        for (Integer productId : selected){
+            ShoppingCartDetail cartItem = cartRepo.findByCustomerIdAndProductId(customerId,productId).get();
+            totalAmount += cartItem.getSubPrice();
+        }
+        Date date = new java.sql.Date(System.currentTimeMillis());
+        Orders order = new Orders(customerId, (java.sql.Date) date,totalAmount,"Pending");
+        orderRepo.save(order);
+
+        int orderId = order.getOrderId();
+
+        for (Integer productId : selected){
+            ShoppingCartDetail cartItem = cartRepo.findByCustomerIdAndProductId(customerId,productId).get();
+            OrderDetail detail = new OrderDetail(orderId,productId,cartItem.getQuantity(),false);
+            orderDetailRepo.save(detail);
+        }
     }
 }
