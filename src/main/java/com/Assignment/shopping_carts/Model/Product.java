@@ -3,8 +3,8 @@
  * Authors: Zhou Jason, Glenn Min, Sheng Qi
  * Date: 2025-10-02
  * Last Modified by: Glenn Min
- * New Updates: +imageUrl, averageRating, Annotations, Cascades
- * Last Modified: 2025-10-09
+ * New Updates: OrderDetails mapping fixed
+ * Last Modified: 2025-10-15
  */
 
 package com.Assignment.shopping_carts.Model;
@@ -14,15 +14,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -57,7 +49,8 @@ public class Product {
     @JsonIgnore
     private Category category;
 
-    @OneToMany
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
 

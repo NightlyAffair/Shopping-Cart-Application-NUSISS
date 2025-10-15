@@ -93,6 +93,13 @@ public class ProductController {
         List<Review> reviews = reviewService.getReviewsForProduct(product.getProductId());
         product.setReviews(reviews);
 
+        for (Review review : reviews) {
+            String customerName =reviewService.getCustomerNameById(review.getCustomerId());
+            review.setCustomerName(customerName);
+        }
+
+        product.setReviews(reviews);
+
         Double averageRating = reviewService.getAverageRatingForProduct(product.getProductId());
         product.setAverageRating(averageRating);
 
