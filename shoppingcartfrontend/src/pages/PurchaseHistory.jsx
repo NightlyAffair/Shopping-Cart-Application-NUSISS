@@ -1,4 +1,4 @@
-import "../css/style.css"
+import "../css/style.css";
 import "../css/displayProducts.css";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
@@ -46,7 +46,7 @@ const PurchaseHistory = () => {
       });
   }, []);
   if (loading) return <p>Loading purchase history...</p>;
-  if (error) return <p>(error)</p>;
+  if (error) return <p>({error})</p>;
 
   const openReviewForm = async (orderId, productId, custId) => {
     setSelectedOrderId(orderId);
