@@ -9,4 +9,5 @@ public interface ReviewService {
     public boolean hasReview(int productId, int customerId, int orderId);
     public List<Review> getReviewsForProduct(int productId);
     public Double getAverageRatingForProduct(int productId);
+    public String getCustomerNameById(int customerId);
 }

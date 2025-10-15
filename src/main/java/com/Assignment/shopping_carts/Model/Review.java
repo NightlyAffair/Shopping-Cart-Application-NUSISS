@@ -4,13 +4,7 @@ import com.Assignment.shopping_carts.Model.compositeKey.ReviewId;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -47,6 +41,9 @@ public class Review {
 
     private int rating;
     private String description;
+
+    @Transient
+    private String customerName;
 
     @ManyToOne
     @JsonIgnore

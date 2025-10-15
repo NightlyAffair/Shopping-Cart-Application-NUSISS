@@ -2,6 +2,7 @@ package com.Assignment.shopping_carts.Model;
 
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -49,9 +50,8 @@ public class Orders {
     private double unitAmount;
     private String status;
 
-    @OneToMany
-    @JoinColumn(name="orderId")
-    private List<OrderDetail> orderDetails;
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
     @ManyToOne
     @JsonIgnore
