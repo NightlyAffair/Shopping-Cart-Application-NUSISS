@@ -32,7 +32,7 @@ public class OrdersServiceImpl implements  OrdersService{
 
   @Override
   public List<Orders> getOrdersByCustomerId(Integer customerId) {
-    return ordersRepository.findByCustomerIdWithDetails(customerId);
+    return ordersRepository.findByCustomerId(customerId);
   }
 
   @Override

@@ -31,7 +31,7 @@
         <div th:if="${session.login_status == null || session.login_status == false}">
           <div class="user-actions d-flex align-items-center justify-content-end gap-2">
             <a th:href="@{/login}" class="btn btn-outline-light btn-sm">Login</a>
-            <a href="http://localhost:3000/signup" class="btn btn-warning btn-sm">Sign Up</a>
+            <a href="http://localhost:3000/#/signup" class="btn btn-warning btn-sm">Sign Up</a>
           </div>
         </div>
         <!-- Logged In -->
@@ -116,7 +116,9 @@
       <!-- Status message -->
       <div id="statusMessage" class="text-muted mb-2"></div>
 
-    <!-- Favorites Table, shows all fav products -->
+    <!-- Favorites Table, shows all fav products
+    th:unless is the opposite of th:if.
+    This block renders the table only if there are favourites.-->
     <div th:unless="${favourites == null || favourites.isEmpty()}">
       <div class="table-responsive">
         <table class="table table-hover align-middle">
@@ -138,7 +140,6 @@
                             src="/images/placeholder.png"
                          alt="Product"
                          class="product-thumb me-3">
-
                     <div>
                     <div class="fw-semibold product-name" th:text="${product.productName}">Product Name</div>
                   </div>
@@ -225,6 +226,8 @@
   <!-- SCRIPTS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+      //This makes sure the JavaScript inside only runs after the entire HTML page has loaded,
+      // so it doesn’t try to find buttons or inputs that aren’t ready yet.
     document.addEventListener('DOMContentLoaded', function() {
         // Quantity controls to ++/--
         document.querySelectorAll('.add-to-cart-form').forEach(form => {

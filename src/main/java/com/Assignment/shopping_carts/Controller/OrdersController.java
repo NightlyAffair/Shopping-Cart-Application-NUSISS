@@ -16,8 +16,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.Assignment.shopping_carts.Model.Customer;
 import com.Assignment.shopping_carts.Model.Orders;
 import com.Assignment.shopping_carts.Service.OrdersServiceImpl;
+
+import jakarta.servlet.http.HttpSession;
 
 @CrossOrigin
 @RestController
@@ -29,15 +32,21 @@ public class OrdersController {
 
 
   @GetMapping("/customer/{customerId}")
-  public ResponseEntity<List<Orders>> getCustomerById(@PathVariable("customerId") int customerId){
-    List<Orders> orders = ordersService.getOrdersByCustomerId(customerId);
-    if(!orders.isEmpty()){
-      return new ResponseEntity<>(orders, HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+  public ResponseEntity<List<Orders>> getCustomerById(@PathVariable("customerId") int customerId, HttpSession session) {
+    try {
+      List<Orders> orders = ordersService.getOrdersByCustomerId(customerId);
+      if (!orders.isEmpty()) {
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+      return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
+  //Add refund
   @PostMapping("/refund/{order_id}/{product_id}")
   public ResponseEntity<String> refund(@PathVariable("order_id") int order_id, @PathVariable("product_id") int product_id){
     boolean response = ordersService.refund(order_id, product_id);
@@ -48,4 +57,6 @@ public class OrdersController {
       return new ResponseEntity<>("Failed", HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+
 }

@@ -41,7 +41,7 @@
                 <div th:if="${session.login_status == null || session.login_status == false}">
                     <div class="user-actions d-flex align-items-center justify-content-end gap-2">
                         <a th:href="@{/login}" class="btn btn-outline-light btn-sm">Login</a>
-                        <a href="http://localhost:3000/signup" class="btn btn-warning btn-sm">Sign Up</a>
+                        <a href="http://localhost:3000/#/signup" class="btn btn-warning btn-sm">Sign Up</a>
                     </div>
                 </div>
                     <!-- Logged In -->
@@ -263,6 +263,12 @@
                     if (!response.ok) throw new Error('Toggle failed');
 
                     const result = await response.text();
+
+                    if(result === "Login_required"){
+                        window.location.href = '/login';
+                        return;
+                    }
+
                     if (result.trim().toLowerCase().includes('added')) {
                         // On added, show filled heart
                         icon.classList.remove('bi-heart');
