@@ -106,7 +106,7 @@ public class LogController {
             Customer customer = logService.findByUserName(userName);
             customer.setPassword(newPassword);
             logService.updatePassword(customer.getUserName(),customer.getPassword());
-            return  "redirect:/login";
+            return  "redirect:/login/forgetPassword?success=true";
         }
         return "redirect:forgetPassword?error=1";
 

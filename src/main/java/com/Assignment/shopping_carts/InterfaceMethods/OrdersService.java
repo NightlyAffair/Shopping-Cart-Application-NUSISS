@@ -4,7 +4,7 @@ package com.Assignment.shopping_carts.InterfaceMethods;
  * Orders Service Interface
  * Author: Aung Kyaw Kyaw
  * Date: 2025-10-02
- * Modifier by :
+ * Modifier by : Nithvin(Refund)
  * Last Modified by :
  * Last Modified: 2025-10-14 10:00
  */
@@ -15,4 +15,5 @@ import com.Assignment.shopping_carts.Model.Orders;
 
 public interface  OrdersService {
   public List<Orders> getOrdersByCustomerId(Integer customerId);
+  public boolean refund(Integer order_id, Integer product_id);
 }
