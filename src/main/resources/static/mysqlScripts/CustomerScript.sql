@@ -10,6 +10,8 @@ INSERT INTO customer (full_name, user_name, email, password, address) VALUES
 ('Ivy Chen',     'ivychen',    'ivy.chen@example.com',     'Ivy!Pwd321',   '20 Holland Ave, Singapore 278775'),
 ('Jason Zhou',   'jasonz',     'jason.zhou@example.com',   'Jason2025$',    '1 Nanson Rd, Singapore 238909');
 
+
+
 -- Orders for Alice (customerId = 1)
 INSERT INTO orders (customer_id, purchase_date, unit_amount, status)
 VALUES 
