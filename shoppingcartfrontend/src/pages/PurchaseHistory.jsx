@@ -91,7 +91,7 @@ const PurchaseHistory = () => {
     try {
       const response = await axios.post(`http://localhost:8080/api/purchaseHistory/refund/${orderId}/${productId}`, {withCredentials: true})
       if (response.status === 200) {
-
+        loadProducts();
         console.log("Refund requested for order:", orderId, "product:", productId);
       } else {
         alert(`Refund failed for Order #${orderId}, Product #${productId}`);
