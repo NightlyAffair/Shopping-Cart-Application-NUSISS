@@ -61,8 +61,8 @@ public class LogController {
                 switch (pendingActionType) {
                     case "cart":
                         return "redirect:/products/cart/resume";
-                    case "favourite":
-                        return "redirect:/favourite/resume";
+                    case "favourites":
+                        return "redirect:/favourites/resume";
                     default:
                         break;
                 }

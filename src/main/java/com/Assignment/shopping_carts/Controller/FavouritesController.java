@@ -18,7 +18,7 @@ import java.util.List;
  * Last Modified by : jason zhou
  * Last Modified: 2025-10-13 21:00
  */
-
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 @Controller
 @RequestMapping("/favourites")
 public class FavouritesController {
@@ -45,17 +45,12 @@ public class FavouritesController {
     //toggle button to update heart icon.
     @PostMapping("/save")  //read productId from thymeleaf.
     @ResponseBody //return string directly instead of view. (for the return portion below)
-    public String saveFavourite(@RequestParam int productId, HttpSession session) {
+    public String saveFavourite(@RequestParam int productId,@RequestParam(required=false) String redirectUrl, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
-            session.setAttribute("pendingAction", "favourite");
-            session.setAttribute("pendingProductId", String.valueOf(productId));
-            return "Login_required";
-            //customerId = 1;
-            //session.setAttribute("customerId", customerId);
+            return "redirect:/login";
         }
         return favService.saveFavourites(customerId, productId); //toggles fav status
-        //return "redirect:/displayProducts/details/" + productId;
     }
 
     //Get all favourite items for a customer

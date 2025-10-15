@@ -151,11 +151,13 @@
             <div class="card h-100 position-relative product-card">
 
                 <!-- Favorite Button -->
-                <button class="wishlist-btn fav-btn" th:attr="data-id=${product.productId}"
-                        title="Add to Favorites"
-                        type="button">
-                    <i class="bi bi-heart"></i>
-                </button>
+                <form th:action="@{/favourites/save}" method="post" class="d-inline favourite-form">
+                    <input type="hidden" name="productId" th:value="${product.productId}" />
+                    <button type="submit" class="btn btn-link p-0 m-0 wishlist-btn" title="Add to Favorites">
+                        <i class="bi bi-heart"></i>
+                    </button>
+                </form>
+
 
                 <a class="text-decoration-none" th:href="@{/products/details/{id}(id=${product.productId})}">
                     <img alt="Product Image" class="card-img-top" th:src="${product.imageUrl}">
@@ -227,63 +229,44 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.fav-btn').forEach(btn => {
-            const productId = btn.getAttribute('data-id');
-            const icon = btn.querySelector('i');
+        document.querySelectorAll('.favourite-form').forEach(form => {
+            form.addEventListener('submit', async function (event) {
+                event.preventDefault(); // prevent full page reload
 
-            fetch(`/favourites/status/${productId}`)
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response not ok');
-                    return response.json();
-                })
-                .then(isFavourited => {
-                    if (isFavourited) {
-                        icon.classList.add('bi-heart-fill', 'text-danger');
-                        icon.classList.remove('bi-heart');
-                    } else {
-                        icon.classList.add('bi-heart');
-                        icon.classList.remove('bi-heart-fill', 'text-danger');
-                    }
-                })
-                .catch(error => console.error('Fav status check failed', error));
-
-            btn.addEventListener('click', async function (event) {
-                event.preventDefault();
-                console.log('Clicked fav button', productId);
+                const productId = form.querySelector('input[name="productId"]').value;
+                const icon = form.querySelector('i');
 
                 try {
-                    const response = await fetch(`/favourites/save`, {
+                    const response = await fetch('/favourites/save', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded'
-                        },
-                        body: `productId=${encodeURIComponent(productId)}`
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: `productId=${encodeURIComponent(productId)}`,
+                        credentials: 'include' // send session cookies
                     });
 
-                    if (!response.ok) throw new Error('Toggle failed');
-
-                    const result = await response.text();
-
-                    if(result === "Login_required"){
-                        window.location.href = '/login';
+                    if (response.redirected) {
+                        // interceptor triggered login redirect
+                        window.location.href = response.url;
                         return;
                     }
 
-                    if (result.trim().toLowerCase().includes('added')) {
-                        // On added, show filled heart
+                    const result = await response.text();
+
+                    // toggle heart only after backend confirms
+                    if (result.toLowerCase().includes('added')) {
                         icon.classList.remove('bi-heart');
                         icon.classList.add('bi-heart-fill', 'text-danger');
-                    } else if (result.trim().toLowerCase().includes('removed')) {
-                        // On removed, show empty heart
+                    } else if (result.toLowerCase().includes('removed')) {
                         icon.classList.remove('bi-heart-fill', 'text-danger');
                         icon.classList.add('bi-heart');
                     }
                 } catch (err) {
-                    console.error('Fav button toggle failed:', err);
+                    console.error('Favourite toggle failed:', err);
                 }
             });
         });
     });
+
 </script>
 </body>
 </html>
