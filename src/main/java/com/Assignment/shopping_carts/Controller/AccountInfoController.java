@@ -2,6 +2,7 @@ package com.Assignment.shopping_carts.Controller;
 
 import com.Assignment.shopping_carts.Model.Customer;
 import com.Assignment.shopping_carts.Service.AccountInfoServiceImpl;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,10 @@ public class AccountInfoController {
     @Autowired
     AccountInfoServiceImpl accountInfoService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomer(@PathVariable String id) {
+    @GetMapping()
+    public ResponseEntity<Customer> getCustomer(HttpSession httpSession) {
         try {
+            String id = httpSession.getAttribute("customerId").toString();
             return new ResponseEntity<>(accountInfoService.getCustomer(id), HttpStatus.OK);
         } catch (Exception e){
             System.out.println(e.getMessage());
