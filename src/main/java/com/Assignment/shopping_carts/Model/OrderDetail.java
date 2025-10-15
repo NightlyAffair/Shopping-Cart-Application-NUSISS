@@ -45,4 +45,8 @@ public class OrderDetail {
     public String toString() {
         return "OrderDetail";
     }
+
+    public void setIsRefunded(Boolean status) {
+        this.isRefunded = status;
+    }
 }
