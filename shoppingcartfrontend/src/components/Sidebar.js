@@ -21,6 +21,10 @@ export default function Sidebar() {
         navigate("/purchaseHistory")
     }
 
+    const navigateToLogout = () => {
+        navigate("/logout")
+    }
+
     return (
         <div style={{height: "100vh", width: "30vh", backgroundColor: "white", borderRight: '1px solid black'}}>
             <h4 className="font-weight-bold py-3 mb-4">
@@ -34,7 +38,7 @@ export default function Sidebar() {
                             <a className="list-group-item list-group-item-action" data-toggle="list"
                                onClick={navigateToPurchaseHistory}>Purchase History</a>
                             <a className="list-group-item list-group-item-action" data-toggle="list"
-                               onClick={navigateToAccountInfo}>Logout</a>
+                               onClick={navigateToLogout}>Logout</a>
                         </div>
                 </div>
             </div>
