@@ -38,6 +38,7 @@ public class OrdersController {
     }
   }
 
+  //Add refund
   @PostMapping("/refund/{order_id}/{product_id}")
   public ResponseEntity<String> refund(@PathVariable("order_id") int order_id, @PathVariable("product_id") int product_id){
     boolean response = ordersService.refund(order_id, product_id);
