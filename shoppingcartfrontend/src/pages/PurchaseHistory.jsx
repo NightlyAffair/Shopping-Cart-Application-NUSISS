@@ -112,19 +112,7 @@ const PurchaseHistory = () => {
         setSuccessMessage('');
       }, 2000);
     } catch (err) {
-      console.error('Error submitting review:', err.response?.data || err.message);
-
-      if (err.response?.status === 400) {
-        setErrorMessage('Review already exists for this product in this order.');
-      } else if (err.response?.status === 500) {
-        setErrorMessage('Server error. Please check if the product and order exist.');
-      } else if (err.request) {
-        setErrorMessage('Cannot connect to server. Please check if the backend is running.');
-      } else {
-        setErrorMessage('Failed to submit review: ' + err.message);
-      }
-    } finally {
-      setIsSubmitting(false);
+      console.error('Error submitting review:', err);
     }
   };
 
