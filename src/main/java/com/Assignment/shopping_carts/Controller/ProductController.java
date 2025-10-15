@@ -9,6 +9,8 @@
 
 package com.Assignment.shopping_carts.Controller;
 
+import com.Assignment.shopping_carts.InterfaceMethods.ReviewService;
+import com.Assignment.shopping_carts.Model.Review;
 import com.Assignment.shopping_carts.Service.ProductServiceImpl;
 import com.Assignment.shopping_carts.Model.Category;
 import com.Assignment.shopping_carts.Model.Product;
@@ -26,7 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/products")
+@RequestMapping(value = {"/", "/products"})
 public class ProductController {
 
     @Autowired
@@ -34,6 +36,8 @@ public class ProductController {
 
     @Autowired
     private CategoryServiceImpl categoryService;
+    @Autowired
+    private ReviewService reviewService;
 
     // Displays the main product page aka HOME page
     @GetMapping
@@ -47,7 +51,7 @@ public class ProductController {
         // Determine sort order from UI parameter
         Sort sortOrder = productService.sortEnum(sort);
 
-        // Create pageable request (8 products per page)
+        // Create pageable request (10 products per page)
         Pageable pageable = PageRequest.of(pageNumber, 10, sortOrder);
 
         // Fetch paginated, filtered, and sorted products
@@ -81,11 +85,19 @@ public class ProductController {
         return viewAllProducts(pageNumber, categoryId, keyword, sort, model);
     }
 
-    // View Product Details
+    // View Product Details + Reviews
     @GetMapping("/details/{id}")
     public String viewProductDetails(@PathVariable int id, Model model) {
         Product product = productService.getProductById(id).orElse(null);
+
+        List<Review> reviews = reviewService.getReviewsForProduct(product.getProductId());
+        product.setReviews(reviews);
+
+        Double averageRating = reviewService.getAverageRatingForProduct(product.getProductId());
+        product.setAverageRating(averageRating);
+
         model.addAttribute("product", product);
+
         return "detailsProducts";
     }
 
@@ -142,7 +154,7 @@ public class ProductController {
                 .toList()
                 : List.of();
         model.addAttribute("favorites", favoriteProducts);
-        return "favorites";
+        return "favourites";
     }
 
     // View Purchase History

@@ -18,9 +18,9 @@ import java.util.Set;
  * ShoppingCartDetail Controller
  * Author: Tony Song
  * Date: 2025-10-02
- * Modifier by : Tony Song
- * Last Modified by : Tony Song
- * Last Modified: 2025-10-07 23:00
+ * participants : Tony Song /  jason zhou
+ * Last Modified by : jason zhou
+ * Last Modified: 2025-10-13 21:00
  */
 
 
@@ -112,6 +112,13 @@ public class ShoppingCartDetailController {
         return showCart(model, session);//更新后重新显示购物车页面
     }
 
+    @PostMapping("/payment")
+    public String payment(Model model, HttpSession session) {
+        int customerId = (int)session.getAttribute("customerId");
+        model.addAttribute("customerId", customerId);
+        return "creditCardDetails";
+    }
+
     @PostMapping("/checkout")
     public String checkout(@RequestParam int customerId, HttpSession session) {
         //取出名为"selectedProducts"的HashSet<Integer>中的productId
@@ -132,4 +139,27 @@ public class ShoppingCartDetailController {
         model.addAttribute("customerId", customerId);//给页面传customerId
         return "checkout"; // 渲染 checkout.html
     }
+
+
+    //resume add to cart action
+    @GetMapping("/resume")
+    public String resumeCart(HttpSession session) {
+        Integer customerId = (Integer) session.getAttribute("customerId");
+        String productIdStr = (String) session.getAttribute("pendingProductId");
+        String quantityStr = (String) session.getAttribute("pendingQuantity");
+
+        if (customerId != null && productIdStr != null) {
+            int productId = Integer.parseInt(productIdStr);
+            int quantity = quantityStr != null ? Integer.parseInt(quantityStr) : 1;
+
+            cartService.addProductToCart(customerId, productId, quantity);
+            session.removeAttribute("pendingProductId");
+            session.removeAttribute("pendingQuantity");
+            session.removeAttribute("redirectAfterLogin");
+            session.removeAttribute("pendingProductId");
+            return "redirect:/products/details/" + productId;
+        }
+        return "redirect:/products/page";
+    }
+
 }

@@ -7,6 +7,15 @@ import com.Assignment.shopping_carts.Repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * register service
+ * Author: Zhou Jason
+ * Date: 2025-10-02
+ * Participants: Jason
+ * Modified by: Jason
+ * Last Modified: 2025-10-11 11:00
+ */
+
 @Service
 public class RegisterImpl implements RegisterService {
 

@@ -6,6 +6,16 @@ import '../css/style.css';
 import '../css/login.css';
 
 
+/**
+ * react of register
+ * Author: Zhou Jason
+ * Date: 2025-10-10
+ * Participants: Jason
+ * Modified by: Jason
+ * Last Modified: 2025-10-13 11:00
+ */
+
+
 function Register() {
     const [formData, setFormData] = useState({
         username: '',
@@ -72,7 +82,7 @@ function Register() {
     return (
         <main className="form-signin">
             <form onSubmit={handleSubmit}>
-                <img src="/images/shop-logo.png" alt="Shop @ISS Logo" width="auto" height="57" />
+                <img src="/images/shop-logo.png" alt="Shop @ISS Logo" width="100" height="auto"/>
                 <h1 className="h3">Create Account</h1>
 
 
@@ -178,7 +188,7 @@ function Register() {
                 </div>
 
                 <button className="btn btn-primary w-100" type="submit" disabled={!formData.agreeTerms}>
-                    <i className="bi bi-person-plus me-2"></i>Create Account
+                    <i className="bi bi-box-arrow-in-right me-2"></i>Create Account
                 </button>
 
 

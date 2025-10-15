@@ -5,11 +5,20 @@ import axios from "axios";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import Navbar from "../components/NavBar";
-
+/**
+ * Purchase History Class
+ * Author: Aung Kyaw Kyaw
+ * Date: 2025-10-02
+ * Modifier by : Thae Thae Hsu (review feature)
+ * Last Modified by :
+ * Last Modified: 2025-10-15 10:00
+ */
 const PurchaseHistory = () => {
   const [orders, setOrders] = useState([]);
   const [error, setError] = useState(null);
-  
+  const [loading, setLoading] = useState(true);
+
+  const [showExistingReview, setShowExistingReview] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
   const [selectedProductId, setSelectedProductId] = useState(null);
@@ -29,21 +38,45 @@ const PurchaseHistory = () => {
         setOrders(data);
       })
       .catch((error) => {
-        console.error("Error fetching orders:", error);
-        setError("Failed to load purchase history.");
+        console.error("Error:", error);
+        
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }, []);
+  if (loading) return <p>Loading purchase history...</p>;
+  if (error) return <p>(error)</p>;
 
-  const openReviewForm = (orderId, productId, custId) => {
+  const openReviewForm = async (orderId, productId, custId) => {
     setSelectedOrderId(orderId);
     setSelectedProductId(productId);
     
     if (custId !== undefined && custId !== null) {
       setCustomerId(custId);
     }
-    setShowForm(true);
-  };
 
+    try {
+      const response = await axios.get(`http://localhost:8080/api/reviews/product/${productId}`);
+      const existingReviews = response.data.find((review) => review.customerId === customerId && review.orderId === orderId);
+      
+      if (existingReviews) {
+        // show existing review
+        setReviewContent(existingReviews.description);
+        setRating(existingReviews.rating);
+        setShowExistingReview(true);
+        setShowForm(false);
+      } else {
+        // show form for new review
+        setShowExistingReview(false);
+        setShowForm(true);
+      }
+    } catch (err) {
+      console.error('Error fetching existing review: ', err);
+      setShowExistingReview(false);
+      setShowForm(true);
+    }
+  };
   const handleRefund = (orderId, productId) => {
     console.log("Refund requested for order:", orderId, "product:", productId);
     // Add your refund logic here
@@ -97,8 +130,17 @@ const PurchaseHistory = () => {
 
   const closeModal = () => {
     setShowForm(false);
+    setShowExistingReview(false);
     setErrorMessage('');
     setSuccessMessage('');
+    setReviewContent('');
+    setRating(5);
+    setSelectedOrderId(null);
+    setSelectedProductId(null);
+  };
+
+  const closeExistingReviewModal = () => {
+    setShowExistingReview(false);
     setReviewContent('');
     setRating(5);
     setSelectedOrderId(null);
@@ -151,7 +193,7 @@ const PurchaseHistory = () => {
               </h3>
               <p>
                 <strong>Purchase Date:</strong> {new Date(order.purchaseDate).toLocaleDateString()} <br />
-                {/* <strong>Total:</strong> ${order.unitAmount?.toFixed(2)} */}
+                
               </p>
               <table
                 style={{
@@ -176,6 +218,11 @@ const PurchaseHistory = () => {
                     const subtotal = product.unitPrice
                       ? product.unitPrice * detail.quantity
                       : 0;
+                      //Go to product detail page (thymeleaf)
+                      const handleProductClick = (productId) => {
+                        window.location.href = 
+                        "http://localhost:8080/products/details/" + productId;
+                      };
                     return (
                       <tr key={`${order.orderId}-${detail.productId}`}>
                         <td style={{ border: "1px solid #ddd", padding: "8px" }}>
@@ -183,11 +230,15 @@ const PurchaseHistory = () => {
                             <img
                               src={product.imageUrl}
                               alt={product.productName}
+                              onClick={() =>
+                                handleProductClick(product.productId)
+                              }
                               style={{
                                 width: "60px",
                                 height: "60px",
                                 objectFit: "cover",
                                 borderRadius: "8px",
+                                cursor: "pointer"
                               }}
                             />
                           ) : (
@@ -266,9 +317,30 @@ const PurchaseHistory = () => {
                   </div>
                 </div>
               )}
-            </div>
-          ))}
+
+              { showExistingReview && (
+                <div style={modalOverlayStyle} onClick={closeExistingReviewModal}>
+                  <div style={modalStyle} onClick={(e) => e.stopPropagation()}>
+                    <button aria-label="Close" style={closeBtnStyle} onClick={closeExistingReviewModal}>×</button>
+                    <h3 style={{marginTop: 0}}>Your Existing Review</h3>
+                    <div style={{marginBottom: 12}}>
+                      <label><strong>Rating: </strong>{rating}/5</label>
+                      <p style={{marginTop: 8, padding: '10px', backgroundColor: '#f8f9fa', borderRadius: '4px', border: '1px solid #dee2e6'}}>{reviewContent}</p>
+                    </div>
+                    <div style={{marginButtom:12, fontSize: 14, color: '#666'}}>
+                      Order: {selectedOrderId} • Product: {selectedProductId}
+                      </div>
+                    <button onClick={closeExistingReviewModal} style={{ padding: '8px 14px', background: '#007bff', color: 'white', border: 'none', borderRadius: 4}}>Close</button>
+                  </div>
+                 </div>
+             )}
         </div>
+          ))}
+          </div>
+          {/* No orders found but no error */}
+          {!loading && !error && orders.length === 0 && (
+            <p>No purchase history found</p>
+          )}
       </div>
     </div>
   );

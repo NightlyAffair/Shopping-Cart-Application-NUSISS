@@ -1,6 +1,13 @@
 package com.Assignment.shopping_carts.Controller;
 
-
+/**
+ * Review Controller Class
+ * Author: Thae Thae Hsu
+ * Date: 2025-10-02
+ * Modifier by :
+ * Last Modified by :
+ * Last Modified: 2025-10-14 14:00
+ */
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,7 +31,14 @@ public class ReviewController {
             return new ResponseEntity<>("Review already exists for this product/order.", HttpStatus.BAD_REQUEST);
         }
         try {
+             // Set the composite key fields from path variables (REQUIRED)
+           review.setProductId(productId);
+           review.setCustomerId(customerId);
+           review.setOrderId(orderId);
+           
+            System.out.println("About to save review with IDs set");
             reviewService.saveReview(review);
+            System.out.println("Review saved successfully");
             return new ResponseEntity<>("success", HttpStatus.OK);
         } catch (Exception e) {
             System.out.println(e.getMessage());

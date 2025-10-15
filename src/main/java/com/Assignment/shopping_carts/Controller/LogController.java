@@ -19,7 +19,7 @@ import java.util.List;
  * Date: 2025-10-02
  * Participants: Jason
  * Modified by: Jason
- * Last Modified: 2025-10-11 11:00
+ * Last Modified: 2025-10-13 21:00
  */
 
 
@@ -51,6 +51,20 @@ public class LogController {
             session.setAttribute("customerId",customer.getCustomerId());
             session.setAttribute("login_status",true);
             session.setAttribute("user_name",userName);
+
+            String pendingActionType = (String) session.getAttribute("pendingActionType");
+
+            // special judgement on carts and favourites
+            if (pendingActionType != null) {
+                switch (pendingActionType) {
+                    case "cart":
+                        return "redirect:/products/cart/resume";
+                    case "favourite":
+                        return "redirect:/products/favourite/resume";
+                    default:
+                        break;
+                }
+            }
 
             String redirectUrl = (String)session.getAttribute("redirectAfterLogin");
             if(redirectUrl!=null){

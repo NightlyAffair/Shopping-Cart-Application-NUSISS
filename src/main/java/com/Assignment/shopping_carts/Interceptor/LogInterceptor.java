@@ -18,7 +18,7 @@ import java.util.Enumeration;
  * Date: 2025-10-02
  * Participants:
  * Modified by: Jayson
- * Last Modified: 2025-10-07 11:00
+ * Last Modified: 2025-10-13 21:00
  */
 
 
@@ -33,24 +33,49 @@ public class LogInterceptor implements HandlerInterceptor {
         LOGGER.info("Request URL: {}", request.getRequestURL());
         HttpSession session = request.getSession(false);
 
-        if
-        (session == null
+
+        boolean notLoggedIn = (session == null
                 || session.getAttribute("login_status") == null
                 || !(Boolean.TRUE.equals(session.getAttribute("login_status")))
-                || session.getAttribute("customerId") == null
-        )
-        {
-            //forward page save
+                || session.getAttribute("customerId") == null);
+
+
+        if (notLoggedIn) {
+
             String originalURL = request.getRequestURL().toString();
             String queryString = request.getQueryString();
             if (queryString != null) {
                 originalURL += "?" + queryString;
             }
 
+            //judge method
+            String uri = request.getRequestURI();
+            String method = request.getMethod();
+
             session = request.getSession(true);
             session.setAttribute("redirectAfterLogin", originalURL);
+
+            // save post info if about favourites or adding to cart
+            if (uri.equals("/products/cart/add") && method.equalsIgnoreCase("POST")) {
+                session.setAttribute("pendingActionType", "cart");
+                session.setAttribute("pendingProductId", request.getParameter("productId"));
+                session.setAttribute("pendingQuantity", request.getParameter("quantity"));
+                LOGGER.info("[Interceptor] Captured pending CART add: productId={}, qty={}",
+                        request.getParameter("productId"), request.getParameter("quantity"));
+            }
+            //favourites part
+            else if
+            (uri.equals("/favourites/save") && method.equalsIgnoreCase("POST"))
+            {
+                session.setAttribute("pendingActionType", "favourite");
+                session.setAttribute("pendingProductId", request.getParameter("productId"));
+                LOGGER.info("[Interceptor] Captured pending FAVOURITE add: productId={}",
+                        request.getParameter("productId"));
+            }
+
+
+
             LOGGER.info("[LogInterceptor] Saved redirectAfterLogin: {}", originalURL);
-            //not log in redirect to Log page.
             response.sendRedirect("/login");
             return false;
         }

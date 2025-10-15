@@ -41,7 +41,6 @@
                 <!-- If Not Logged -->
                 <div th:if="${session.login_status == null || session.login_status == false}">
                     <div class="user-actions d-flex align-items-center justify-content-end gap-2">
-                        <a href="#" class="text-white"><i class="bi bi-person-circle fs-4"></i></a>
                         <a th:href="@{/login}" class="btn btn-outline-light btn-sm">Login</a>
                         <a href="http://localhost:3000/signup" class="btn btn-warning btn-sm">Sign Up</a>
                     </div>
@@ -176,7 +175,7 @@
                 </div>
 
                 <div class="d-grid gap-2 mt-4">
-                    <form th:action="@{/products/cart/checkout}" method="post">
+                    <form th:action="@{/products/cart/payment}" method="post">
                         <input type="hidden" name="customerId" th:value="${customerId}">
                         <button type="submit" class="btn btn-primary btn-lg">
                             <i class="bi bi-credit-card me-2"></i>Proceed to Checkout
@@ -195,8 +194,10 @@
     </div>
 </main>
 
-<footer class="text-center py-4 bg-light mt-5">
-    <p class="mb-0">&copy; 2025 TEAM_TWO. All rights reserved.</p>
+<footer class="site-footer">
+    <div class="container text-center">
+        <p>&copy; 2025 TEAM_TWO. All rights reserved.</p>
+    </div>
 </footer>
 
 <!-- Scripts -->
