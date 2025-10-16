@@ -80,10 +80,8 @@ export default function AccountInfo() {
         }
 
         const hasAtSymbol = emailAddr.includes('@');
-        const parts = emailAddr.split('@');
-        const hasDomainDot = parts.length === 2 && parts[1].includes('.');
 
-        if (!hasAtSymbol || !hasDomainDot) {
+        if (!hasAtSymbol) {
             return "Invalid email format";
         }
         return "";
