@@ -30,7 +30,7 @@ export default function Navbar() {
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link active" href="localhost:8080/shoppingCartDetail/view" onClick={e => navigate('/cart')}>
+                            <a className="nav-link active" href="http://localhost:8080/products/cart/view" onClick={e => navigate('/products/cart/view')}>
                                 <i className="bi bi-cart3 me-1"></i>My Cart
                             </a>
                         </li>
