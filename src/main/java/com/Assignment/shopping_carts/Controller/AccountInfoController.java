@@ -41,6 +41,8 @@ public class AccountInfoController {
         try {
             accountInfoService.saveCustomer(customer);
             return new ResponseEntity<>("success", HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity<>("fail", HttpStatus.INTERNAL_SERVER_ERROR);

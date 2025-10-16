@@ -29,6 +29,41 @@ public class AccountInfoServiceImpl implements AccountInfoService {
     }
 
     public void saveCustomer(Customer customer) {
+
+        if (customer.getUserName() == null || customer.getUserName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Username cannot be empty");
+        }
+        if (customer.getUserName().length() < 4) {
+            throw new IllegalArgumentException("Username must be at least 4 characters");
+        }
+        if (customer.getUserName().length() > 20) {
+            throw new IllegalArgumentException("Username must be 4–20 characters");
+        }
+
+
+        if (customer.getEmail() == null || customer.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("Email cannot be empty");
+        }
+        if (!customer.getEmail().contains("@")) {
+            throw new IllegalArgumentException("Invalid email format");
+        }
+
+
+        if (customer.getFullName() == null || customer.getFullName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Full name is required");
+        }
+
+
+        if (customer.getPassword() == null || customer.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("Password cannot be empty");
+        }
+        if (customer.getPassword().length() < 6) {
+            throw new IllegalArgumentException("Password must be at least 6 characters");
+        }
+        if (customer.getPassword().length() > 1000) {
+            throw new IllegalArgumentException("Password must be less than 1000 characters");
+        }
+
         accountInfoRepository.save(customer);
     }
 

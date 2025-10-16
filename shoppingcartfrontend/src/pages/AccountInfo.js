@@ -156,7 +156,7 @@ export default function AccountInfo() {
         }
 
         const updatedCustomerInfo = {
-            ...customerInfo,
+            customerId: customerInfo.customerId,
             fullName: fullName,
             email: email,
             address: address,
@@ -166,7 +166,7 @@ export default function AccountInfo() {
         setCustomerInfo(updatedCustomerInfo);
         try{
             const response = await axios.post("http://localhost:8080/api/account-info/save", updatedCustomerInfo);
-            if(response.status === 200){
+            if(response.status === 200 && response.data === "success"){
                 setSuccessMessage("Account information updated successfully!");
                 setTimeout(() => {
                     setSuccessMessage("");
@@ -179,7 +179,8 @@ export default function AccountInfo() {
             }
         } catch (e) {
             console.error("Error saving customer info:", e);
-            setErrorMessage("Failed to update account information. Please try again.");
+            const errorMsg = e.response?.data || "Failed to update account information. Please try again.";
+            setErrorMessage(errorMsg);
             setTimeout(() => {
                 setErrorMessage("");
             }, 3000);
