@@ -18,7 +18,7 @@ import java.util.List;
  * Last Modified by : jason zhou
  * Last Modified: 2025-10-13 21:00
  */
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+
 @Controller
 @RequestMapping("/favourites")
 public class FavouritesController {
@@ -44,20 +44,16 @@ public class FavouritesController {
 
     //toggle button to update heart icon.
     @PostMapping("/save")  //read productId from thymeleaf.
-    //@ResponseBody //return string directly instead of view. (for the return portion below)
-    public String saveFavourite(@RequestParam int productId,@RequestParam(required=false) String redirectUrl, HttpSession session) {
+    @ResponseBody //return string directly instead of view. (for the return portion below)
+    public String saveFavourite(@RequestParam int productId, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
-            session.setAttribute("pendingProductId", productId);
-            session.setAttribute("pendingActionType", "favourites");
-
-            session.setAttribute("redirectAfterLogin", "/favourites/resume");
             return "redirect:/login";
+            //customerId = 1;
+            //session.setAttribute("customerId", customerId);
         }
-        favService.saveFavourites(customerId, productId); //toggles fav status
-        if (redirectUrl != null && !redirectUrl.isEmpty()) {
-            return "redirect:" + redirectUrl;
-        } return "redirect:/favourites";
+        return favService.saveFavourites(customerId, productId); //toggles fav status
+        //return "redirect:/displayProducts/details/" + productId;
     }
 
     //Get all favourite items for a customer
@@ -104,18 +100,19 @@ public class FavouritesController {
     public boolean checkFavStatus(@PathVariable int productId, HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         if (customerId == null) {
-           // session.setAttribute("customerId", customerId);
+            // session.setAttribute("customerId", customerId);
             return false;
         }
         return favService.isProductFavourited(customerId,productId);
     }
 
-    //resuming an action that was attempted before login
+
+
     @GetMapping("/resume")
     public String resumeFavourite(HttpSession session) {
         Integer customerId = (Integer) session.getAttribute("customerId");
         String productIdStr = (String) session.getAttribute("pendingProductId");
-//if custid is null, means user not logged in, no pending product action stored (the user didn’t try to favourite anything before login).
+
         if (customerId != null && productIdStr != null) {
             int productId = Integer.parseInt(productIdStr);
             favService.saveFavourites(customerId, productId);
@@ -128,3 +125,12 @@ public class FavouritesController {
         return "redirect:/products/page";
     }
 }
+
+
+
+/*
+    @GetMapping("/CustomerId/{customerId}")
+    public List<Favourites> findByCustomerId(@PathVariable("customerId")
+                                       int customerId, Model model) {
+        return favService.findByCustomerId(customerId);
+    } */
