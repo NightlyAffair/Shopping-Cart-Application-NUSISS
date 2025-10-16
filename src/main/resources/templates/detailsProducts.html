@@ -160,10 +160,10 @@
                 </form>
 
                 <div class="d-flex align-items-center gap-2">
-                        <button class="btn btn-primary btn-add-cart" type="button"
-                                onclick="document.getElementById('addToCartForm').submit()">
-                            <i class="bi bi-cart-plus me-2"></i>Add to Cart
-                        </button>
+                    <button class="btn btn-primary btn-add-cart" type="button"
+                            onclick="document.getElementById('addToCartForm').submit()">
+                        <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                    </button>
 
 
                     <form id="favsForm" method="post" style="display: inline;" th:action="@{/favourites/save}">
@@ -252,6 +252,7 @@
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // --- Quantity Selector ---
     const qtyInput = document.getElementById("quantity");
 
     document.getElementById("increaseQty").addEventListener("click", () => {
@@ -264,37 +265,61 @@
         }
     });
 
+    // --- Favorite Button  ---
     const favBtn = document.getElementById("favBtn");
     const favsForm = document.getElementById("favsForm");
     const productIdInput = favsForm.querySelector('input[name="productId"]');
-    const customerIdInput = favsForm.querySelector('input[name="customerId"]');
+    const icon = favBtn.querySelector("i");
+    const productId = productIdInput.value;
 
-    favBtn.addEventListener("click", async (e) => {
-        e.preventDefault();
-        const productId = productIdInput.value;
-        const customerId = customerIdInput.value;
-        const body = `productId=${encodeURIComponent(productId)}&customerId=${encodeURIComponent(customerId)}`;
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. check status of button
+        fetch(`/favourites/status/${productId}`)
+            .then(response => {
+                if (!response.ok) throw new Error('Network response not ok');
+                return response.json();
+            })
+            .then(isFavourited => {
+                if (isFavourited) {
+                    // If favourited, set the filled heart icon and active state
+                    icon.classList.remove('bi-heart');
+                    icon.classList.add('bi-heart-fill', 'text-danger');
+                } else {
+                    // Otherwise, empty heart icon
+                    icon.classList.add('bi-heart');
+                    icon.classList.remove('bi-heart-fill', 'text-danger');
+                }
+            })
+            .catch(error => console.error('Fav status check failed:', error));
 
-        try {
-            const reply = await fetch(favsForm.action, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                body: body
-            });
-            if (reply.ok) {
-                const icon = favBtn.querySelector("i");
-                icon.classList.toggle("bi-heart");
-                icon.classList.toggle("bi-heart-fill");
-                favBtn.classList.toggle("active");
-                console.log("Fav status toggled successful")
-            } else {
-                console.error("failed to save fav.", reply.status);
+        // TOGGLE LOGIC (use the 'icon' variable)
+        favBtn.addEventListener("click", async (e) => {
+            e.preventDefault();
+            const customerIdInput = favsForm.querySelector('input[name="customerId"]');
+            const customerId = customerIdInput.value;
+            const body = `productId=${encodeURIComponent(productId)}&customerId=${encodeURIComponent(customerId)}`;
+
+            try {
+                const reply = await fetch(favsForm.action, {
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: body
+                });
+
+                if (reply.ok) {
+                    icon.classList.toggle("bi-heart");
+                    icon.classList.toggle("bi-heart-fill");
+                    icon.classList.toggle("text-danger"); // Toggle the color class
+                    console.log("Fav status toggled successful");
+                } else {
+                    console.error("Failed to save fav.", reply.status);
+                }
+            } catch(error){
+                console.error("An error occurred during fetch:", error);
             }
-        } catch(error){
-            console.error("An error occurred during fetch:", error);
-        }
+        });
     });
 </script>
 </body>
