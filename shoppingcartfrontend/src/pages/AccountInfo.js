@@ -33,6 +33,8 @@ export default function AccountInfo() {
     const [address, setAddress] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
+    const [successMessage, setSuccessMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
 
     const loadAccountInfo = async () => {
         try{
@@ -65,15 +67,27 @@ export default function AccountInfo() {
             userName: username,
         };
         setCustomerInfo(updatedCustomerInfo);
+        setErrorMessage("");
+        setSuccessMessage("");
         try{
             const response = await axios.post("http://localhost:8080/api/account-info/save", updatedCustomerInfo);
             if(response.status === 200){
-                alert("success");
+                setSuccessMessage("Account information updated successfully!");
+                setTimeout(() => {
+                    setSuccessMessage("");
+                }, 3000);
             } else {
-                alert("error");
+                setErrorMessage("Failed to update account information. Please try again.");
+                setTimeout(() => {
+                    setErrorMessage("");
+                }, 3000);
             }
         } catch (e) {
             console.error("Error saving customer info:", e);
+            setErrorMessage("Failed to update account information. Please try again.");
+            setTimeout(() => {
+                setErrorMessage("");
+            }, 3000);
         }
     }
 
@@ -97,6 +111,16 @@ export default function AccountInfo() {
                             marginTop: "10px",
                             padding: "20px"
                         }}>
+                            {successMessage && (
+                                <div className="alert alert-success" style={{marginLeft: "20px", maxWidth: "400px"}}>
+                                    {successMessage}
+                                </div>
+                            )}
+                            {errorMessage && (
+                                <div className="alert alert-danger" style={{marginLeft: "20px", maxWidth: "400px"}}>
+                                    {errorMessage}
+                                </div>
+                            )}
                             <div style={{
                                 display: "flex",
                                 flexDirection: "column",
