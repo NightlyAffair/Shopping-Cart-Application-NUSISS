@@ -61,10 +61,7 @@ public class ProductController {
         List<Category> categories = categoryService.getAllCategories();
 
         // Pass data to the Thymeleaf model
-        model.addAttribute("products", page.getContent().stream().map(product -> {
-            product.setAverageRating(reviewService.getAverageRatingForProduct(product.getProductId()));
-            return product;
-        }).toList());
+        model.addAttribute("products", productService.getPopulatedProductDetails(page));
         model.addAttribute("categories", categories);
         model.addAttribute("selectedCategory", categoryId);
         model.addAttribute("currentKeyword", keyword);
