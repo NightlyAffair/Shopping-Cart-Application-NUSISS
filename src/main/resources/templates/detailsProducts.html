@@ -201,7 +201,7 @@
                 <div class="row align-items-center">
                     <div class="col-md-3 text-center">
                         <h2 class="mb-0"
-                            th:text="${product.averageRating != null ? #numbers.formatDecimal(product.averageRating, 1, 1) : '0.0'}">
+                            th:text="${product.averageRating != null ? #numbers.formatDecimal(product.averageRating, 1, 0) : '0.0'}">
                             4.5</h2>
                         <div class="text-warning">
                             <i th:class="${i <= product.averageRating} ? 'bi bi-star-fill' : 'bi bi-star'"
