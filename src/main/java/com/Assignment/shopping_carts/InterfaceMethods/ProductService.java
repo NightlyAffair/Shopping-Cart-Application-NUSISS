@@ -41,6 +41,8 @@ public interface ProductService {
     // Pagination
     Page<Product> getProductsPaginated(Integer categoryId, String keyword, Pageable pageable);
 
+    List<Product> getPopulatedProductDetails(Page<Product> page);
+
     // Rating Management
     void updateProductAverageRating(int productId);
     List<Product> getProductsSortedByRatingCalculated(); // Calculates from reviews

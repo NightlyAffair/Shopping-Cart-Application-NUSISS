@@ -15,11 +15,9 @@ import com.Assignment.shopping_carts.Model.Category;
 import com.Assignment.shopping_carts.Model.Product;
 import com.Assignment.shopping_carts.Model.Review;
 import com.Assignment.shopping_carts.Repository.ProductRepository;
-import com.Assignment.shopping_carts.Repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -131,7 +129,16 @@ public class ProductServiceImpl implements ProductService {
     // Pagination
     @Override
     public Page<Product> getProductsPaginated(Integer categoryId, String keyword, Pageable pageable) {
-        return productRepository.findByCategoryAndKeywordPaginated(categoryId, keyword, pageable);
+        Page<Product> page = productRepository.findByCategoryAndKeywordPaginated(categoryId, keyword, pageable);
+        return page;
+    }
+
+    @Override
+    public List<Product> getPopulatedProductDetails(Page<Product> page) {
+        return page.getContent().stream().map(product -> {
+            populateProductDetails(product);
+            return product;
+        }).toList();
     }
 
     // Rating
