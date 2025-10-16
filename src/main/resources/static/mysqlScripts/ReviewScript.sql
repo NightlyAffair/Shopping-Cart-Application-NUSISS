@@ -1,0 +1,18 @@
+INSERT INTO review (product_id, customer_id, order_id, rating, description) VALUES
+(1, 1, 1, 5, 'Absolutely love these gel pens! The ink flows smoothly and dries quickly. Perfect for my daily journaling.'),
+(2, 1, 1, 4, 'Great planner for staying organized. The minimalist design is clean and functional. Would recommend!'),
+(3, 1, 2, 5, 'This fountain pen is absolutely stunning! The gold nib writes like a dream. Worth every penny!'),
+(4, 2, 3, 4, 'Sturdy notebook with nice dotted pages. Great for sketching and note-taking.'),
+(5, 2, 3, 5, 'These sticky notes are perfect! Love the pastel colors and they stick well without leaving residue.'),
+(2, 3, 4, 5, 'Best planner I have ever used! Helps me stay on top of my tasks effortlessly.'),
+(1, 4, 5, 4, 'Good quality pens for the price. Ink is smooth but I wish there were more colors available.'),
+(2, 5, 6, 3, 'The planner is decent but I expected better paper quality for the price.'),
+(5, 5, 6, 4, 'Cute sticky notes! They work well for quick reminders around the office.'),
+(4, 6, 7, 5, 'Excellent quality notebook! The hardcover is durable and the pages are thick enough for fountain pens.'),
+(3, 6, 7, 5, 'This is my new favorite pen! The craftsmanship is impeccable and it writes beautifully.'),
+(5, 7, 8, 4, 'Nice variety of sizes and colors. Very useful for marking pages and leaving notes.'),
+(1, 8, 9, 5, 'These pens are fantastic! Smooth writing experience and the quick-dry feature is excellent.'),
+(2, 9, 10, 4, 'Simple and effective planner. Helps me organize my week without being overwhelming.'),
+(3, 9, 10, 4, 'Beautiful fountain pen but took some time to get used to the nib. Overall very satisfied!'),
+(4, 10, 11, 5, 'Perfect notebook for my daily journaling! The dotted pages are ideal for bullet journaling.'),
+(5, 10, 11, 5, 'Great sticky note set! The colors are vibrant and they stick perfectly to any surface.');
