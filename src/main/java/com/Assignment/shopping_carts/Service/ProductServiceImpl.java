@@ -10,10 +10,12 @@
 package com.Assignment.shopping_carts.Service;
 
 import com.Assignment.shopping_carts.InterfaceMethods.ProductService;
+import com.Assignment.shopping_carts.InterfaceMethods.ReviewService;
 import com.Assignment.shopping_carts.Model.Category;
 import com.Assignment.shopping_carts.Model.Product;
 import com.Assignment.shopping_carts.Model.Review;
 import com.Assignment.shopping_carts.Repository.ProductRepository;
+import com.Assignment.shopping_carts.Repository.ReviewRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,8 +30,14 @@ import java.util.Optional;
 @Service
 public class ProductServiceImpl implements ProductService {
 
+    private final ProductRepository productRepository;
+    private final ReviewService reviewService;
+
     @Autowired
-    private ProductRepository productRepository;
+    public ProductServiceImpl(ProductRepository productRepository, ReviewService reviewService) {
+        this.productRepository = productRepository;
+        this.reviewService = reviewService;
+    }
 
     // Create
     @Override
@@ -37,10 +45,25 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.save(product);
     }
 
+    private void populateProductDetails(Product product) {
+        List<Review> reviews = reviewService.getReviewsForProduct(product.getProductId());
+        if(reviews != null) {
+            reviews.forEach(review ->
+                    review.setCustomerName(reviewService
+                            .getCustomerNameById(review.getCustomerId())));
+        }
+        Double averageRating = reviewService.getAverageRatingForProduct(product.getProductId());
+        product.setAverageRating(averageRating != null ? Math.floor(averageRating) : 0.0);
+        product.setReviews(reviews);
+    }
+
     // Read
     @Override
     public Optional<Product> getProductById(int productId) {
-        return productRepository.findById(productId);
+       return productRepository.findById(productId).map(p -> {
+           populateProductDetails(p);
+           return p;
+       });
     }
 
     @Override

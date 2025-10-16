@@ -92,23 +92,7 @@ public class ProductController {
     @GetMapping("/details/{id}")
     public String viewProductDetails(@PathVariable int id, Model model) {
         Product product = productService.getProductById(id).orElse(null);
-
-        List<Review> reviews = reviewService.getReviewsForProduct(product.getProductId());
-        product.setReviews(reviews);
-
-        for (Review review : reviews) {
-            String customerName =reviewService.getCustomerNameById(review.getCustomerId());
-            review.setCustomerName(customerName);
-        }
-
-        product.setReviews(reviews);
-
-        Double averageRating = reviewService.getAverageRatingForProduct(product.getProductId());
-        double roundDownRating = averageRating != null ? Math.floor(averageRating) : 0.0;
-        product.setAverageRating(roundDownRating);
-
         model.addAttribute("product", product);
-
         return "detailsProducts";
     }
 
