@@ -1,7 +1,7 @@
 package com.Assignment.shopping_carts.Controller;
 
+import com.Assignment.shopping_carts.InterfaceMethods.AccountInfoService;
 import com.Assignment.shopping_carts.Model.Customer;
-import com.Assignment.shopping_carts.Service.AccountInfoServiceImpl;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class AccountInfoController {
 
     @Autowired
-    AccountInfoServiceImpl accountInfoService;
+    AccountInfoService accountInfoService;
 
     @GetMapping()
     public ResponseEntity<Customer> getCustomer(HttpSession httpSession) {
