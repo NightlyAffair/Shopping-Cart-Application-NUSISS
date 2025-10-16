@@ -3,8 +3,8 @@
 * Authors: Glenn Min, Sheng Qi, Nithvin, YongHui
 * Date: 2025-10-05
 * Last Modified by: YongHui
-* New Updates: JS changes.
-* Last Modified: 2025-10-15
+* New Updates: Linked the fav button to backend
+* Last Modified: 2025-10-12
 -->
 
 <!doctype html>
@@ -151,13 +151,11 @@
             <div class="card h-100 position-relative product-card">
 
                 <!-- Favorite Button -->
-                <form th:action="@{/favourites/save}" method="post" class="d-inline favourite-form">
-                    <input type="hidden" name="productId" th:value="${product.productId}" />
-                    <button type="submit" class="btn btn-link p-0 m-0 wishlist-btn" title="Add to Favorites">
-                        <i class="bi bi-heart"></i>
-                    </button>
-                </form>
-
+                <button class="wishlist-btn fav-btn" th:attr="data-id=${product.productId}"
+                        title="Add to Favorites"
+                        type="button">
+                    <i class="bi bi-heart"></i>
+                </button>
 
                 <a class="text-decoration-none" th:href="@{/products/details/{id}(id=${product.productId})}">
                     <img alt="Product Image" class="card-img-top" th:src="${product.imageUrl}">
@@ -177,7 +175,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <small class="text-warning">
                             <i class="bi bi-star-fill"></i>
-                            <span th:text="${product.averageRating != null ? #numbers.formatDecimal(product.averageRating, 1, 1) : '0.0'}">0.0</span>
+                            <span th:text="${product.averageRating != null ? #numbers.formatDecimal(product.averageRating, 1, 0) : '0'}">0</span>
                         </small>
                     </div>
                 </div>
@@ -229,44 +227,63 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.favourite-form').forEach(form => {
-            form.addEventListener('submit', async function (event) {
-                event.preventDefault(); // prevent full page reload
+        document.querySelectorAll('.fav-btn').forEach(btn => {
+            const productId = btn.getAttribute('data-id');
+            const icon = btn.querySelector('i');
 
-                const productId = form.querySelector('input[name="productId"]').value;
-                const icon = form.querySelector('i');
+            fetch(`/favourites/status/${productId}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response not ok');
+                    return response.json();
+                })
+                .then(isFavourited => {
+                    if (isFavourited) {
+                        icon.classList.add('bi-heart-fill', 'text-danger');
+                        icon.classList.remove('bi-heart');
+                    } else {
+                        icon.classList.add('bi-heart');
+                        icon.classList.remove('bi-heart-fill', 'text-danger');
+                    }
+                })
+                .catch(error => console.error('Fav status check failed', error));
+
+            btn.addEventListener('click', async function (event) {
+                event.preventDefault();
+                console.log('Clicked fav button', productId);
 
                 try {
-                    const response = await fetch('/favourites/save', {
+                    const response = await fetch(`/favourites/save`, {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        body: `productId=${encodeURIComponent(productId)}`,
-                        credentials: 'include' // send session cookies
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
+                        body: `productId=${encodeURIComponent(productId)}`
                     });
 
-                    if (response.redirected) {
-                        // interceptor triggered login redirect
-                        window.location.href = response.url;
-                        return;
-                    }
+                    if (!response.ok) throw new Error('Toggle failed');
 
                     const result = await response.text();
 
-                    // toggle heart only after backend confirms
-                    if (result.toLowerCase().includes('added')) {
+                    if(result === "Login_required"){
+                        window.location.href = '/login';
+                        return;
+                    }
+
+                    if (result.trim().toLowerCase().includes('added')) {
+                        // On added, show filled heart
                         icon.classList.remove('bi-heart');
                         icon.classList.add('bi-heart-fill', 'text-danger');
-                    } else if (result.toLowerCase().includes('removed')) {
+                    } else if (result.trim().toLowerCase().includes('removed')) {
+                        // On removed, show empty heart
                         icon.classList.remove('bi-heart-fill', 'text-danger');
                         icon.classList.add('bi-heart');
                     }
                 } catch (err) {
-                    console.error('Favourite toggle failed:', err);
+                    console.error('Fav button toggle failed:', err);
                 }
             });
         });
     });
-
 </script>
 </body>
 </html>

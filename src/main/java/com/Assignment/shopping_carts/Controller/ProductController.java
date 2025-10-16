@@ -61,7 +61,10 @@ public class ProductController {
         List<Category> categories = categoryService.getAllCategories();
 
         // Pass data to the Thymeleaf model
-        model.addAttribute("products", page.getContent());
+        model.addAttribute("products", page.getContent().stream().map(product -> {
+            product.setAverageRating(reviewService.getAverageRatingForProduct(product.getProductId()));
+            return product;
+        }).toList());
         model.addAttribute("categories", categories);
         model.addAttribute("selectedCategory", categoryId);
         model.addAttribute("currentKeyword", keyword);
@@ -101,8 +104,8 @@ public class ProductController {
         product.setReviews(reviews);
 
         Double averageRating = reviewService.getAverageRatingForProduct(product.getProductId());
-        double roundedRating = averageRating != null ? Math.floor(averageRating) : 0.0;
-        product.setAverageRating(roundedRating);
+        double roundDownRating = averageRating != null ? Math.floor(averageRating) : 0.0;
+        product.setAverageRating(roundDownRating);
 
         model.addAttribute("product", product);
 
